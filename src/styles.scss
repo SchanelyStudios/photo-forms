@@ -1,0 +1,21 @@
+// @import 'vars';
+@import 'normalize-scss/sass/normalize'; 
+
+@import 'mixins';
+
+html {
+  font-size: 10px;
+}
+
+body {
+  font-size: 1.6rem;
+  font-family: sans-serif;
+}
+
+.tiles {
+  @include flex;
+  @include list-unstyled;
+  li {
+    width: 25%;
+  }
+}
