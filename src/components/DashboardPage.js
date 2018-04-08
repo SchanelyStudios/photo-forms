@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import FormModel from './models/form.model';
+import FormModel from '../models/form.model';
 
-class App extends Component {
+class DashboardPage extends Component {
 
   constructor() {
     super();
@@ -63,30 +63,24 @@ class App extends Component {
     let form = (this.state.form !== null) ? this.showForm(this.state.form) : '';
 
     return (
-      <div className="app">
-        <header>
-          <h1>Photo Forms</h1>
-        </header>
-        <main>
-          <h2>Welcome!</h2>
-          <p>
-            This applicaiton is currently under development.
-            Check back again soon!
-          </p>
-          <div className="dashboard">
-            <ul className="form-list">
-              {this.state.forms.map(form => {
-                return (
-                  <li key={form.id} onClick={() => this.changeForm(form.id)}>{form.name}</li>
-                );
-              })}
-            </ul>
-            {form}
-          </div>
-        </main>
-      </div>
+      <main>
+        <h2>Welcome!</h2>
+        <p>
+          This applicaiton is currently under development.
+          Check back again soon!
+        </p>
+        <div className="dashboard">
+          <ul className="form-list">
+            {this.state.forms.map(form => {
+              return (
+                <li key={form.id} onClick={() => this.changeForm(form.id)}>{form.name}</li>
+              );
+            })}
+          </ul>
+          {form}
+        </div>
+      </main>
     );
   }
 }
-
-export default App;
+export default DashboardPage;
