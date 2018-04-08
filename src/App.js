@@ -25,24 +25,6 @@ class App extends Component {
             This applicaiton is currently under development.
             Check back again soon!
           </p>
-          <ul className="tiles">
-            <li>
-              <img src="http://placehold.it/400x400x" alt="thing" />
-              <h3>Heading</h3>
-            </li>
-            <li>
-              <img src="http://placehold.it/400x400x" alt="thing" />
-              <h3>Heading</h3>
-            </li>
-            <li>
-              <img src="http://placehold.it/400x400x" alt="thing" />
-              <h3>Heading</h3>
-            </li>
-            <li>
-              <img src="http://placehold.it/400x400x" alt="thing" />
-              <h3>Heading</h3>
-            </li>
-          </ul>
         </main>
       </div>
     );

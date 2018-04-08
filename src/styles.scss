@@ -1,21 +1,8 @@
 // @import 'vars';
-@import 'normalize-scss/sass/normalize'; 
+@import 'normalize-scss/sass/normalize';
 
+@import 'vars';
 @import 'mixins';
-
-html {
-  font-size: 10px;
-}
-
-body {
-  font-size: 1.6rem;
-  font-family: sans-serif;
-}
-
-.tiles {
-  @include flex;
-  @include list-unstyled;
-  li {
-    width: 25%;
-  }
-}
+@import 'basics';
+@import 'type';
+@import 'fields';

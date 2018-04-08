@@ -1,0 +1,47 @@
+h1 {
+  font-size: 3.4rem;
+  line-height: $baseline * 3;
+  @include text-spacing;
+}
+
+h2 {
+  font-size: 2.5rem;
+  line-height: $baseline * 3;
+  @include text-spacing;
+}
+
+h3 {
+  font-size: 1.6rem;
+  @include text-spacing;
+}
+
+h4 {
+  font-size: 1.6rem;
+  font-style: italic;
+  @include text-spacing;
+}
+
+h5 {
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  @include text-spacing;
+}
+
+h6 {
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  font-style: italic;
+  @include text-spacing;
+}
+
+li {
+  @include text-spacing;
+}
+
+ol, ul {
+  @include reset;
+}
+
+p {
+  @include text-spacing;
+}

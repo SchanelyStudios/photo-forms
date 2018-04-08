@@ -12,3 +12,27 @@
   margin-left: 0;
   list-style: none;
 }
+
+@mixin col-pad() {
+  padding-left: $pad;
+  padding-right: $pad;
+}
+
+@mixin fill-gutter() {
+  margin-left: -1 * $pad;
+  margin-right: -1 * $pad;
+}
+
+@mixin center() {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@mixin text-spacing() {
+  @include reset();
+}
+
+@mixin reset() {
+  margin: 0;
+  padding: 0;
+}
