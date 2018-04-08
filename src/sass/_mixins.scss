@@ -30,6 +30,7 @@
 
 @mixin text-spacing() {
   @include reset();
+  margin-bottom: $baseline;
 }
 
 @mixin reset() {

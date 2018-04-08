@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import * as firebase from "firebase";
+import * as firebase from 'firebase';
+import 'firebase/firestore';
 
 // Initialize Firebase
 const config = {
@@ -11,8 +12,30 @@ const config = {
   messagingSenderId: "890222161817"
 };
 firebase.initializeApp(config);
+let db = firebase.firestore();
 
 class App extends Component {
+
+  state = {
+    forms: []
+  }
+
+  componentDidMount() {
+    console.log('mounted');
+    let forms = [];
+    db.collection('Form').get().then((snapshot) => {
+      snapshot.forEach((doc) => {
+        let data = doc.data();
+        let form = {
+          id: doc.id,
+          name: data.name ? data.name : 'Unnamed form'
+        };
+        forms.push(form);
+      });
+      this.setState({ forms });
+    });
+  }
+
   render() {
     return (
       <div className="app">
@@ -25,6 +48,13 @@ class App extends Component {
             This applicaiton is currently under development.
             Check back again soon!
           </p>
+          <ul>
+            {this.state.forms.map(form => {
+              return (
+                <li key={form.id}>{form.name}</li>
+              );
+            })}
+          </ul>
         </main>
       </div>
     );
