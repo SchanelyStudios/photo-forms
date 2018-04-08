@@ -1,26 +1,15 @@
 import React, { Component } from 'react';
-import * as firebase from 'firebase';
-import 'firebase/firestore';
-
-// Initialize Firebase
-const config = {
-  apiKey: "AIzaSyD8-YFz1kDzJsqgMdLbEtzyVo_j8UeMG3Y",
-  authDomain: "photo-forms.firebaseapp.com",
-  databaseURL: "https://photo-forms.firebaseio.com",
-  projectId: "photo-forms",
-  storageBucket: "photo-forms.appspot.com",
-  messagingSenderId: "890222161817"
-};
-firebase.initializeApp(config);
+import FormModel from './models/form.model';
 
 class App extends Component {
 
   constructor() {
     super();
-    this.ref = firebase.firestore().collection('Form');
+    this.model = new FormModel();
 
     this.state = {
-      forms: []
+      forms: [],
+      form: null
     };
   }
 
@@ -32,23 +21,47 @@ class App extends Component {
     this.setState({ forms: [] });
   }
 
-  getForms() {
-    return this.ref.get().then((snapshot) => {
-      let forms = [];
-      snapshot.forEach((doc) => {
-        let data = doc.data();
-        let form = {
-          id: doc.id,
-          name: data.name ? data.name : 'Unnamed form'
-        };
-        forms.push(form);
-      });
-      this.setState({ forms });
-      return snapshot;
-    });
+  async getForms() {
+    let forms = await this.model.getList();
+    this.setState({ forms });
+  }
+
+  async getForm(id) {
+    let form = await this.model.get(id);
+    this.setState({ form });
+  }
+
+  changeForm(id) {
+    this.getForm(id);
+  }
+
+  showForm(form) {
+    let fields = '';
+    if (form.fields) {
+      fields = (
+        <ul>
+          {form.fields.map(field => (
+            <li key={field.alias}>
+              <h4>{field.label} [{field.type}]</h4>
+              <p>{field.description}</p>
+            </li>
+          ))}
+        </ul>
+      );
+    }
+
+    return (
+      <div className="form-preview">
+        <h3>{form.name}</h3>
+        <p>{form.instructions}</p>
+        {fields}
+      </div>
+    );
   }
 
   render() {
+    let form = (this.state.form !== null) ? this.showForm(this.state.form) : '';
+
     return (
       <div className="app">
         <header>
@@ -60,13 +73,16 @@ class App extends Component {
             This applicaiton is currently under development.
             Check back again soon!
           </p>
-          <ul>
-            {this.state.forms.map(form => {
-              return (
-                <li key={form.id}>{form.name}</li>
-              );
-            })}
-          </ul>
+          <div className="dashboard">
+            <ul className="form-list">
+              {this.state.forms.map(form => {
+                return (
+                  <li key={form.id} onClick={() => this.changeForm(form.id)}>{form.name}</li>
+                );
+              })}
+            </ul>
+            {form}
+          </div>
         </main>
       </div>
     );
