@@ -12,18 +12,29 @@ const config = {
   messagingSenderId: "890222161817"
 };
 firebase.initializeApp(config);
-let db = firebase.firestore();
 
 class App extends Component {
 
-  state = {
-    forms: []
+  constructor() {
+    super();
+    this.ref = firebase.firestore().collection('Form');
+
+    this.state = {
+      forms: []
+    };
   }
 
   componentDidMount() {
-    console.log('mounted');
-    let forms = [];
-    db.collection('Form').get().then((snapshot) => {
+    this.getForms();
+  }
+
+  componentWillUnmount() {
+    this.setState({ forms: [] });
+  }
+
+  getForms() {
+    return this.ref.get().then((snapshot) => {
+      let forms = [];
       snapshot.forEach((doc) => {
         let data = doc.data();
         let form = {
@@ -33,6 +44,7 @@ class App extends Component {
         forms.push(form);
       });
       this.setState({ forms });
+      return snapshot;
     });
   }
 
