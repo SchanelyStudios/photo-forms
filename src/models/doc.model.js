@@ -47,7 +47,7 @@ export default class DocModel {
       return null;
     }
     return this.ref.add(values).then(doc => {
-      console.log('Added new item', doc.id, doc.data());
+      console.log('Added new item', doc.id);
     });
   }
 
@@ -55,9 +55,7 @@ export default class DocModel {
     if (!this.ref) {
       return null;
     }
-    return this.ref.doc(id).set(values).then(doc => {
-      console.log('Saved item', doc.id, doc.data());
-    });
+    return this.ref.doc(id).set(values);
   }
 
   tidy(doc) {
