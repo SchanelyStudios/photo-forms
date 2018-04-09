@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
 import FillableForm from './common/FillableForm';
 
+import { Link } from 'react-router-dom';
+
 class ViewSubmissionPage extends Component {
 
   constructor(props, state) {
     super(props, state);
 
-    this.state = {
-      submissionId: this.props.match ? this.props.match.params.submissionId : null
-    };
+    this.submissionId = this.props.match ? this.props.match.params.submissionId : null;
   }
 
   render() {
-    if (this.state.submissionId === null) {
+    if (this.submissionId === null) {
       return (
         <main>
           <p>No form data found.</p>
@@ -22,7 +22,8 @@ class ViewSubmissionPage extends Component {
 
     return (
       <main>
-        <FillableForm submissionId={this.state.submissionId} />
+        <Link to={`/submission/${this.submissionId}/edit`}>Edit</Link>
+        <p>Data coming soon!</p>
       </main>
     );
   }

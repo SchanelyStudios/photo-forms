@@ -204,7 +204,7 @@ class ViewFormPage extends Component {
       );
     } else if (this.state.savedFirstTime) {
       return (
-        <Redirect to={`/submission/${this.state.submissionId}`} />
+        <Redirect to={`/submission/${this.state.submissionId}/edit`} />
       )
     }
 
