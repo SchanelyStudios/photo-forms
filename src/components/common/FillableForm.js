@@ -31,6 +31,7 @@ class ViewFormPage extends Component {
 
     this.setFieldvalue = this.setFieldvalue.bind(this);
     this.saveData = this.saveData.bind(this);
+    this.cancelForm = this.cancelForm.bind(this);
   }
 
   cancelForm(e) {
@@ -222,9 +223,9 @@ class ViewFormPage extends Component {
           <button onClick={(e) => this.saveData(e, false)} type="submit" name="btn-exit">
             Save and close
           </button>
-          {/*<button onClick={this.cancelForm} type="button" name="btn-cancel">
+          <button onClick={this.cancelForm} type="button" name="btn-cancel">
             Cancel
-          </button>*/}
+          </button>
         </p>
       </form>
     );
