@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import FillableForm from './common/FillableForm';
 
 import { Link } from 'react-router-dom';
 
