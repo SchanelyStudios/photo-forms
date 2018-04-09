@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router';
 import FormModel from '../../models/form.model';
 import SubmissionModel from '../../models/submission.model';
 
 import SinglelineInput from './SinglelineInput';
 import MultilineInput from './MultilineInput';
 import ListInput from './ListInput';
+
+import { Link } from 'react-router-dom';
 
 class ViewFormPage extends Component {
 
@@ -16,10 +19,14 @@ class ViewFormPage extends Component {
 
     this.state = {
       loading: true,
+      submissionId: this.props.submissionId ? this.props.submissionId : 0,
       formId: this.props.formId ? this.props.formId : 0,
       form: null,
       submission: null,
-      values: {}
+      values: {},
+      cancelled: false,
+      savedFirstTime: false,
+      exited: false
     };
 
     this.setFieldvalue = this.setFieldvalue.bind(this);
@@ -28,7 +35,10 @@ class ViewFormPage extends Component {
 
   cancelForm(e) {
     e.preventDefault();
-    return null;
+    this.setState({
+      cancelled: true
+    });
+    return;
   }
 
   componentDidMount() {
@@ -77,6 +87,11 @@ class ViewFormPage extends Component {
         dateUpdated: Date.now(),
         values: this.state.values
       });
+      if (!stayOnPage) {
+        this.setState({
+          exited: true
+        });
+      }
     } else {
       let submissionId = await this.submissionModel.add({
         dateStarted: Date.now(),
@@ -84,7 +99,10 @@ class ViewFormPage extends Component {
         form: this.state.form.id,
         values: this.state.values
       });
-      // Redirect to ViewSubmissionPage
+      this.setState({
+        savedFirstTime: true,
+        submissionId
+      });
     }
   }
 
@@ -166,10 +184,27 @@ class ViewFormPage extends Component {
       return (
         <p>Loading...</p>
       );
-    } else if (this.form === null) {
+    } else if (this.state.form === null) {
       return (
         <p>No form found.</p>
       );
+    } else if (this.state.cancelled) {
+      return (
+        <p>You exited the form. No changes were saved.</p>
+      );
+    } else if (this.state.exited) {
+      return (
+        <div className="form__submitted">
+          <p>Your changes were saved. You can view and edit your submission later here:</p>
+          <Link to={`/submission/${this.state.submissionId}`}>
+            {`http://forms.schanelyphotography.com/submission/${this.state.submissionId}`}
+          </Link>
+        </div>
+      );
+    } else if (this.state.savedFirstTime) {
+      return (
+        <Redirect to={`/submission/${this.state.submissionId}`} />
+      )
     }
 
     let fields = this.showFields();
