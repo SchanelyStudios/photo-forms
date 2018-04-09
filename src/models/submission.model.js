@@ -1,21 +1,18 @@
-import firebase from './firebase';
+import DocModel from './doc.model';
 
-export default class SubmissionModel {
+export default class SubmissionModel extends DocModel {
 
-  _schema = {
-    id: '',
-    email: '',
-    dateStarted: '',
-    dateSubmitted: '',
-    form: '',
-    values: {}
-  };
+  constructor() {
+    super();
 
-  get(id) {
-    // TODO: Develop get method
-  }
-
-  getList() {
-    // TODO: Develop get list method
+    this.ref = this.db.collection('Submission');
+    this._schema = {
+      id: '',
+      email: '',
+      dateStarted: '',
+      dateSubmitted: '',
+      form: '',
+      values: {}
+    };
   }
 }
