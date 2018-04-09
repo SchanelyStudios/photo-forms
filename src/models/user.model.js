@@ -1,5 +1,3 @@
-import firebase from './firebase';
-
 export default class UserMdoel {
 
   _schema = {
@@ -8,12 +6,4 @@ export default class UserMdoel {
     name: '',
     allowed: false
   };
-
-  get(id) {
-    // TODO: Develop get method
-  }
-
-  getList() {
-    // TODO: Develop get list method
-  }
 }

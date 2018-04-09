@@ -8,21 +8,28 @@ class SinglineInput extends React.Component {
 
     this.state = {
       value: this.props.value
-    }
+    };
+
+    this.onChange = this.onChange.bind(this);
   }
 
   onChange(e) {
     e.preventDefault();
+    let value = e.target.value;
     this.setState({
-      value: e.target.value
+      value
     });
+    this.props.onChange(this.props.name, value);
   }
 
   render() {
     return (
-      <div className="field-control">
-        <input type="text" value={this.state.value} onChange={this.onChange} />
-      </div>
+      <input
+        type="text"
+        name={this.props.name}
+        value={this.state.value}
+        onChange={this.onChange}
+      />
     );
   }
 }

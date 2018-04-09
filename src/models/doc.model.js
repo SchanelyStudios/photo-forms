@@ -42,9 +42,26 @@ export default class DocModel {
     });
   }
 
+  add(values) {
+    if (!this.ref) {
+      return null;
+    }
+    return this.ref.add(values).then(doc => {
+      console.log('Added new item', doc.id, doc.data());
+    });
+  }
+
+  save(id, values) {
+    if (!this.ref) {
+      return null;
+    }
+    return this.ref.doc(id).set(values).then(doc => {
+      console.log('Saved item', doc.id, doc.data());
+    });
+  }
+
   tidy(doc) {
     let data = this.idify(doc.id, doc.data());
-    console.log(data);
     return this.validate(data);
   }
 

@@ -1,5 +1,3 @@
-import firebase from './firebase';
-
 export class FieldModel {
 
   _schema = {
@@ -9,14 +7,6 @@ export class FieldModel {
     description: '',
     helpText: '',
   };
-
-  get(id) {
-    // TODO: Develop get method
-  }
-
-  getList() {
-    // TODO: Develop get list method
-  }
 }
 
 export class ListField extends Field {
