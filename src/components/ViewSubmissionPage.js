@@ -1,19 +1,28 @@
 import React, { Component } from 'react';
-import SubmissionModel from '../models/submission.model';
+import FillableForm from './common/FillableForm';
 
 class ViewSubmissionPage extends Component {
 
-  constructor() {
-    super();
-    this.model = new SubmissionModel();
+  constructor(props, state) {
+    super(props, state);
 
-    this.state = {};
+    this.state = {
+      submissionId: this.props.match ? this.props.match.params.submissionId : null
+    };
   }
 
   render() {
+    if (this.state.submissionId === null) {
+      return (
+        <main>
+          <p>No form data found.</p>
+        </main>
+      );
+    }
+
     return (
       <main>
-        <p>View submission page coming soon</p>
+        <FillableForm submissionId={this.state.submissionId} />
       </main>
     );
   }
