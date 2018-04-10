@@ -1,19 +1,27 @@
 import React, { Component } from 'react';
-import SubmissionModel from '../models/submission.model';
+import { Link } from 'react-router-dom';
 
 class ViewSubmissionPage extends Component {
 
-  constructor() {
-    super();
-    this.model = new SubmissionModel();
+  constructor(props, state) {
+    super(props, state);
 
-    this.state = {};
+    this.submissionId = this.props.match ? this.props.match.params.submissionId : null;
   }
 
   render() {
+    if (this.submissionId === null) {
+      return (
+        <main>
+          <p>No form data found.</p>
+        </main>
+      );
+    }
+
     return (
       <main>
-        <p>View submission page coming soon</p>
+        <Link to={`/submission/${this.submissionId}/edit`}>Edit</Link>
+        <p>Data coming soon!</p>
       </main>
     );
   }

@@ -1,19 +1,28 @@
 import React, { Component } from 'react';
-import FormModel from '../models/form.model';
+import FillableForm from './common/FillableForm';
 
 class ViewFormPage extends Component {
 
-  constructor() {
-    super();
-    this.model = new FormModel();
+  constructor(props, state) {
+    super(props, state);
 
-    this.state = {};
+    this.state = {
+      formId: this.props.match ? this.props.match.params.formId : null
+    };
   }
 
   render() {
+    if (this.state.formId === null) {
+      return (
+        <main>
+          <p>No form found.</p>
+        </main>
+      );
+    }
+
     return (
       <main>
-        <p>View form page coming soon</p>
+        <FillableForm formId={this.state.formId} />
       </main>
     );
   }

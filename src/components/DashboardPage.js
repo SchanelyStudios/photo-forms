@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import FormModel from '../models/form.model';
 
+import { Link } from 'react-router-dom';
+
 class DashboardPage extends Component {
 
   constructor() {
@@ -52,7 +54,7 @@ class DashboardPage extends Component {
 
     return (
       <div className="form-preview">
-        <h3>{form.name}</h3>
+        <h3>{form.name} <Link to={`/form/${form.id}`}>View</Link></h3>
         <p>{form.instructions}</p>
         {fields}
       </div>

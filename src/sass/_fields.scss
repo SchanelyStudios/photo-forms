@@ -8,7 +8,23 @@
   font: $font;
   font-size: 1.6rem;
   line-height: $baseline * 2;
+  width: 100%;
+}
+
+.field__controls {
   flex: 1;
+}
+
+.field__label {
+  @include bbox;
+  display: block;
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: $baseline * 2;
+  padding-right: $pad;
+  width: 200px;
+  text-align: right;
+  padding: 6px $pad 4px;
 }
 
 form {
@@ -25,17 +41,6 @@ form {
 
 input[type="text"] {
   @include field;
-}
-
-label {
-  @include bbox;
-  display: block;
-  font-size: 1.6rem;
-  line-height: $baseline * 2;
-  padding-right: $pad;
-  width: 200px;
-  text-align: right;
-  padding: 6px $pad 4px;
 }
 
 textarea {
