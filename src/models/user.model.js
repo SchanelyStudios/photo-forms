@@ -20,12 +20,21 @@ export class UserModel {
     allowed: false
   };
 
+  static isAuthenticated() {
+    let user = this.getAuthenticated();
+    if (user) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   static authenticate() {
     return firebase.auth();
   }
 
-  static isAuthenticated() {
-
+  static getAuthenticated() {
+    return firebase.auth().currentUser;
   }
 
   static unauthenticate() {

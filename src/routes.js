@@ -9,7 +9,9 @@ import EditSubmissionPage from './components/EditSubmissionPage';
 import SubmissionListPage from './components/SubmissionListPage';
 import LoginPage from './components/LoginPage';
 
-const userIsAuthenticated = false;
+import { UserModel } from './models/user.model';
+
+const userIsAuthenticated = UserModel.isAuthenticated();
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={(props) => (

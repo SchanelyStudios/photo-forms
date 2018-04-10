@@ -7,13 +7,20 @@ class LoginPage extends Component {
   constructor() {
     super();
 
-    this.state = {};
+    this.state = {
+      signedIn: false
+    };
   }
 
   componentDidMount() {
-    UserModel.authenticate().onAuthStateChanged(
+    if (UserModel.isAuthenticated()) {
+      console.log('user', UserModel.getAuthenticated());
+    } else {
+      console.log('user', UserModel.getAuthenticated());
+      UserModel.authenticate().onAuthStateChanged(
         (user) => this.setState({ signedIn: !!user })
-    );
+      );
+    }
   }
 
   render() {
@@ -22,7 +29,6 @@ class LoginPage extends Component {
         <h2>Log in</h2>
         <p>You must be an authorized user to access this application.</p>
         <StyledFirebaseAuth uiConfig={uiAuthConfig} firebaseAuth={UserModel.authenticate()}/>
-        {/*<div id="login-form" />*/}
       </main>
     );
   }
