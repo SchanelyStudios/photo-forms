@@ -1,5 +1,4 @@
 export class FieldModel {
-
   _schema = {
     alias: '',
     label: '',
@@ -19,6 +18,4 @@ export class ListField extends Field {
     options: [],
     includeOther: false
   };
-
-  // TODO: Add overrides as needed.
 }

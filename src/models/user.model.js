@@ -1,5 +1,4 @@
 export default class UserMdoel {
-
   _schema = {
     id: '',
     email: '',
