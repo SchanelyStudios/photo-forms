@@ -11,11 +11,11 @@ Routes and pages should include:
   - Forms list with option to add a new one
   - _**Requires authentication**_
 
-- [ ] `/login` -- Login page
+- [x] `/login` -- Login page
   - Standard UI for login
   - Redirects to `/` on success
 
-- [ ] `/form/:id` -- View a given form to fill it out and submit it the first time
+- [x] `/form/:id` -- View a given form to fill it out and submit it the first time
   - Retrieves a forms configuration and displays it in fillable fashion
   - Includes options to save, save and exit, or cancel
   - For authenticated users, show option to return to form's submission page, and/or to edit the form
@@ -37,5 +37,5 @@ Routes and pages should include:
   - User who submitted the form can also view this using a link emailed to them with their receipt and provided on submission
   - _**Requires authentication**_
 
-- [ ] `/submission/:id/edit` -- Edit a previously submitted form
+- [x] `/submission/:id/edit` -- Edit a previously submitted form
   - _**Requires authentication**_ -- administrative user is a given, but perhaps this could allow users who submitted the form to be able to authenticate with their email address and an access token?
