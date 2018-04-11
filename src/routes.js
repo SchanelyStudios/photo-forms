@@ -11,16 +11,17 @@ import LoginPage from './components/LoginPage';
 
 import { UserModel } from './models/user.model';
 
-const userIsAuthenticated = UserModel.isAuthenticated();
-
-const PrivateRoute = ({ component: Component, ...rest }) => (
-  <Route {...rest} render={(props) => (
+const PrivateRoute = ({ component: Component, ...rest }) => {
+  let userIsAuthenticated = UserModel.isAuthenticated();
+  return (
+    <Route {...rest} render={(props) => (
       userIsAuthenticated === true
         ? <Component {...props} />
         : <Redirect to="/login" />
-    )}
-  />
-);
+      )}
+    />
+  );
+};
 
 export default (
   <App>

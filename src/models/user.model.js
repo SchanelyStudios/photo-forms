@@ -5,11 +5,7 @@ export const uiAuthConfig = {
     firebase.auth.GoogleAuthProvider.PROVIDER_ID
   ],
   signInSuccessUrl: '/',
-  signInFlow: 'redirect',
-  // callbacks: {
-    // Modify here for redirect?
-    // signInSuccessWithAuthResult: () => false
-  // }
+  signInFlow: 'popup',
 };
 
 export class UserModel {
@@ -21,23 +17,23 @@ export class UserModel {
   };
 
   static isAuthenticated() {
-    let user = this.getAuthenticated();
-    if (user) {
+    if (window.localStorage.getItem('PF_USER_UID')) {
       return true;
-    } else {
-      return false;
     }
+    return false;
   }
 
   static authenticate() {
-    return firebase.auth();
+    return firebase.auth()
   }
 
   static getAuthenticated() {
-    return firebase.auth().currentUser;
-  }
-
-  static unauthenticate() {
-
+    return firebase.auth().onAuthStateChanged((user) => {
+      // TODO: Ensure user is on approved user list.
+      window.localStorage.setItem('PF_USER_UID', user.uid);
+      window.localStorage.setItem('PF_USER_NAME', user.name);
+      window.localStorage.setItem('PF_USER_EMAIL', user.email);
+      return user;
+    });
   }
 }
