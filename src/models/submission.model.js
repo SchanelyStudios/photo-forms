@@ -10,7 +10,7 @@ export default class SubmissionModel extends DocModel {
       id: '',
       email: '',
       dateStarted: '',
-      dateSubmitted: '',
+      dateUpdated: '',
       form: '',
       values: {}
     };
