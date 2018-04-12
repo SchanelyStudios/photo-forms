@@ -21,17 +21,17 @@ export default class SubmissionModel extends DocModel {
     return this.getList(['form', '==', formId]);
   }
 
-  santizeIn(data) {
+  sanitizeIn(data) {
     if (data.dateStarted) {
-      data.dateStarted = moment(data.dateStarted).unix();
+      data.dateStarted = moment(data.dateStarted).toDate();
     }
     if (data.dateUpdated) {
-      data.dateUpdated = moment(data.dateUpdated).unix();
+      data.dateUpdated = moment(data.dateUpdated).toDate();
     }
+    return data;
   }
 
   sanitizeOut(data) {
-    console.log(data);
     data.dateStarted = moment(data.dateStarted).format('MMM D, Y');
     data.dateUpdated = moment(data.dateUpdated).format('MMM D, Y');
     return data;
