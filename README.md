@@ -6,7 +6,7 @@ Custom questionnaire builder and data collector for photographers.
 
 Routes and pages should include:
 
-- [ ] `/` -- Dashboard
+- [x] `/` -- Dashboard
   - 10 most recent form submissions
   - Forms list with option to add a new one
   - _**Requires authentication**_
@@ -20,7 +20,7 @@ Routes and pages should include:
   - Includes options to save, save and exit, or cancel
   - For authenticated users, show option to return to form's submission page, and/or to edit the form
 
-- [ ] `/form/:id/submissions` -- View a list of submissions for a given form
+- [x] `/form/:id/submissions` -- View a list of submissions for a given form
   - _**Requires authentication**_
   
 - [ ] `/form/:id/edit` -- View a given form to edit its structure
@@ -32,7 +32,7 @@ Routes and pages should include:
   - Option lists allow any number of items as well as an optional "custom" item that allows for an "Other: ____"
   - _**Requires authentication**_
   
-- [ ] `/submission/:id` -- View a submitted form
+- [x] `/submission/:id` -- View a submitted form
   - Authorized user can link here from a list of submitted forms
   - User who submitted the form can also view this using a link emailed to them with their receipt and provided on submission
   - _**Requires authentication**_
