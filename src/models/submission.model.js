@@ -1,4 +1,5 @@
 import DocModel from './doc.model';
+import moment from 'moment';
 
 export default class SubmissionModel extends DocModel {
 
@@ -18,6 +19,15 @@ export default class SubmissionModel extends DocModel {
 
   getForForm(formId) {
     return this.getList(['form', '==', formId]);
+  }
+
+  santizeIn(data) {
+    if (data.dateStarted) {
+      data.dateStarted = moment(data.dateStarted).unix();
+    }
+    if (data.dateUpdated) {
+      data.dateUpdated = moment(data.dateUpdated).unix();
+    }
   }
 
   sanitizeOut(data) {

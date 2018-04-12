@@ -55,6 +55,7 @@ export default class DocModel {
     if (!this.ref) {
       return null;
     }
+    values = this.sanitizeIn(values);
     return this.ref.add(values).then(doc => {
       return doc.id;
     });
@@ -64,7 +65,12 @@ export default class DocModel {
     if (!this.ref) {
       return null;
     }
+    values = this.sanitizeIn(values);
     return this.ref.doc(id).update(values);
+  }
+
+  sanitizeIn(data) {
+    return data;
   }
 
   sanitizeOut(data) {
