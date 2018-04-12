@@ -28,11 +28,17 @@ export default class DocModel {
       });
   }
 
-  getList(filters, sorts) {
+  getList(filters) {
     if (!this.ref) {
       return null;
     }
-    return this.ref.get().then((snapshot) => {
+    let query;
+    if (filters) {
+      query = this.ref.where(filters[0], filters[1], filters[2]).get();
+    } else {
+      query = this.ref.get();
+    }
+    return query.then((snapshot) => {
       let items = [];
       snapshot.forEach((doc) => {
         let item = this.tidy(doc);

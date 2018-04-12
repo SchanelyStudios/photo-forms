@@ -1,13 +1,24 @@
 .dashboard {
   @include flex;
 }
-.form-preview {
+.dashboard__recent-submissions {
   width: 2/3 * 100%;
+}
+.dashboard__forms {
+  width: 1/3 * 100%;
 }
 .form-list {
   @include list-unstyled;
-  width: 1/3 * 100%;
   li {
     cursor: pointer;
   }
+}
+.submission__field-list {
+  @include list-unstyled;
+  li {
+    @include flex;
+  }
+}
+.field__value {
+  flex: 1;
 }

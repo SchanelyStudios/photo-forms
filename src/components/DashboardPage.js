@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import FormModel from '../models/form.model';
+import SubmissionModel from '../models/submission.model';
 
 import { Link } from 'react-router-dom';
 
@@ -7,63 +8,96 @@ class DashboardPage extends Component {
 
   constructor() {
     super();
-    this.model = new FormModel();
+    this.formModel = new FormModel();
+    this.submissionModel = new SubmissionModel();
 
     this.state = {
       forms: [],
-      form: null
+      submissions: [],
+      loadingForms: true,
+      loadingSubmissions: true
     };
   }
 
   componentDidMount() {
     this.getForms();
+    this.getSubmissions();
   }
 
   componentWillUnmount() {
-    this.setState({ forms: [] });
+    this.setState({
+      forms: [],
+      submissions: []
+    });
   }
 
   async getForms() {
-    let forms = await this.model.getList();
-    this.setState({ forms });
+    let forms = await this.formModel.getList();
+    this.setState({
+      forms,
+      loadingForms: false
+    });
   }
 
-  async getForm(id) {
-    let form = await this.model.get(id);
-    this.setState({ form });
+  async getSubmissions() {
+    let submissions = await this.submissionModel.getList();
+    this.setState({
+      submissions,
+      loadingSubmissions: false
+    });
   }
 
-  changeForm(id) {
-    this.getForm(id);
-  }
-
-  showForm(form) {
-    let fields = '';
-    if (form.fields) {
-      fields = (
-        <ul>
-          {form.fields.map(field => (
-            <li key={field.alias}>
-              <h4>{field.label} [{field.type}]</h4>
-              <p>{field.description}</p>
-            </li>
-          ))}
+  showForms() {
+    if (this.state.forms.length > 0) {
+      return (
+        <ul className="form-list">
+          {this.state.forms.map(form => {
+            return (
+              <li key={form.id}>
+                <Link to={`/form/${form.id}/submissions`}>{form.name}</Link>
+              </li>
+            );
+          })}
         </ul>
+      );
+    } else if (this.state.loadingForms) {
+      return (
+        <p>Loading forms...</p>
       );
     }
 
     return (
-      <div className="form-preview">
-        <h3>{form.name} <Link to={`/form/${form.id}`}>View</Link></h3>
-        <p>{form.instructions}</p>
-        {fields}
-      </div>
+      <p>No forms found</p>
+    );
+  }
+
+  showSubmissions() {
+    if (this.state.submissions.length > 0) {
+      return (
+        <ul className="submission-list">
+          {this.state.submissions.map(sub => {
+            return (
+              <li key={sub.id}>
+                <Link to={`/submission/${sub.id}`}>{sub.dateStarted}</Link>
+              </li>
+            );
+          })}
+        </ul>
+      );
+    } else if (this.state.loadingSubmissions) {
+      return (
+        <p>Loading submissions...</p>
+      );
+    }
+
+    return (
+      <p>No submissions found</p>
     );
   }
 
   render() {
-    let form = (this.state.form !== null) ? this.showForm(this.state.form) : '';
-
+    let forms = this.showForms();
+    let submissions = this.showSubmissions();
     return (
       <main>
         <h2>Welcome!</h2>
@@ -72,14 +106,14 @@ class DashboardPage extends Component {
           Check back again soon!
         </p>
         <div className="dashboard">
-          <ul className="form-list">
-            {this.state.forms.map(form => {
-              return (
-                <li key={form.id} onClick={() => this.changeForm(form.id)}>{form.name}</li>
-              );
-            })}
-          </ul>
-          {form}
+          <div className="dashboard__recent-submissions">
+            <h2>Recent Submissions</h2>
+            {submissions}
+          </div>
+          <div class="dashboard__forms">
+            <h2>Forms <Link to={'/form/0/edit'}>+ New form</Link></h2>
+            {forms}
+          </div>
         </div>
       </main>
     );
