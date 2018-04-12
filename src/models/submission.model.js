@@ -15,4 +15,8 @@ export default class SubmissionModel extends DocModel {
       values: {}
     };
   }
+
+  getForForm(formId) {
+    return this.getList(['form', '==', formId]);
+  }
 }
