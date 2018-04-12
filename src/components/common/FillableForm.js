@@ -83,7 +83,6 @@ class ViewFormPage extends Component {
   async saveData(e, stayOnPage) {
     e.preventDefault();
     if (this.props.submissionId) {
-      console.log(this.props.submissionId);
       await this.submissionModel.save(this.props.submissionId, {
         dateUpdated: Date.now(),
         values: this.state.values
