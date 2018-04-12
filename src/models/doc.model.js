@@ -20,7 +20,9 @@ export default class DocModel {
               console.error('No such document!', id);
               return null;
           } else {
-              return this.tidy(doc);
+              let value = this.tidy(doc);
+              value = this.sanitizeOut(value);
+              return value;
           }
       })
       .catch(err => {
@@ -42,6 +44,7 @@ export default class DocModel {
       let items = [];
       snapshot.forEach((doc) => {
         let item = this.tidy(doc);
+        item = this.sanitizeOut(item);
         items.push(item);
       });
       return items;
@@ -62,6 +65,10 @@ export default class DocModel {
       return null;
     }
     return this.ref.doc(id).update(values);
+  }
+
+  sanitizeOut(data) {
+    return data;
   }
 
   tidy(doc) {
