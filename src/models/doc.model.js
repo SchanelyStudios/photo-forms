@@ -30,6 +30,14 @@ export default class DocModel {
       });
   }
 
+  getEmpty() {
+    let model = {};
+    for (let field in this._schema) {
+      model[field] = this._schema[field];
+    }
+    return model;
+  }
+
   getList(filters) {
     if (!this.ref) {
       return null;
