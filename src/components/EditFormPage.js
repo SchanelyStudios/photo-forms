@@ -24,18 +24,20 @@ class EditFormPage extends Component {
     this.onChange = this.onChange.bind(this);
     this.onChangeField = this.onChangeField.bind(this);
     this.saveForm = this.saveForm.bind(this);
+    this.addField = this.addField.bind(this);
+  }
+
+  addField(e) {
+    e.preventDefault();
+    let form = this.state.form;
+    let fields = form.fields;
+    fields.push('0');
+    form.fields = fields;
+    this.setState({ form });
   }
 
   componentDidMount() {
     this.getForm();
-  }
-
-  shouldComponentUpdate() {
-    if (this.updatingFieldValues) {
-      this.updatingFieldValues = false;
-      return false;
-    }
-    return true;
   }
 
   async getForm() {
@@ -96,6 +98,17 @@ class EditFormPage extends Component {
     });
   }
 
+  removeField(e, position) {
+    e.preventDefault();
+    let form = this.state.form;
+    let fields = form.fields;
+    fields.splice(position, 1);
+    form.fields = fields;
+    this.setState({
+      form
+    });
+  }
+
   async saveForm(e) {
     e.preventDefault();
     let form = {
@@ -124,16 +137,11 @@ class EditFormPage extends Component {
 
   async saveField(field) {
     let fieldId = field.id;
-    // delete field.id;
-
-    console.log('saving field', field);
 
     // Save list-realted stuff first
     if (field.type === 'list') {
-      console.log('saving list', field);
       field.optionsId = await this.saveOptions(field);
     }
-    // delete field.options;
 
     let fieldData = {
       alias: field.alias,
@@ -144,11 +152,11 @@ class EditFormPage extends Component {
       type: field.type
     };
 
-    // if (fieldId && fieldId !== '0') {
-    //   this.fieldModel.save(fieldId, field);
-    // } else {
-    //   this.fieldModel.add(field);
-    // }
+    if (fieldId && fieldId !== '0') {
+      this.fieldModel.save(fieldId, fieldData);
+    } else {
+      fieldId = this.fieldModel.add(fieldData);
+    }
 
     return fieldId;
   }
@@ -162,13 +170,20 @@ class EditFormPage extends Component {
     let optionsId = field.optionsId;
 
     if (optionsId && optionsId !== '0') {
-      console.log('saving existing options', options);
       this.optionsModel.save(optionsId, options);
     } else {
       optionsId = await this.optionsModel.add(options);
     }
 
     return optionsId;
+  }
+
+  shouldComponentUpdate() {
+    if (this.updatingFieldValues) {
+      this.updatingFieldValues = false;
+      return false;
+    }
+    return true;
   }
 
   showFormEditor() {
@@ -196,6 +211,7 @@ class EditFormPage extends Component {
           </li>
         </ul>
         <h3>Fields</h3>
+        <button onClick={this.addField}>Add Field</button>
         <ul>
           {fields.map(field => {
 
@@ -212,6 +228,7 @@ class EditFormPage extends Component {
                   Field {position}
                   <button disabled={isFirstItem} onClick={(e) => this.moveUp(e, position)}>&uarr; Up</button>
                   <button disabled={isLastItem} onClick={(e) => this.moveDown(e, position)}>&darr; Down</button>
+                  <button onClick={(e) => this.removeField(e, position)}>&times;</button>
                 </p>
                 <FieldEditor field={field} order={order} changeHandler={this.onChangeField} />
               </li>

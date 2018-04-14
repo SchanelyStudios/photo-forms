@@ -83,9 +83,23 @@ class FieldEditor extends Component {
 
   onChange(e) {
     e.preventDefault();
+    let target = e.target.name;
+    let value = e.target.value;
     let field = this.state.field;
     field[e.target.name] = e.target.value;
-    this.setState(field, this.sendChange);
+
+    let options = this.state.options;
+
+    if (target === 'type'
+      && value === 'list'
+      && this.state.options === null) {
+      options = this.optionsModel.getEmpty();
+    }
+
+    this.setState({
+      field,
+      options
+    }, this.sendChange);
   }
 
   onListChange(options) {

@@ -104,7 +104,7 @@ class ListEditor extends Component {
                       item={item}
                       changeHandler={this.onListItemChange}
                     />
-                    <button onClick={(e) => this.removeItem(e, position)}>X</button>
+                  <button onClick={(e) => this.removeItem(e, position)}>&times;</button>
                   </li>
                 );
               })}
