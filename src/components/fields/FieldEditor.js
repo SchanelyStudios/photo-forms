@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import ListEditor from './ListEditor';
 
-import { OptionsModel } from '../../models/field.model';
+import FieldModel from '../../models/field.model';
+import OptionsModel from '../../models/options.model';
 
 class FieldEditor extends Component {
 
@@ -9,101 +10,180 @@ class FieldEditor extends Component {
     super(props, state);
 
     this.optionsModel = new OptionsModel();
+    this.fieldModel = new FieldModel();
+
+    this.updatingOptions = false;
 
     this.state = {
-      alias: this.props.field.alias,
-      label: this.props.field.label,
-      description: this.props.field.description,
-      helpText: this.props.field.helpText,
-      type: this.props.field.type,
-      loadingOptions: true,
-      options: null
+      field: null,
+      optionsId: null,
+      options: null,
+      loadingField: true,
+      loadingOptions: false
+    };
+
+    if (this.props.field.hasOwnProperty('id')) {
+      this.state.field = this.props.field;
+      this.state.loadingField = false;
+      if (this.props.field.options) {
+        this.state.options = this.props.field.options;
+      }
     }
 
     this.onChange = this.onChange.bind(this);
+    this.onListChange = this.onListChange.bind(this);
   }
 
   componentDidMount() {
-    this.getOptions();
+    if (this.state.loadingField) {
+      this.getField();
+      return;
+    }
   }
 
-  async getOptions() {
-    let options;
+  async getField() {
 
-    if (this.props.field.optionsId && this.props.field.optionsId !== 0) {
-      options = await this.optionsModel.get(this.props.field.optionsId);
-    } else {
-      options = this.optionsModel.getEmpty();
+    let field = this.fieldModel.getEmpty();
+    let loadingOptions = false;
+
+    // Check for a field provided
+    if (this.props.field && this.props.field !== '0') {
+      field = await this.fieldModel.get(this.props.field);
+
+      // Load related options (defer state update to that method...)
+      loadingOptions = field.type === 'list' && field.optionsId !== '0';
     }
 
-    console.log(options);
+    this.setState({
+      field,
+      optionsId: field.optionsId,
+      loadingField: false,
+      loadingOptions
+    }, () => {
+      if (loadingOptions) {
+        this.getOptions(field.optionsId);
+      } else {
+        this.sendChange();
+      }
+    });
+  }
+
+  async getOptions(optionsId) {
+    let options = this.optionsModel.getEmpty();
+
+    if (optionsId && optionsId !== '0') {
+      options = await this.optionsModel.get(optionsId);
+    }
 
     this.setState({
       options,
       loadingOptions: false
-    });
+    }, this.sendChange);
   }
 
   onChange(e) {
     e.preventDefault();
-    let field = {};
+    let field = this.state.field;
     field[e.target.name] = e.target.value;
-    this.setState(field, () => {
-      this.props.changeHandler(this.state, this.props.order);
-    });
+    this.setState(field, this.sendChange);
   }
 
   onListChange(options) {
-    // TODO: Send/store changes up the chain
-    // TODO: Ensure component does not refresh since child component handles changes
+    this.updatingOptions = true;
+    this.setState({ options }, this.sendChange);
+  }
+
+  sendChange() {
+    let fieldData = {
+      alias: this.state.field.alias,
+      label: this.state.field.label,
+      description: this.state.field.description,
+      helpText: this.state.field.helpText,
+      type: this.state.field.type,
+      options: this.state.options,
+      optionsId: this.state.optionsId,
+      id: this.state.field.id
+    };
+    this.props.changeHandler(fieldData, this.props.order);
+  }
+
+  shouldComponentUpdate() {
+    if (this.updatingOptions) {
+      this.updatingOptions = false;
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  showListEditor() {
+    if (this.state.field.type !== 'list') {
+      return null;
+    }
+
+    if (this.state.loadingOptions) {
+      return (
+        <p>Loading options...</p>
+      );
+    }
+
+    return (
+      <ListEditor
+        options={this.state.options}
+        changeHandler={this.onListChange}
+      />
+    );
   }
 
   render() {
 
-    let listEditor = '';
-
-    if (this.state.type === 'list') {
-      listEditor = !this.state.loadingOptions
-        ? <ListEditor
-            options={this.state.options}
-            changeHandler={this.onListChange}
-          />
-        : <p>Loading options...</p>;
+    if (this.state.loadingField) {
+      return (
+        <p>Loading field...</p>
+      )
     }
+
+    let field = this.state.field;
 
     return (
       <div className="field-editor">
         <ul className="field-list">
           <li>
+            <label className="field__label">Label</label>
+            <div className="field__controls">
+              <input type="text" name="label" onChange={this.onChange} value={field.label} />
+            </div>
+          </li>
+          <li>
+            <label className="field__label">Alias</label>
+            <div className="field__controls">
+              <input type="text" name="alias" onChange={this.onChange} value={field.alias} />
+            </div>
+          </li>
+          <li>
+            <label className="field__label">Description</label>
+            <div className="field__controls">
+              <textarea name="description" onChange={this.onChange} value={field.description} />
+            </div>
+          </li>
+          <li>
+            <label className="field__label">Help text</label>
+            <div className="field__controls">
+              <textarea name="helpText" onChange={this.onChange} value={field.helpText} />
+            </div>
+          </li>
+          <li>
             <label className="field__label">Type</label>
             <div className="field__controls">
-              <select type="text" name="type" onChange={this.onChange} value={this.state.type}>
+              <select type="text" name="type" onChange={this.onChange} value={field.type}>
                 <option value="singleline">Single line</option>
                 <option value="multiline">Mult-line</option>
                 <option value="list">List</option>
               </select>
             </div>
           </li>
-          <li>
-            <label className="field__label">Label</label>
-            <div className="field__controls">
-              <input type="text" name="label" onChange={this.onChange} value={this.state.label} />
-            </div>
-          </li>
-          <li>
-            <label className="field__label">Description</label>
-            <div className="field__controls">
-              <textarea name="description" onChange={this.onChange} value={this.state.description} />
-            </div>
-          </li>
-          <li>
-            <label className="field__label">Help text</label>
-            <div className="field__controls">
-              <textarea name="helpText" onChange={this.onChange} value={this.state.helpText} />
-            </div>
-          </li>
         </ul>
-        {listEditor}
+        {this.showListEditor()}
       </div>
     );
   }

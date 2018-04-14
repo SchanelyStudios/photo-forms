@@ -74,7 +74,7 @@ export default class DocModel {
       return null;
     }
     values = this.sanitizeIn(values);
-    return this.ref.doc(id).update(values);
+    return this.ref.doc(id).set(values);
   }
 
   sanitizeIn(data) {

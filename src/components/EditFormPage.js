@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import FormModel from '../models/form.model';
+import OptionsModel from '../models/options.model';
+import FieldModel from '../models/field.model';
 
 import FieldEditor from './fields/FieldEditor';
 
@@ -8,8 +10,11 @@ class EditFormPage extends Component {
   constructor(props, state) {
     super(props, state);
     this.formModel = new FormModel();
+    this.fieldModel = new FieldModel();
+    this.optionsModel = new OptionsModel();
     this.formId = this.props.match ? this.props.match.params.formId : null;
-    this.newForm = this.formId && this.formId !== '0' ? false : true
+    this.newForm = this.formId && this.formId !== '0' ? false : true;
+    this.updatingFieldValues = false;
 
     this.state = {
       form: null,
@@ -19,7 +24,6 @@ class EditFormPage extends Component {
     this.onChange = this.onChange.bind(this);
     this.onChangeField = this.onChangeField.bind(this);
     this.saveForm = this.saveForm.bind(this);
-    this.updatingFieldValues = false;
   }
 
   componentDidMount() {
@@ -57,7 +61,7 @@ class EditFormPage extends Component {
     form.fields = fields;
     this.setState({
       form
-    })
+    });
   }
 
   moveDown(e, currentPosition) {
@@ -70,15 +74,16 @@ class EditFormPage extends Component {
     form.fields = fields;
     this.setState({
       form
-    })
+    });
   }
 
   onChange(e) {
+    e.preventDefault();
     let form = this.state.form;
     form[e.target.name] = e.target.value;
     this.setState({
       form
-    })
+    });
   }
 
   onChangeField(field, order) {
@@ -88,21 +93,82 @@ class EditFormPage extends Component {
     this.updatingFieldValues = true;
     this.setState({
       form
-    })
+    });
   }
 
-  saveForm(e) {
+  async saveForm(e) {
     e.preventDefault();
     let form = {
       name: this.state.form.name,
       instructions: this.state.form.instructions,
       fields: this.state.form.fields
+    };
+
+    // Save fields first and convert list of field data to list of field Ids
+    let fieldIds = [];
+    for (let field of form.fields) {
+      let fieldId = await this.saveField(field);
+      fieldIds.push(fieldId);
     }
+    form.fields = fieldIds;
+
+    // Send appropriate query to save form itself
     if (this.newForm) {
-      this.formModel.add(form);
+      let formId = await this.formModel.add(form);
+      this.newForm = false;
+      this.formId = formId;
     } else {
       this.formModel.save(this.formId, form);
     }
+  }
+
+  async saveField(field) {
+    let fieldId = field.id;
+    // delete field.id;
+
+    console.log('saving field', field);
+
+    // Save list-realted stuff first
+    if (field.type === 'list') {
+      console.log('saving list', field);
+      field.optionsId = await this.saveOptions(field);
+    }
+    // delete field.options;
+
+    let fieldData = {
+      alias: field.alias,
+      label: field.label,
+      description: field.description,
+      helpText: field.helpText,
+      optionsId: field.optionsId,
+      type: field.type
+    };
+
+    // if (fieldId && fieldId !== '0') {
+    //   this.fieldModel.save(fieldId, field);
+    // } else {
+    //   this.fieldModel.add(field);
+    // }
+
+    return fieldId;
+  }
+
+  async saveOptions(field) {
+    let options = {
+      listType: field.options.listType,
+      showOther: field.options.showOther,
+      items: field.options.items
+    };
+    let optionsId = field.optionsId;
+
+    if (optionsId && optionsId !== '0') {
+      console.log('saving existing options', options);
+      this.optionsModel.save(optionsId, options);
+    } else {
+      optionsId = await this.optionsModel.add(options);
+    }
+
+    return optionsId;
   }
 
   showFormEditor() {
@@ -132,12 +198,13 @@ class EditFormPage extends Component {
         <h3>Fields</h3>
         <ul>
           {fields.map(field => {
-            let position = order + 1;
-            let isLastItem = position === fields.length - 1 ? true : false;
-            let isFirstItem = position === 0 ? true : false;
 
             order++;
             key++;
+
+            let position = order;
+            let isLastItem = position === fields.length - 1 ? true : false;
+            let isFirstItem = position === 0 ? true : false;
 
             return (
               <li key={key}>
@@ -161,7 +228,7 @@ class EditFormPage extends Component {
     if (this.state.loading) {
       output = (
         <p>Loading form editor...</p>
-      )
+      );
     } else {
       output = this.showFormEditor();
     }

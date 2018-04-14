@@ -11,6 +11,14 @@
   width: 100%;
 }
 
+.control-list {
+  @include list-unstyled;
+}
+
+.field-editor {
+  width: 100%;
+}
+
 .field__controls {
   flex: 1;
 }
