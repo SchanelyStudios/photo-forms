@@ -1,9 +1,8 @@
-// @import 'vars';
-@import 'normalize-scss/sass/normalize';
-
 @import 'vars';
+@import 'reset';
+
 @import 'mixins';
 @import 'basics';
 @import 'type';
-@import 'fields';
+@import 'forms';
 @import 'staging';

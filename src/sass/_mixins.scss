@@ -1,39 +1,140 @@
 @mixin bbox() {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
-
-@mixin flex() {
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: space-between;
+@mixin before-note($msg) {
+    &::before {
+        display: block;
+        content:$msg;
+        text-transform: uppercase;
+        color:$color-border;
+    }
 }
-
-@mixin list-unstyled() {
-  margin-left: 0;
-  list-style: none;
+@mixin button($color) {
+    display: block;
+    color:$color;
+    background-color: white;
+    @include font-heading;
+    font-size:1.4rem;
+    line-height:2.4rem;
+    font-weight:600;
+    padding:12px 16px;
+    border:1px solid $color;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.3s linear;
+    &:hover {
+        color:white;
+        background-color:$color;
+    }
 }
-
-@mixin col-pad() {
-  padding-left: $pad;
-  padding-right: $pad;
-}
-
-@mixin fill-gutter() {
-  margin-left: -1 * $pad;
-  margin-right: -1 * $pad;
-}
-
 @mixin center() {
-  margin-left: auto;
-  margin-right: auto;
+  margin-left:auto;
+  margin-right:auto;
 }
-
-@mixin text-spacing() {
-  @include reset();
-  margin-bottom: $baseline;
+@mixin col-pad($pad-l: $pad, $pad-r: $pad) {
+  padding-left: $pad-l;
+  padding-right: $pad-r;
 }
-
-@mixin reset() {
-  margin: 0;
-  padding: 0;
+@mixin fill-pad($margin-l: -1 * $pad, $margin-r: -1 * $pad) {
+  margin-left: $margin-l;
+  margin-right: $margin-r;
+}
+@mixin flex {
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flex;
+    display: -o-flex;
+    display: flex;
+}
+@mixin flex-box() {
+    @include bbox;
+    padding:$pad/2 $pad;
+}
+@mixin flex-tile {
+    @include flex;
+    flex-flow:row wrap;
+}
+@mixin font-body() {
+    font-family: 'Roboto Slab', serif;
+}
+@mixin font-heading() {
+    font-family: 'Open Sans', sans-serif;
+}
+@mixin font-accent() {
+    font-family: 'Open Sans Condensed', sans-serif;
+}
+@mixin last-child() {
+    &:last-child { margin-bottom:0; }
+}
+@mixin media-large() {
+  @include media-min(1600px) {
+    @content;
+  }
+}
+@mixin media-max($width) {
+  @media screen and (max-width: $width) {
+    @content;
+  }
+}
+@mixin media-min($width) {
+  @media screen and (min-width: $width) {
+    @content;
+  }
+}
+@mixin media-phone() {
+  @include media-max(768px) {
+    @content;
+  }
+}
+@mixin media-tab() {
+  @include media-max(1200px) {
+    @content;
+  }
+}
+@mixin photo-box-setup() {
+    img {
+        padding:0;
+        border:none;
+        max-height:100%;
+    }
+    border:1px solid #dfdfdf;
+    position: relative;
+    overflow:hidden;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    height:$g1;
+	  margin-bottom: 24px;
+    &::before {
+        display: block;
+        content: "";
+        border: 10px solid white;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+        transform: rotate(0deg);
+    }
+}
+@mixin rule() {
+  padding-left:$pad - 1;
+  padding-right:$pad - 1;
+  border-left:1px solid $color-border;
+  border-right:1px solid $color-border;
+}
+@mixin rule-right() {
+  padding-right:$pad - 1;
+  border-right:1px solid $color-border;
+  &.half-pad-right {
+      padding-right:$pad/2 - 1;
+  }
+}
+@mixin rule-left() {
+  padding-left:$pad - 1;
+  border-left:1px solid $color-border;
+  &.half-pad-left {
+      padding-left:$pad/2 - 1;
+  }
 }

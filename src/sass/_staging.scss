@@ -1,3 +1,174 @@
+$baseline: 12px;
+// $gutter: 40px;
+// $pad: $gutter / 2;
+// $font: sans-serif;
+
+// @MIXING
+
+@mixin bbox() {
+  box-sizing: border-box;
+}
+
+@mixin field() {
+  @include reset;
+  border: 1px solid grey;
+  border-radius: 3px;
+  padding: 3px 8px;
+  @include bbox;
+  min-height: $baseline * 3;
+  font: $font;
+  font-size: 1.6rem;
+  line-height: $baseline * 2;
+  width: 100%;
+}
+
+@mixin flex() {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+}
+
+@mixin list-unstyled() {
+  margin-left: 0;
+  list-style: none;
+}
+
+@mixin col-pad() {
+  padding-left: $pad;
+  padding-right: $pad;
+}
+
+@mixin fill-gutter() {
+  margin-left: -1 * $pad;
+  margin-right: -1 * $pad;
+}
+
+@mixin center() {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@mixin text-spacing() {
+  @include reset();
+  margin-bottom: $baseline;
+}
+
+@mixin reset() {
+  margin: 0;
+  padding: 0;
+}
+
+
+// @BASICS
+
+html {
+  font-size: 10px;
+}
+body {
+  font-size: 1.6rem;
+  line-height: 2.4rem;
+  font-family: $font;
+}
+img {
+  max-width: 100%;
+}
+
+
+// @TYPE
+
+h1 {
+  font-size: 3.4rem;
+  line-height: $baseline * 3;
+  @include text-spacing;
+}
+h2 {
+  font-size: 2.5rem;
+  line-height: $baseline * 3;
+  @include text-spacing;
+}
+h3 {
+  font-size: 1.6rem;
+  @include text-spacing;
+}
+h4 {
+  font-size: 1.6rem;
+  font-style: italic;
+  @include text-spacing;
+}
+h5 {
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  @include text-spacing;
+}
+h6 {
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  font-style: italic;
+  @include text-spacing;
+}
+li {
+  @include text-spacing;
+}
+ol, ul {
+  @include reset;
+  margin-left: $gutter;
+}
+p {
+  @include text-spacing;
+}
+
+
+// @FIELDS
+
+.control-list {
+  @include list-unstyled;
+}
+.field-editor {
+  width: 100%;
+}
+.field__controls {
+  flex: 1;
+}
+.field__group-heading {
+  width: 100%;
+}
+.field__label {
+  @include bbox;
+  display: block;
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: $baseline * 2;
+  padding-right: $pad;
+  width: 200px;
+  text-align: right;
+  padding: 6px $pad 4px;
+}
+form {
+  & > ul,
+  .field-list {
+    @include list-unstyled;
+    & > li {
+      @include flex;
+      align-items: flex-start;
+      max-width: 960px;
+      margin-bottom: $baseline;
+      .field-list {
+        width: 100%;
+      }
+    }
+  }
+}
+input[type="text"] {
+  @include field;
+}
+textarea {
+  @include field;
+  min-height: $baseline * 10;
+}
+
+
+// @STAGING
+
 .dashboard {
   @include flex;
 }

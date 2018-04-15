@@ -1,0 +1,119 @@
+input,
+textarea {
+  font-size: 1.4rem;
+  line-height: 2.4rem;
+  @include font-body;
+  color: $color-body;
+  padding: 11px 6px;
+  margin-right: 12px;
+  border: 1px solid $color-border;
+}
+
+.nf-before-form-content {
+  margin-left: $g3;
+}
+
+.nf-form-content {
+  .nf-field-element {
+    input,
+    select,
+    textarea {}
+  }
+
+  .label-left {
+    .nf-field-label {
+      width: $g3;
+      @include bbox;
+    }
+
+    .nf-field-element {
+      width: $g1;
+    }
+  }
+
+  .field-wrap {
+    input[type="submit"],
+    input[type="button"],
+    button {
+      @include button($color-accent);
+    }
+  }
+}
+
+.nf-form-title {
+  display: none;
+}
+
+.page-contact {
+  .nf-form-cont {
+    width: $g0;
+    margin: 0 auto;
+  }
+}
+
+.page-newsletter-signup {
+  .nf-before-form-content {
+    display: none;
+  }
+}
+
+@include media-large {
+  .nf-before-form-content {
+    margin-left: $g3-large;
+  }
+
+  .nf-form-content {
+    .label-left {
+      .nf-field-label {
+        width: $g3-large;
+      }
+    }
+  }
+
+  .page-contact {
+    .nf-form-cont {
+      width: $g0-large;
+    }
+  }
+}
+
+@include media-tab {
+  .nf-before-form-content {
+    margin-left: 0;
+  }
+
+  .nf-form-content {
+    .label-left {
+      .nf-field-label {
+        width: 100%;
+        text-align: left;
+      }
+    }
+  }
+
+  .page-contact {
+    .nf-form-cont {
+      width: 100%;
+    }
+  }
+}
+
+@include media-phone {
+  .nf-before-form-content {
+    margin-left: 0;
+  }
+
+  .nf-form-content {
+    .label-left {
+      .nf-field-label {
+        width: $g3;
+      }
+    }
+  }
+
+  .page-contact {
+    .nf-form-cont {
+      width: $g0-phone;
+    }
+  }
+}

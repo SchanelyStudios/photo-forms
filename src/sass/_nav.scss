@@ -1,0 +1,135 @@
+nav {
+  margin-top: 12px;
+
+  a {
+    text-decoration: none;
+    color: $color-body;
+    padding: 18px 36px;
+    display: block;
+  }
+
+  & > ul {
+    display: flex;
+    justify-content: center;
+    margin-left: 0;
+
+    & > li {
+      font-size: 1.7rem;
+      line-height: 2.3rem;
+      @include font-accent;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      border-bottom: 1px solid $color-border;
+      position: relative;
+
+      &.current-menu-item,
+      &.current-menu-parent {
+        border-bottom: 2px solid $color-accent;
+        & > a {
+          color: $color-accent;
+          padding-bottom: 17px;
+        }
+      }
+
+      &:hover {
+        border-bottom: 2px solid $color-body;
+        & > a {
+          padding-bottom: 17px;
+          background-color: fade-out($color-accent, 0.9);
+        }
+        ul {
+          display: block;
+        }
+      }
+
+      &::before {
+        display: none!important;
+      }
+
+      ul {
+        display: none;
+        margin-left: 0;
+        width: 100%;
+        min-width: 100px;
+        max-width: 300px;
+        background-color: $color-accent;
+        position: absolute;
+        top: 54px;
+        left: 0;
+        z-index: 10;
+
+        li {
+          width: 100%;
+          display: block;
+          border: none;
+          &::before {
+            display: none;
+          }
+          &:hover {
+            border: none;
+            a {
+              color: white;
+              padding: 8px 12px;
+              background-color: darken($color-accent, 20);
+            }
+          }
+        }
+
+        a {
+          color: white;
+          padding: 8px 12px;
+          text-align: center;
+        }
+      }
+    }
+  }
+
+  @include media-large {
+    margin-top: 50px;
+    width: auto;
+    flex: 1;
+
+    ul {
+      justify-content: flex-start;
+      width: 100%;
+      border-bottom: 1px solid rgba(151, 151, 151, 0.3);
+    }
+
+    li {
+      border-bottom: 2px solid transparent;
+    }
+  }
+
+  @include media-tab {
+    margin-top: 12px;
+
+    a {
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+  }
+
+  @include media-phone {
+    margin-top: 12px;
+
+    ul {
+      align-items: flex-end;
+    }
+
+    li {
+      font-size: 1.2rem;
+      text-align: center;
+      line-height: 1.6rem;
+      letter-spacing: 1px;
+    }
+
+    a {
+      padding: 6px 8px;
+    }
+
+    .current-menu-item a,
+    li:hover a {
+      padding-bottom: 5px;
+    }
+  }
+}
