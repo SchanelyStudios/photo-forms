@@ -17,6 +17,20 @@ export default class FormModel extends DocModel {
     this.fieldModel = new FieldModel();
   }
 
+  async getFullForm(id) {
+    let form = await this.get(id);
+
+    let fullFields = [];
+    for (let fieldId of form.fields) {
+      let fullField = await this.fieldModel.get(fieldId);
+      fullFields.push(fullField);
+    }
+
+    form.fields = fullFields;
+
+    return form;
+  }
+
   // sanitizeIn(data) {
   //
   //   let validFields = [];

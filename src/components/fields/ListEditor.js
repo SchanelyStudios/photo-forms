@@ -84,7 +84,7 @@ class ListEditor extends Component {
             <select value={this.state.listType} name="listType" onChange={this.changeListType}>
               <option value="dropdown">Dropdown</option>
               <option value="radio">Radio</option>
-              <option value="checklist">Checklist</option>
+              <option value="checkbox">Checklist</option>
             </select>
           </div>
         </li>
