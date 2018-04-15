@@ -1,21 +1,19 @@
-export class FieldModel {
-  _schema = {
-    alias: '',
-    label: '',
-    type: '', // single, multi, lists
-    description: '',
-    helpText: '',
-  };
-}
+import DocModel from './doc.model';
 
-export class ListField extends Field {
-  _schema = {
-    alias: '',
-    label: '',
-    type: '', // radio, checkbox, dropdown
-    description: '',
-    helpText: '',
-    options: [],
-    includeOther: false
-  };
+export default class FieldModel extends DocModel {
+
+  constructor() {
+    super();
+
+    this.ref = this.db.collection('Field');
+    this._schema = {
+      id: '0',
+      alias: '',
+      label: '',
+      type: 'singeline', // singleline, multiline
+      description: '',
+      helpText: '',
+      optionsId: null 
+    };
+  }
 }

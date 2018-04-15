@@ -11,8 +11,20 @@
   width: 100%;
 }
 
+.control-list {
+  @include list-unstyled;
+}
+
+.field-editor {
+  width: 100%;
+}
+
 .field__controls {
   flex: 1;
+}
+
+.field__group-heading {
+  width: 100%;
 }
 
 .field__label {
@@ -28,13 +40,17 @@
 }
 
 form {
-  & > ul {
+  & > ul,
+  .field-list {
     @include list-unstyled;
     & > li {
       @include flex;
       align-items: flex-start;
       max-width: 960px;
       margin-bottom: $baseline;
+      .field-list {
+        width: 100%;
+      }
     }
   }
 }

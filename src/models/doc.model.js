@@ -30,6 +30,14 @@ export default class DocModel {
       });
   }
 
+  getEmpty() {
+    let model = {};
+    for (let field in this._schema) {
+      model[field] = this._schema[field];
+    }
+    return model;
+  }
+
   getList(filters) {
     if (!this.ref) {
       return null;
@@ -66,7 +74,7 @@ export default class DocModel {
       return null;
     }
     values = this.sanitizeIn(values);
-    return this.ref.doc(id).update(values);
+    return this.ref.doc(id).set(values);
   }
 
   sanitizeIn(data) {
