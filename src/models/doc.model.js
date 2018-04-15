@@ -20,12 +20,22 @@ export default class DocModel {
               console.error('No such document!', id);
               return null;
           } else {
-              return this.tidy(doc);
+              let value = this.tidy(doc);
+              value = this.sanitizeOut(value);
+              return value;
           }
       })
       .catch(err => {
           console.error('Error getting document', err);
       });
+  }
+
+  getEmpty() {
+    let model = {};
+    for (let field in this._schema) {
+      model[field] = this._schema[field];
+    }
+    return model;
   }
 
   getList(filters) {
@@ -42,6 +52,7 @@ export default class DocModel {
       let items = [];
       snapshot.forEach((doc) => {
         let item = this.tidy(doc);
+        item = this.sanitizeOut(item);
         items.push(item);
       });
       return items;
@@ -52,6 +63,7 @@ export default class DocModel {
     if (!this.ref) {
       return null;
     }
+    values = this.sanitizeIn(values);
     return this.ref.add(values).then(doc => {
       return doc.id;
     });
@@ -61,7 +73,16 @@ export default class DocModel {
     if (!this.ref) {
       return null;
     }
-    return this.ref.doc(id).update(values);
+    values = this.sanitizeIn(values);
+    return this.ref.doc(id).set(values);
+  }
+
+  sanitizeIn(data) {
+    return data;
+  }
+
+  sanitizeOut(data) {
+    return data;
   }
 
   tidy(doc) {

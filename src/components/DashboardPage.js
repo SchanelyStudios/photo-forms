@@ -110,7 +110,7 @@ class DashboardPage extends Component {
             <h2>Recent Submissions</h2>
             {submissions}
           </div>
-          <div class="dashboard__forms">
+          <div className="dashboard__forms">
             <h2>Forms <Link to={'/form/0/edit'}>+ New form</Link></h2>
             {forms}
           </div>

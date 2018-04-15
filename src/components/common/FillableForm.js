@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import moment from 'moment';
 import { Redirect } from 'react-router';
 import FormModel from '../../models/form.model';
 import SubmissionModel from '../../models/submission.model';
@@ -73,7 +74,7 @@ class ViewFormPage extends Component {
       });
       return;
     }
-    let form = await this.formModel.get(this.state.formId);
+    let form = await this.formModel.getFullForm(this.state.formId);
     this.setState({
       loading: false,
       form
@@ -82,24 +83,23 @@ class ViewFormPage extends Component {
 
   async saveData(e, stayOnPage) {
     e.preventDefault();
+    let submission = {
+      dateStarted: this.state.submission.dateStarted ,
+      dateUpdated: moment().toDate(),
+      form: this.state.form.id,
+      values: this.state.values
+    };
     if (this.props.submissionId) {
-      console.log(this.props.submissionId);
-      await this.submissionModel.save(this.props.submissionId, {
-        dateUpdated: Date.now(),
-        values: this.state.values
-      });
+      console.log(submission);
+      await this.submissionModel.save(this.props.submissionId, submission);
       if (!stayOnPage) {
         this.setState({
           exited: true
         });
       }
     } else {
-      let submissionId = await this.submissionModel.add({
-        dateStarted: Date.now(),
-        dateUpdated: Date.now(),
-        form: this.state.form.id,
-        values: this.state.values
-      });
+      submission.dateStarted = moment().toDate();
+      let submissionId = await this.submissionModel.add(submission);
       this.setState({
         savedFirstTime: true,
         submissionId
