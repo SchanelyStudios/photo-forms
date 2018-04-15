@@ -31,7 +31,6 @@ class ViewSubmissionPage extends Component {
 
   async getSubmission(id) {
     let submission = await this.submissionModel.get(id);
-    console.log(submission);
     let form = await this.formModel.getFullForm(submission.form);
     this.setState({
       submission,
