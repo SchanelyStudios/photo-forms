@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import SubmissionModel from '../models/submission.model';
 import FormModel from '../models/form.model';
 
+import Spinner from './common/Spinner';
+
 class ViewSubmissionPage extends Component {
 
   constructor(props, state) {
@@ -44,7 +46,16 @@ class ViewSubmissionPage extends Component {
     let form = this.state.form;
     return (
       <div className="submission">
-        <h2>{form.name} <Link to={`/submission/${this.submissionId}/edit`}>Edit</Link></h2>
+        <div className="control-bar">
+          <h2>
+            {form.name}
+          </h2>
+          <div className="btn-group">
+            <Link to={`/submission/${this.submissionId}/edit`} className="btn btn--caution btn--small">
+              <i className="icon icon--edit" />
+            </Link>
+          </div>
+        </div>
         <p>Submission started {sub.dateStarted} and updated {sub.dateUpdated}</p>
         <div className="submission__form-instructions">
           <p>{form.instructions}</p>
@@ -84,7 +95,7 @@ class ViewSubmissionPage extends Component {
     let submission;
     if (this.state.loading === true) {
       submission = (
-        <p>Loading submission...</p>
+        <Spinner>Loading submission...</Spinner>
       );
     } else if (this.submissionId === null || this.state.form === null) {
       submission = (

@@ -1,0 +1,336 @@
+.icon {
+    @extend .fas; // fontawesome light library by default
+    font-size: $size-icon;
+    display: inline-block;
+
+    // Sizes -------------------------------------------------------------------
+
+    &.icon--xs {
+        font-size: $size-icon-xs;
+    }
+
+    &.icon--sm {
+        font-size: $size-icon-sm;
+    }
+
+    &.icon--lg {
+        font-size: $size-icon-lg;
+    }
+
+    &.icon--xl {
+        font-size: $size-icon-xl;
+    }
+
+    &.icon--xxl {
+        font-size: $size-icon-xxl;
+    }
+
+    &.icon--xxxl {
+        font-size: $size-icon-xxxl;
+    }
+
+    // Colors ------------------------------------------------------------------
+
+    &.icon--primary {
+        color: $color-primary;
+    }
+
+    &.icon--accent {
+        color: $color-accent;
+    }
+
+    &.icon--success {
+        color: $color-accent;
+    }
+
+    &.icon--nav {
+        color: $color-primary;
+    }
+
+    &.icon--danger {
+        color: $color-danger;
+    }
+
+    &.icon--info {
+        color: $color-info;
+    }
+
+    &.icon--neutral {
+        color: $color-body;
+    }
+
+    &.icon--light {
+        color: white;
+    }
+
+    &.icon--dark {
+        color: $color-body;
+    }
+
+    &.icon--solid {
+        @include fas;
+    }
+
+    // Icon aliases ------------------------------------------------------------
+
+    // We extend the desired fa icons to provide preferred use and shortcuts
+    // See https://fontawesome.com/icons
+
+    &.icon--add { @extend .fa-plus; }
+
+    &.icon--add-circle { @extend .fa-plus-circle; }
+
+    &.icon--archive { @extend .fa-archive; }
+
+    &.icon--caution { @extend .fa-exclamation-triangle; }
+
+    &.icon--check { @extend .fa-check; }
+
+    &.icon--check-circle { @extend .fa-check-circle; }
+
+    &.icon--check-circle-solid {
+        @extend .fa-check-circle;
+        @include fas;
+    }
+
+    &.icon--check-square { @extend .fa-check-square; }
+
+    &.icon--check-square-solid {
+        @extend .fa-check-square;
+        @include fas;
+    }
+
+    &.icon--circle { @extend .fa-circle; }
+
+    &.icon--circle-solid {
+        @extend .fa-circle;
+        @include fas;
+    }
+
+    &.icon--close { @extend .fa-times; }
+
+    &.icon--close-box { @extend .fa-window-close; }
+
+    &.icon--close-circle { @extend .fa-times-circle; }
+
+    &.icon--close-circle-solid {
+        @extend .fa-times-circle;
+        @include fas;
+    }
+
+    &.icon--clone { @extend .fa-clone; }
+
+    &.icon--comment { @extend .fa-comment; }
+
+    &.icon--copy { @extend .fa-copy; }
+
+    &.icon--credit-card { @extend .fa-credit-card; }
+
+    &.icon--edit { @extend .fa-edit; }
+
+    &.icon--ellipsis { @extend .fa-ellipsis-h; }
+
+    &.icon--ellipsis-v { @extend .fa-ellipsis-v; }
+
+    &.icon--email { @extend .fa-envelope; }
+
+    &.icon--error { @extend .fa-exclamation-circle; }
+
+    &.icon--eye { @extend .fa-eye; }
+
+    &.icon--file { @extend .fa-file; }
+
+    &.icon--file-audio { @extend .fa-file-audio; }
+
+    &.icon--file-code { @extend .fa-file-code; }
+
+    &.icon--file-doc { @extend .fa-file-alt; }
+
+    &.icon--file-excel { @extend .fa-file-excel; }
+
+    &.icon--file-image { @extend .fa-file-image; }
+
+    &.icon--file-pdf { @extend .fa-file-pdf; }
+
+    &.icon--file-ppt { @extend .fa-file-powerpoint; }
+
+    &.icon--file-video { @extend .fa-file-video; }
+
+    &.icon--file-word { @extend .fa-file-word; }
+
+    &.icon--filter { @extend .fa-filter; }
+
+    &.icon--filter-solid {
+        @extend .fa-filter;
+        @include fas;
+    }
+
+    &.icon--flag { @extend .fa-flag; }
+
+    &.icon--folder { @extend .fa-folder; }
+
+    &.icon--folder-open { @extend .fa-folder-open; }
+
+    &.icon--gear { @extend .fa-cog; }
+
+    &.icon--gear-solid {
+        @extend .fa-cog;
+        @include fas;
+    }
+
+    &.icon--heart { @extend .fa-heart; }
+
+    &.icon--heart-solid {
+        @extend .fa-heart;
+        @include fas;
+    }
+
+    &.icon--help { @extend .fa-question-circle; }
+
+    &.icon--key { @extend .fa-key; }
+
+    &.icon--link { @extend .fa-link; }
+
+    &.icon--nav { @extend .fa-bars; }
+
+    &.icon--remove { @extend .fa-minus; }
+
+    &.icon--remove-circle { @extend .fa-minus-circle; }
+
+    &.icon--remove-circle-solid {
+        @extend .fa-minus-circle;
+        @include fas;
+    }
+
+    &.icon--reply { @extend .fa-reply; }
+
+    &.icon--rss { @extend .fa-rss; }
+
+    &.icon--search { @extend .fa-search; }
+
+    &.icon--share { @extend .fa-share; }
+
+    &.icon--shopping-cart { @extend .fa-shopping-cart; }
+
+    &.icon--sort { @extend .fa-sort; }
+
+    &.icon--sort-down { @extend .fa-sort-down; }
+
+    &.icon--sort-up { @extend .fa-sort-up; }
+
+    &.icon--spinner {
+        @extend .fa-circle-notch;
+        @extend .fa-spin;
+    }
+
+    &.icon--square { @extend .fa-square; }
+
+    &.icon--square-solid {
+        @extend .fa-square;
+        @include fas;
+    }
+
+    &.icon--star { @extend .fa-star; }
+
+    &.icon--star-half { @extend .fa-star-half; }
+
+    &.icon--star-half-solid {
+        @extend .fa-star-half;
+        @include fas;
+    }
+
+    &.icon--star-solid {
+        @extend .fa-star;
+        @include fas;
+    }
+
+    &.icon--swap { @extend .fa-exchange-alt; }
+
+    &.icon--trash { @extend .fa-trash; }
+
+    &.icon--unlink { @extend .fa-unlink; }
+
+    &.icon--user { @extend .fa-user; }
+
+    &.icon--user-circle { @extend .fa-user-circle; }
+
+    &.icon--users { @extend .fa-users; }
+
+
+    // Directional icons -------------------------------------------------------
+
+    &.icon--up { @extend .fa-chevron-up; }
+
+    &.icon--down { @extend .fa-chevron-down; }
+
+    &.icon--right { @extend .fa-chevron-right; }
+
+    &.icon--left { @extend .fa-chevron-left; }
+
+    &.icon--raq { @extend .fa-angle-double-right; }
+
+    &.icon--laq { @extend .fa-angle-double-left; }
+
+    &.icon--caret-down { @extend .fa-caret-down; }
+
+    &.icon--caret-right { @extend .fa-caret-right; }
+
+
+    // Brands ------------------------------------------------------------------
+
+    &.icon--dropbox {
+        @include fab;
+        @extend .fa-dropbox;
+    }
+
+    &.icon--google {
+        @include fab;
+        @extend .fa-google;
+    }
+
+    &.icon--facebook {
+        @include fab;
+        @extend .fa-facebook-f;
+    }
+
+    &.icon--twitter {
+        @include fab;
+        @extend .fa-twitter;
+    }
+
+    &.icon--instagram {
+        @include fab;
+        @extend .fa-instagram;
+    }
+
+    &.icon--paypal {
+        @include fab;
+        @extend .fa-paypal;
+    }
+}
+
+button,
+.btn,
+input[type="submit"] {
+  &.btn--success,
+  &.btn--accent {
+    color: $color-accent;
+  }
+  &.btn--danger {
+    color: $color-danger;
+  }
+  &.btn--caution {
+    color: $color-caution;
+  }
+  &.btn--neutral {
+    color: $color-body;
+  }
+  &.btn--info {
+    color: $color-info;
+  }
+  &:hover {
+    .icon {
+      color: white;
+    }
+  }
+}

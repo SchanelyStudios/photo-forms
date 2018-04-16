@@ -17,7 +17,7 @@ const CheckboxList = (props) => {
               name={props.name}
               value={item}
             />
-            <span className="input-label input-label__checkbox">{item}</span>
+            <label className="input-label input-label__checkbox">{item}</label>
           </li>
         );
       })}

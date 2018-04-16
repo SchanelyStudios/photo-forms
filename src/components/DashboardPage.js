@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import FormModel from '../models/form.model';
 import SubmissionModel from '../models/submission.model';
+import Spinner from './common/Spinner';
 
 import { Link } from 'react-router-dom';
 
@@ -50,7 +51,7 @@ class DashboardPage extends Component {
   showForms() {
     if (this.state.forms.length > 0) {
       return (
-        <ul className="form-list">
+        <ul className="form-list plain">
           {this.state.forms.map(form => {
             return (
               <li key={form.id}>
@@ -62,7 +63,7 @@ class DashboardPage extends Component {
       );
     } else if (this.state.loadingForms) {
       return (
-        <p>Loading forms...</p>
+        <Spinner>Loading forms...</Spinner>
       );
     }
 
@@ -74,7 +75,7 @@ class DashboardPage extends Component {
   showSubmissions() {
     if (this.state.submissions.length > 0) {
       return (
-        <ul className="submission-list">
+        <ul className="submission-list plain">
           {this.state.submissions.map(sub => {
             return (
               <li key={sub.id}>
@@ -86,7 +87,7 @@ class DashboardPage extends Component {
       );
     } else if (this.state.loadingSubmissions) {
       return (
-        <p>Loading submissions...</p>
+        <Spinner>Loading submissions...</Spinner>
       );
     }
 
@@ -99,21 +100,23 @@ class DashboardPage extends Component {
     let forms = this.showForms();
     let submissions = this.showSubmissions();
     return (
-      <main>
-        <h2>Welcome!</h2>
-        <p>
-          This applicaiton is currently under development.
-          Check back again soon!
-        </p>
-        <div className="dashboard">
-          <div className="dashboard__recent-submissions">
-            <h2>Recent Submissions</h2>
-            {submissions}
+      <main className="dashboard flex-tile">
+        <div className="dashboard__recent-submissions box-g0">
+          <h2>Recent Submissions</h2>
+          {submissions}
+        </div>
+        <div className="dashboard__forms box-g1">
+          <div className="control-bar">
+            <h2>
+              Forms
+            </h2>
+            <div className="btn-bar">
+              <Link className="btn btn--success btn--small" to={'/form/0/edit'}>
+                <i className="icon icon--add" />
+              </Link>
+            </div>
           </div>
-          <div className="dashboard__forms">
-            <h2>Forms <Link to={'/form/0/edit'}>+ New form</Link></h2>
-            {forms}
-          </div>
+          {forms}
         </div>
       </main>
     );

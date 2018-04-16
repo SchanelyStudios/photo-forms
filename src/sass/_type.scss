@@ -1,48 +1,236 @@
+a {
+  color: $color-accent;
+}
+
+b,
+strong {
+  font-weight: 600;
+}
+
+blockquote {
+  @include font-heading;
+  font-style: italic;
+  font-size: 1.6rem;
+  line-height: 2.4rem;
+
+  cite {
+    font-style: normal;
+    font-size: 1.6rem;
+    margin-left: 20px;
+
+    &::before {
+      content: "\2013 ";
+    }
+  }
+}
+
+.btn {
+  @include button();
+}
+
+.btn--primary
+.btn--nav {
+  @include button-color($color-primary);
+}
+
+.btn--accent,
+.btn--success {
+  @include button-color($color-accent);
+}
+
+.btn--info {
+  @include button-color($color-info);
+}
+
+.btn--danger {
+  @include button-color($color-danger);
+}
+
+.btn--caution {
+  @include button-color($color-caution);
+}
+
+.btn--neutral {
+  @include button-color($color-body);
+}
+
+.btn--small {
+  padding: $pad / 4;
+}
+
+.centered-text {
+  text-align: center;
+}
+
 h1 {
-  font-size: 3.4rem;
-  line-height: $baseline * 3;
-  @include text-spacing;
+  text-align: center;
+  color: $color-accent;
+  font-size: 5.6rem;
+  font-weight: normal;
+  line-height: 5rem;
+  @include font-heading;
+  position: relative;
+  left: -9px;
+
+  a {
+    color: inherit;
+    text-decoration: none;
+    text-indent: -9999px;
+    display: block;
+    width: $g2+27px;
+    margin: 0 auto;
+    height: 109px;
+    background: left top no-repeat url("images/wordmark.svg");
+    background-size: 100%;
+  }
 }
 
 h2 {
-  font-size: 2.5rem;
-  line-height: $baseline * 3;
-  @include text-spacing;
+  @include font-heading;
+  text-align: center;
+  font-size: 3.7rem;
+  color: $color-primary;
+  line-height: 4.2rem;
+  margin-bottom: 2.4rem;
+  font-weight: normal;
+
+  &:after {
+    display: block;
+    content: "";
+    border-bottom: 1px solid $color-border;
+    width: 100px;
+    margin: 24px auto 2px;
+  }
 }
 
 h3 {
-  font-size: 1.6rem;
-  @include text-spacing;
+  font-size: 2.3rem;
+  color: $color-primary;
+  @include font-heading;
+  line-height: 2.4rem;
+  margin-bottom: 14px;
+  margin-top: 34px;
+
+  em {
+    @include font-accent;
+    font-size: 1.9rem;
+    text-transform: upperase;
+    letter-spacing: 2px;
+    color: $color-accent;
+    float: right;
+  }
 }
 
 h4 {
-  font-size: 1.6rem;
-  font-style: italic;
-  @include text-spacing;
+  font-size: 2rem;
+  color: $color-primary;
+  line-height: 3.6rem;
+  margin-top: 34px;
+  margin-bottom: 14px;
+  @include font-heading;
+  font-wieght: 300;
+
+  em {
+    @include font-accent;
+    text-transform: upperase;
+    letter-spacing: 2px;
+    color: $color-accent;
+    float: right;
+  }
 }
 
-h5 {
-  font-size: 1.2rem;
-  text-transform: uppercase;
-  @include text-spacing;
-}
+.highlight {
+  &.primary {
+    color: $color-primary;
+  }
 
-h6 {
-  font-size: 1.2rem;
-  text-transform: uppercase;
-  font-style: italic;
-  @include text-spacing;
+  &.accent {
+    color: $color-accent;
+  }
+
+  &.caution {
+    color: $color-caution;
+  }
+
+  &.info {
+    color: $color-info;
+  }
+
+  &.danger {
+    color: $color-danger;
+  }
 }
 
 li {
-  @include text-spacing;
-}
+  list-style: none;
 
-ol, ul {
-  @include reset;
-  margin-left: $gutter;
+  &::before {
+    content: "";
+    display: block;
+    float: left;
+    width: 3px;
+    height: 3px;
+    transform: rotate(-45deg);
+    border: 1px solid $color-primary;
+    position: relative;
+    left: -18px;
+    margin-right: -5px;
+    top: 9px;
+  }
 }
 
 p {
-  @include text-spacing;
+  margin-bottom: 1.2rem;
+  @include last-child;
+
+  &.lead {
+    @include font-heading;
+    font-size: 2rem;
+    color: $color-body;
+    line-height: 3.6rem;
+
+    .media-icon {
+      display: inline;
+      position: relative;
+      top: 11px;
+      margin-left: 20px;
+      margin-top: -20px;
+    }
+  }
+}
+
+ul {
+  margin: 0 0 24px 30px;
+
+  &.plain {
+    li:before {
+      display: none;
+    }
+  }
+
+  &.inline {
+    display: flex;
+    justify-content: space-between;
+    margin-left: 0;
+
+    &.centered {
+      justify-content: center;
+      align-items: center;
+
+      & > * {
+        margin-right: 20px;
+
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+    }
+  }
+}
+
+@include media-large {
+  li,
+  p {
+    max-width: 960px;
+  }
 }

@@ -17,7 +17,7 @@ const RadioList = (props) => {
               name={props.name}
               value={item}
             />
-            <span className="input-label input-label__radio">{item}</span>
+            <label className="input-label input-label__radio">{item}</label>
           </li>
         );
       })}
