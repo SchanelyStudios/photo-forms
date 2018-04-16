@@ -1,13 +1,91 @@
+body {
+  @include font-body;
+  font-size: 1.6rem;
+  line-height: 2.6rem;
+  font-weight: 300;
+  width: 1200px;
+  margin: 0 auto;
+  transition: 0.3s all linear;
+  color: $color-body;
+}
+
+header {
+  padding-top: 24px;
+}
+
+hr {
+  border: none;
+  border-bottom: 1px solid $color-border;
+}
+
 html {
   font-size: 10px;
 }
 
-body {
-  font-size: 1.6rem;
-  line-height: 2.4rem;
-  font-family: $font;
+img {
+  display: block;
+  @include bbox;
+  max-width: 100%;
+  border: 1px solid $color-border;
+  padding: $pad/2 - 1;
+
+  &.plain {
+    border: none;
+    padding: 0;
+  }
+
+  &.aligncenter {
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
 
-img {
-  max-width: 100%;
+main {
+  margin-top: 38px;
+}
+
+.widget {
+  .widgettitle {
+    display: none;
+  }
+}
+
+@include media-large {
+  body {
+    width: 1600px;
+    display: flex;
+    flex-flow: row wrap;
+  }
+
+  header {
+    width: $g2-large;
+  }
+
+  main {
+    margin-top: 38px;
+    width: 100%;
+  }
+}
+
+@include media-tab {
+  body {
+    width: 742px;
+  }
+  main {
+    margin-top: 38px;
+  }
+}
+
+@include media-phone {
+  body {
+    width: 100%;
+  }
+
+  header {
+    padding-top: 24px;
+  }
+
+  main {
+    margin-top: 38px;
+  }
 }

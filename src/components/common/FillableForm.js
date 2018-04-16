@@ -7,6 +7,7 @@ import SubmissionModel from '../../models/submission.model';
 import SinglelineInput from './SinglelineInput';
 import MultilineInput from './MultilineInput';
 import ListInput from './ListInput';
+import Spinner from './Spinner';
 
 import { Link } from 'react-router-dom';
 
@@ -183,7 +184,7 @@ class ViewFormPage extends Component {
   render() {
     if (this.state.loading) {
       return (
-        <p>Loading...</p>
+        <Spinner>Loading form...</Spinner>
       );
     } else if (this.state.form === null) {
       return (
@@ -212,18 +213,21 @@ class ViewFormPage extends Component {
 
     return (
       <form>
+        <h2>
+          {this.state.form.name}
+        </h2>
         <div className="form__instructions">
           <p>{this.state.form.instructions}</p>
         </div>
         {fields}
         <p className="form__actions">
-          <button onClick={(e) => this.saveData(e, true)} type="submit" name="btn-save">
+          <button className="btn--success" onClick={(e) => this.saveData(e, true)} type="submit" name="btn-save">
             Save
           </button>
           <button onClick={(e) => this.saveData(e, false)} type="submit" name="btn-exit">
             Save and close
           </button>
-          <button onClick={this.cancelForm} type="button" name="btn-cancel">
+          <button className="btn--neutral" onClick={this.cancelForm} type="button" name="btn-cancel">
             Cancel
           </button>
         </p>
