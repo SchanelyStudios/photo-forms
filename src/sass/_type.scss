@@ -25,28 +25,37 @@ blockquote {
 }
 
 .btn {
-  @include button($color-accent);
+  @include button();
+}
 
-  &.primary {
-    @include button($color-primary);
-  }
+.btn--primary
+.btn--nav {
+  @include button-color($color-primary);
+}
 
-  &.info {
-    @include button($color-info);
-  }
+.btn--accent,
+.btn--success {
+  @include button-color($color-accent);
+}
 
-  &.danger {
-    @include button($color-danger);
-  }
+.btn--info {
+  @include button-color($color-info);
+}
 
-  &.caution {
-    @include button($color-caution);
-  }
+.btn--danger {
+  @include button-color($color-danger);
+}
 
-  &.small {
-    width: 300px;
-    margin: 10px auto;
-  }
+.btn--caution {
+  @include button-color($color-caution);
+}
+
+.btn--neutral {
+  @include button-color($color-body);
+}
+
+.btn--small {
+  padding: $pad / 4;
 }
 
 .centered-text {

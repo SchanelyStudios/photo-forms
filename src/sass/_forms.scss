@@ -35,7 +35,8 @@ textarea {
     input[type="submit"],
     input[type="button"],
     button {
-      @include button($color-accent);
+      @include button();
+      @include button-color($color-accent);
     }
   }
 }

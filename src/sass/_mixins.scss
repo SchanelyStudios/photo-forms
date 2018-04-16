@@ -9,23 +9,27 @@
         color:$color-border;
     }
 }
-@mixin button($color) {
-    display: block;
-    color:$color;
-    background-color: white;
+@mixin button() {
+    display: inline-block;
     @include font-heading;
     font-size:1.4rem;
     line-height:2.4rem;
     font-weight:600;
     padding:12px 16px;
-    border:1px solid $color;
+    border:1px solid transparent;
     text-align: center;
     text-decoration: none;
     transition: all 0.3s linear;
-    &:hover {
-        color:white;
-        background-color:$color;
-    }
+    @include button-color;
+}
+@mixin button-color($color: $color-primary) {
+  color:$color;
+  border-color: $color;
+  background-color: white;
+  &:hover {
+    color:white;
+    background-color:$color;
+  }
 }
 @mixin center() {
   margin-left:auto;
@@ -34,6 +38,18 @@
 @mixin col-pad($pad-l: $pad, $pad-r: $pad) {
   padding-left: $pad-l;
   padding-right: $pad-r;
+}
+@mixin field() {
+  @include reset;
+  border: 1px solid $color-border;
+  border-radius: 3px;
+  padding: 3px 8px;
+  @include bbox;
+  min-height: $baseline * 3;
+  @include font-body;
+  font-size: 1.6rem;
+  line-height: $baseline * 2;
+  width: 100%;
 }
 @mixin fill-pad($margin-l: -1 * $pad, $margin-r: -1 * $pad) {
   margin-left: $margin-l;
@@ -66,6 +82,13 @@
 @mixin last-child() {
     &:last-child { margin-bottom:0; }
 }
+@mixin list-unstyled() {
+  margin-left: 0;
+  list-style: none;
+  & > li {
+    @include no-bullet();
+  }
+}
 @mixin media-large() {
   @include media-min(1600px) {
     @content;
@@ -89,6 +112,12 @@
 @mixin media-tab() {
   @include media-max(1200px) {
     @content;
+  }
+}
+@mixin no-bullet() {
+  list-style: none;
+  &::before {
+    display: none;
   }
 }
 @mixin photo-box-setup() {
@@ -118,6 +147,10 @@
         transform: rotate(0deg);
     }
 }
+@mixin reset() {
+  margin: 0;
+  padding: 0;
+}
 @mixin rule() {
   padding-left:$pad - 1;
   padding-right:$pad - 1;
@@ -137,4 +170,42 @@
   &.half-pad-left {
       padding-left:$pad/2 - 1;
   }
+}
+@mixin text-spacing() {
+  @include reset();
+  margin-bottom: $baseline;
+}
+
+@mixin fa-base() {
+    // From fontawesome _core
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    line-height: 1;
+}
+@mixin fa() {
+    @include fa-base;
+    // From fontawesome fa-solid
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+}
+@mixin far() {
+    @include fa-base;
+    // From fontawesome fa-regular
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 400;
+}
+@mixin fas() {
+    @include fa-base;
+    // From fontawesome fa-solid
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+}
+@mixin fab() {
+    @include fa-base;
+    // From fontawesome fa-brands
+    font-family: 'Font Awesome 5 Brands';
 }

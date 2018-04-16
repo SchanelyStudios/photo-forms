@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300|Open+Sans:300,300i,600,600i,700,700i|Roboto+Slab:300,700');
 
+$baseline: 12px;
+
 $color-body:         fade-out(#555555, 0.3);
 $color-border:       fade-out(#979797, 0.7);
 $color-accent:       #B7DFD5;
@@ -37,4 +39,13 @@ $g1-large: 612px;
 $g2-large: 378px;
 $g3-large: 234px;
 $h2-large: $g2-large/2;
-$g2h-large: $g2-large+$h2-large; 
+$g2h-large: $g2-large+$h2-large;
+
+$size-icon-xs: 1rem;
+$size-icon-sm: 1.2rem;
+$size-icon-md: 1.4rem;
+$size-icon: 1.6rem;
+$size-icon-lg: 2.4rem;
+$size-icon-xl: 3.2rem;
+$size-icon-xxl: 4.8rem;
+$size-icon-xxxl: 6rem;
