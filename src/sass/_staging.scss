@@ -69,6 +69,7 @@ form {
       align-items: flex-start;
       max-width: 960px;
       margin-bottom: $baseline;
+      position: relative;
       .field-list {
         width: 100%;
       }
@@ -103,6 +104,7 @@ form {
 .field__controls {
   padding-top: 5px;
   flex: 1;
+  position: relative;
 }
 
 .field__description {
@@ -154,6 +156,16 @@ form {
     &.field--half {
       width: 50%;
     }
+    &.field--labelField {
+      width: 58%;
+    }
+    &.field--aliasField {
+      width: 42%;
+      .field__label {
+        width: auto;
+        padding-left: $pad * 2;
+      }
+    }
     &.push--half {
       margin-left: 50%;
     }
@@ -170,8 +182,39 @@ input[type="text"] {
   @include field;
 }
 
+input[type="radio"] {
+    @include input-toggle;
+
+    & + label::before {
+        @include far;
+        content: fa-content($fa-var-circle);
+    }
+
+    & + label::after {
+        @include fas;
+        content: fa-content($fa-var-dot-circle);
+        color: $color-accent;
+    }
+}
+
+input[type="checkbox"] {
+    @include input-toggle;
+
+    & + label::before {
+        @include far;
+        content: fa-content($fa-var-square);
+    }
+
+    & + label::after {
+        @include fas;
+        content: fa-content($fa-var-check-square);
+        color: $color-accent;
+    }
+}
+
 .option-item {
   @include flex;
+  align-items: center;
   margin-bottom: $baseline;
   button {
     margin-left: $pad / 2;

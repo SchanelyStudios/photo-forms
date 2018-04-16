@@ -4,6 +4,7 @@ import OptionsModel from '../models/options.model';
 import FieldModel from '../models/field.model';
 
 import FieldEditor from './fields/FieldEditor';
+import Spinner from './common/Spinner';
 
 class EditFormPage extends Component {
 
@@ -261,7 +262,7 @@ class EditFormPage extends Component {
     let output;
     if (this.state.loading) {
       output = (
-        <p>Loading form editor...</p>
+        <Spinner>Loading form editor...</Spinner>
       );
     } else {
       output = this.showFormEditor();

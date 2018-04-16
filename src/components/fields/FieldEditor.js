@@ -4,6 +4,8 @@ import ListEditor from './ListEditor';
 import FieldModel from '../../models/field.model';
 import OptionsModel from '../../models/options.model';
 
+import Spinner from '../common/Spinner';
+
 class FieldEditor extends Component {
 
   constructor(props, state) {
@@ -137,7 +139,7 @@ class FieldEditor extends Component {
 
     if (this.state.loadingOptions) {
       return (
-        <p>Loading options...</p>
+        <Spinner>Loading options...</Spinner>
       );
     }
 
@@ -153,7 +155,7 @@ class FieldEditor extends Component {
 
     if (this.state.loadingField) {
       return (
-        <p>Loading field...</p>
+        <Spinner>Loading field...</Spinner>
       )
     }
 
@@ -162,13 +164,13 @@ class FieldEditor extends Component {
     return (
       <div className="field-editor">
         <ul className="field-list">
-          <li className="field--half">
+          <li className="field--labelField">
             <label className="field__label">Label</label>
             <div className="field__controls">
               <input type="text" name="label" onChange={this.onChange} value={field.label} />
             </div>
           </li>
-          <li className="field--half">
+          <li className="field--aliasField">
             <label className="field__label">Alias</label>
             <div className="field__controls">
               <input type="text" name="alias" onChange={this.onChange} value={field.alias} />

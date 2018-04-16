@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import SubmissionModel from '../models/submission.model';
 import FormModel from '../models/form.model';
 
+import Spinner from './common/Spinner';
+
 class SubmissionListPage extends Component {
 
   constructor(props, state) {
@@ -62,7 +64,7 @@ class SubmissionListPage extends Component {
   showForm() {
     if (this.state.loadingForm) {
       return (
-        <p>Loading form...</p>
+        <Spinner>Loading form...</Spinner>
       );
     } else if (this.state.form === null) {
       return (
@@ -91,7 +93,7 @@ class SubmissionListPage extends Component {
   showSubmissions() {
     if (this.state.loadingSubmissions) {
       return (
-        <p>Loading submissions...</p>
+        <Spinner>Loading submissions...</Spinner>
       );
     } else if (this.state.submissions.length === 0) {
       return (

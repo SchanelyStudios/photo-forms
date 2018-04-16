@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import FormModel from '../models/form.model';
 import SubmissionModel from '../models/submission.model';
+import Spinner from './common/Spinner';
 
 import { Link } from 'react-router-dom';
 
@@ -62,7 +63,7 @@ class DashboardPage extends Component {
       );
     } else if (this.state.loadingForms) {
       return (
-        <p>Loading forms...</p>
+        <Spinner>Loading forms...</Spinner>
       );
     }
 
@@ -86,7 +87,7 @@ class DashboardPage extends Component {
       );
     } else if (this.state.loadingSubmissions) {
       return (
-        <p>Loading submissions...</p>
+        <Spinner>Loading submissions...</Spinner>
       );
     }
 

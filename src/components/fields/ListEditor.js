@@ -104,21 +104,21 @@ class ListEditor extends Component {
                       item={item}
                       changeHandler={this.onListItemChange}
                     />
-                  <button className="btn--danger btn--small" onClick={(e) => this.removeItem(e, position)}>
-                    <i className="icon icon--close" title="Delete item" />
-                  </button>
+                    <button className="btn--danger btn--small" onClick={(e) => this.removeItem(e, position)}>
+                      <i className="icon icon--close" title="Delete item" />
+                    </button>
                   </li>
                 );
               })}
             </ul>
             <button className="btn--success btn--small" onClick={this.addItem}>
-              <i className="icon icon--add" />
+              <i className="icon icon--add" />&nbsp;
               Add item
             </button>
           </div>
         </li>
         <li>
-          <label className="field__label">Include Other</label>
+          <span className="field__label">Include Other</span>
           <div className="field__controls">
             <input
               type="checkbox"
@@ -126,6 +126,7 @@ class ListEditor extends Component {
               checked={this.state.showOther}
               onChange={this.toggleShowOther}
             />
+          <label>Include an "other" item at the end of this list that allows the user to provide a custom item</label>
           </div>
         </li>
       </ul>

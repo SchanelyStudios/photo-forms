@@ -7,6 +7,7 @@ import SubmissionModel from '../../models/submission.model';
 import SinglelineInput from './SinglelineInput';
 import MultilineInput from './MultilineInput';
 import ListInput from './ListInput';
+import Spinner from './Spinner';
 
 import { Link } from 'react-router-dom';
 
@@ -183,7 +184,7 @@ class ViewFormPage extends Component {
   render() {
     if (this.state.loading) {
       return (
-        <p>Loading...</p>
+        <Spinner>Loading form...</Spinner>
       );
     } else if (this.state.form === null) {
       return (
