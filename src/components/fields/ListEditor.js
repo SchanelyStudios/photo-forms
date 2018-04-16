@@ -77,8 +77,8 @@ class ListEditor extends Component {
     let key = Math.floor(Math.random() * 1000);
     let order = -1;
     return (
-      <ul className="field-list">
-        <li>
+      <ul className="field-list field-list--options-addon">
+        <li className="field--half push--half">
           <label className="field__label">List type</label>
           <div className="field__controls">
             <select value={this.state.listType} name="listType" onChange={this.changeListType}>
@@ -97,19 +97,24 @@ class ListEditor extends Component {
                 order++;
                 let position = order;
                 return (
-                  <li key={key}>
+                  <li key={key} className="option-item">
                     <ListItemEditor
                       key={key}
                       order={position}
                       item={item}
                       changeHandler={this.onListItemChange}
                     />
-                  <button onClick={(e) => this.removeItem(e, position)}>&times;</button>
+                  <button className="btn--danger btn--small" onClick={(e) => this.removeItem(e, position)}>
+                    <i className="icon icon--close" title="Delete item" />
+                  </button>
                   </li>
                 );
               })}
             </ul>
-            <button onClick={this.addItem}>Add item</button>
+            <button className="btn--success btn--small" onClick={this.addItem}>
+              <i className="icon icon--add" />
+              Add item
+            </button>
           </div>
         </li>
         <li>

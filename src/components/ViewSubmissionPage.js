@@ -44,7 +44,16 @@ class ViewSubmissionPage extends Component {
     let form = this.state.form;
     return (
       <div className="submission">
-        <h2>{form.name} <Link to={`/submission/${this.submissionId}/edit`}>Edit</Link></h2>
+        <div className="control-bar">
+          <h2>
+            {form.name}
+          </h2>
+          <div className="btn-group">
+            <Link to={`/submission/${this.submissionId}/edit`} className="btn btn--caution btn--small">
+              <i className="icon icon--edit" />
+            </Link>
+          </div>
+        </div>
         <p>Submission started {sub.dateStarted} and updated {sub.dateUpdated}</p>
         <div className="submission__form-instructions">
           <p>{form.instructions}</p>

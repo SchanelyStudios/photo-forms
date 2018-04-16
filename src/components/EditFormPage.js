@@ -195,7 +195,7 @@ class EditFormPage extends Component {
 
     return (
       <form onSubmit={this.saveForm}>
-        <p><strong>Note:</strong> All forms will requst the user's email address by default.</p>
+        <p><strong>Note:</strong> All forms will requst the user's email address and will save the date the submission is first saved along with the last date it was updated.</p>
         <ul>
           <li>
             <label className="field__label">Form name</label>
@@ -210,8 +210,14 @@ class EditFormPage extends Component {
             </div>
           </li>
         </ul>
-        <h3>Fields</h3>
-        <button onClick={this.addField}>Add Field</button>
+        <div className="control-bar">
+          <h3>Fields</h3>
+          <div className="btn-bar">
+            <button className="btn--success" onClick={this.addField}>
+              <i className="icon icon--add" title="Add Field" />
+            </button>
+          </div>
+        </div>
         <ul>
           {fields.map(field => {
 
@@ -223,19 +229,30 @@ class EditFormPage extends Component {
             let isFirstItem = position === 0 ? true : false;
 
             return (
-              <li key={key}>
-                <p className="field__group-heading">
-                  Field {position}
-                  <button disabled={isFirstItem} onClick={(e) => this.moveUp(e, position)}>&uarr; Up</button>
-                  <button disabled={isLastItem} onClick={(e) => this.moveDown(e, position)}>&darr; Down</button>
-                  <button onClick={(e) => this.removeField(e, position)}>&times;</button>
-                </p>
+              <li key={key} className="field-item">
+                <div className="field__group-heading control-bar">
+                  <div className="btn-bar">
+                    <button className="btn--caution btn--small" disabled={isFirstItem} onClick={(e) => this.moveUp(e, position)}>
+                      <i className="icon icon--up" title="Move field up" />
+                    </button>
+                    <button className="btn--caution btn--small" disabled={isLastItem} onClick={(e) => this.moveDown(e, position)}>
+                      <i className="icon icon--down" title="Move field down" />
+                    </button>
+                  </div>
+                  <div classnam="btn-bar">
+                    <button className="btn--danger btn--small" onClick={(e) => this.removeField(e, position)}>
+                      <i className="icon icon--trash" title="Delete field" />
+                    </button>
+                  </div>
+                </div>
                 <FieldEditor field={field} order={order} changeHandler={this.onChangeField} />
               </li>
             );
           })}
         </ul>
-        <button type="submit">Save</button>
+        <p className="form__actions">
+          <button className="btn--success" type="submit">Save</button>
+        </p>
       </form>
     );
   }

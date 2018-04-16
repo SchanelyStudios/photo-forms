@@ -162,13 +162,13 @@ class FieldEditor extends Component {
     return (
       <div className="field-editor">
         <ul className="field-list">
-          <li>
+          <li className="field--half">
             <label className="field__label">Label</label>
             <div className="field__controls">
               <input type="text" name="label" onChange={this.onChange} value={field.label} />
             </div>
           </li>
-          <li>
+          <li className="field--half">
             <label className="field__label">Alias</label>
             <div className="field__controls">
               <input type="text" name="alias" onChange={this.onChange} value={field.alias} />
@@ -186,7 +186,7 @@ class FieldEditor extends Component {
               <textarea name="helpText" onChange={this.onChange} value={field.helpText} />
             </div>
           </li>
-          <li>
+          <li className="field--half">
             <label className="field__label">Type</label>
             <div className="field__controls">
               <select type="text" name="type" onChange={this.onChange} value={field.type}>
