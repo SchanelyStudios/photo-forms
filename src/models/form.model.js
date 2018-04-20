@@ -31,6 +31,13 @@ export default class FormModel extends DocModel {
     return form;
   }
 
+  getEmailFieldSettings() {
+    let field = this.fieldModel.getEmpty();
+        field.label = 'Your email';
+        field.description = 'Provide an email address which we can use to follow up with you.';
+        field.alias = 'email';
+    return field;
+  }
   // sanitizeIn(data) {
   //
   //   let validFields = [];

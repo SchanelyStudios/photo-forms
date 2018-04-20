@@ -65,29 +65,40 @@ class ViewSubmissionPage extends Component {
     );
   }
 
+  getValue(alias) {
+    let value = this.state.submission.values.hasOwnProperty(alias) ? this.state.submission.values[alias] : '';
+    if (alias === 'email') {
+      value = this.state.submission.email;
+    }
+    if (value instanceof Array) {
+      value = value.join(', ');
+    }
+    return value;
+  }
+
+  showField(field) {
+    let value = this.getValue(field.alias);
+    return (
+      <li className="field" key={field.alias}>
+        <b className="field__label">{field.label}</b>
+        <div className="field__controls">
+          <p className="field__description">{field.description}</p>
+          <div className="field__value">
+            {value}
+          </div>
+        </div>
+      </li>
+    );
+  }
+
   showFields() {
     let fields = this.state.form.fields;
-    let values = this.state.submission.values;
+    let emailField = this.formModel.getEmailFieldSettings();
     return (
-        <ul className="submission__field-list">
-          {fields.map(field => {
-            let value = values.hasOwnProperty(field.alias) ? values[field.alias] : '';
-            if (value instanceof Array) {
-              value = value.join(', ');
-            }
-            return (
-              <li className="field" key={field.alias}>
-                <b className="field__label">{field.label}</b>
-                <div className="field__controls">
-                  <p className="field__description">{field.description}</p>
-                  <div className="field__value">
-                    {value}
-                  </div>
-                </div>
-              </li>
-            );
-          })}
-        </ul>
+      <ul className="submission__field-list">
+        {this.showField(emailField)}
+        {fields.map(field => this.showField(field))}
+      </ul>
     );
   }
 

@@ -26,12 +26,14 @@ class ViewFormPage extends Component {
       form: null,
       submission: null,
       values: {},
+      email: '',
       cancelled: false,
       savedFirstTime: false,
       exited: false
     };
 
-    this.setFieldvalue = this.setFieldvalue.bind(this);
+    this.setFieldValue = this.setFieldValue.bind(this);
+    this.setEmailValue = this.setEmailValue.bind(this);
     this.saveData = this.saveData.bind(this);
     this.cancelForm = this.cancelForm.bind(this);
   }
@@ -63,6 +65,7 @@ class ViewFormPage extends Component {
     let submission = await this.submissionModel.get(this.props.submissionId);
     this.setState({
       formId: submission.form,
+      email: submission.email ? submission.email : this.state.email,
       values: submission.values,
       submission
     }, this.getForm);
@@ -84,14 +87,16 @@ class ViewFormPage extends Component {
 
   async saveData(e, stayOnPage) {
     e.preventDefault();
+
     let submission = {
-      dateStarted: this.state.submission.dateStarted ,
+      // Start date is omitted to be added below based on whether save or add
       dateUpdated: moment().toDate(),
+      email: this.state.email,
       form: this.state.form.id,
       values: this.state.values
     };
     if (this.props.submissionId) {
-      console.log(submission);
+      submission.dateStarted = this.state.submission.dateStarted;
       await this.submissionModel.save(this.props.submissionId, submission);
       if (!stayOnPage) {
         this.setState({
@@ -108,7 +113,7 @@ class ViewFormPage extends Component {
     }
   }
 
-  setFieldvalue(field, value) {
+  setFieldValue(field, value) {
     let values = this.state.values;
     values[field] = value;
     this.setState({
@@ -116,66 +121,97 @@ class ViewFormPage extends Component {
     });
   }
 
-  showFields() {
-    let fields = this.state.form.fields.map((field) => {
-      let description = field.description ? (
-        <p className="field__description">{field.description}</p>
-      ) : '';
-      let helpText = field.helpText ? (
-        <p className="field__helpText">{field.helpText}</p>
-      ) : '';
-
-      let value = this.state.values.hasOwnProperty(field.alias)
-        ? this.state.values[field.alias]
-        : '';
-
-      let fieldComponent = '';
-      switch(field.type) {
-        case 'list':
-          fieldComponent = (
-            <ListInput
-              name={field.alias}
-              onChange={this.setFieldvalue}
-              value={value}
-              optionsId={field.optionsId}
-            />
-          );
-        break;
-        case 'multiline':
-          fieldComponent = (
-            <MultilineInput
-              name={field.alias}
-              onChange={this.setFieldvalue}
-              value={value}
-            />
-          );
-        break;
-        case 'singleline':
-        default:
-          fieldComponent = (
-            <SinglelineInput
-              name={field.alias}
-              onChange={this.setFieldvalue}
-              value={value}
-            />
-          );
-        break;
-      }
-
-      return (
-        <li key={field.alias} className="field">
-          <label className="field__label">{field.label}</label>
-          <div className="field__controls">
-            {description}
-            {fieldComponent}
-            {helpText}
-          </div>
-        </li>
-      );
+  setEmailValue(field, value) {
+    this.setState({
+      email: value
     });
+  }
+
+  showField(field) {
+    let description = field.description ? (
+      <p className="field__description">{field.description}</p>
+    ) : '';
+
+    let helpText = field.helpText ? (
+      <p className="field__helpText">{field.helpText}</p>
+    ) : '';
+
+    let fieldComponent;
+    if (field.alias === 'email') {
+      let value = this.state.email;
+      fieldComponent = (
+        <SinglelineInput
+          name={field.alias}
+          onChange={this.setEmailValue}
+          value={value}
+        />
+      );
+    } else {
+      fieldComponent = this.showFieldComponent(field);
+    }
+
+    return (
+      <li key={field.alias} className="field">
+        <label className="field__label">{field.label}</label>
+        <div className="field__controls">
+          {description}
+          {fieldComponent}
+          {helpText}
+        </div>
+      </li>
+    );
+  }
+
+  showFieldComponent(field) {
+
+    let value = this.state.values.hasOwnProperty(field.alias)
+      ? this.state.values[field.alias]
+      : '';
+
+    let fieldComponent = '';
+    switch(field.type) {
+      case 'list':
+        fieldComponent = (
+          <ListInput
+            name={field.alias}
+            onChange={this.setFieldValue}
+            value={value}
+            optionsId={field.optionsId}
+          />
+        );
+      break;
+      case 'multiline':
+        fieldComponent = (
+          <MultilineInput
+            name={field.alias}
+            onChange={this.setFieldValue}
+            value={value}
+          />
+        );
+      break;
+      case 'singleline':
+      default:
+        fieldComponent = (
+          <SinglelineInput
+            name={field.alias}
+            onChange={this.setFieldValue}
+            value={value}
+          />
+        );
+      break;
+    }
+
+    return fieldComponent;
+  }
+
+  showFields() {
+    let emailFieldConfig = this.formModel.getEmailFieldSettings();
+    let emailField = this.showField(emailFieldConfig);
+    let fields = this.state.form.fields.map((field) => this.showField(field));
 
     return (
       <ul className="form__fields">
+        {emailField}
         {fields}
       </ul>
     );

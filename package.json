@@ -5,6 +5,7 @@
   "dependencies": {
     "ajv": "^6.4.2",
     "firebase": "^4.12.1",
+    "markdown-to-jsx": "^6.6.1",
     "moment": "^2.22.0",
     "node-sass-chokidar": "^1.2.2",
     "normalize-scss": "^7.0.1",
