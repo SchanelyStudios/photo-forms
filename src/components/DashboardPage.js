@@ -51,7 +51,7 @@ class DashboardPage extends Component {
   showForms() {
     if (this.state.forms.length > 0) {
       return (
-        <ul className="form-list plain">
+        <ul className="form-list table-list plain">
           {this.state.forms.map(form => {
             return (
               <li key={form.id}>
@@ -75,11 +75,14 @@ class DashboardPage extends Component {
   showSubmissions() {
     if (this.state.submissions.length > 0) {
       return (
-        <ul className="submission-list plain">
+        <ul className="submission-list table-list plain">
           {this.state.submissions.map(sub => {
             return (
               <li key={sub.id}>
-                <Link to={`/submission/${sub.id}`}>{sub.dateStarted}</Link>
+                <Link to={`/submission/${sub.id}`}>
+                  <span className="submission__email">{sub.email}</span>
+                  <span className="submission__date">{sub.dateStarted}</span>
+                </Link>
               </li>
             );
           })}
@@ -102,7 +105,9 @@ class DashboardPage extends Component {
     return (
       <main className="dashboard flex-tile">
         <div className="dashboard__recent-submissions box-g0">
-          <h2>Recent Submissions</h2>
+          <div className="control-bar">
+            <h2>Recent Submissions</h2>
+          </div>
           {submissions}
         </div>
         <div className="dashboard__forms box-g1">
