@@ -4,6 +4,7 @@ import SubmissionModel from '../models/submission.model';
 import FormModel from '../models/form.model';
 
 import Spinner from './common/Spinner';
+import Breadcrumbs from './app/Breadcrumbs';
 
 class ViewSubmissionPage extends Component {
 
@@ -13,7 +14,13 @@ class ViewSubmissionPage extends Component {
     this.state = {
       loading: true,
       submission: null,
-      form: null
+      form: null,
+      breadcrumbs: [
+        {
+          path: '#',
+          label: 'Form'
+        }
+      ]
     }
 
     this.submissionModel = new SubmissionModel();
@@ -118,6 +125,7 @@ class ViewSubmissionPage extends Component {
 
     return (
       <main>
+        <Breadcrumbs paths={this.state.breadcrumbs} current={'View Submission'}/>
         {submission}
       </main>
     );

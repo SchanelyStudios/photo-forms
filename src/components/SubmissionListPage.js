@@ -4,6 +4,7 @@ import SubmissionModel from '../models/submission.model';
 import FormModel from '../models/form.model';
 
 import Spinner from './common/Spinner';
+import Breadcrumbs from './app/Breadcrumbs';
 
 class SubmissionListPage extends Component {
 
@@ -134,8 +135,10 @@ class SubmissionListPage extends Component {
   }
 
   render() {
+    let form = this.state.form ? this.state.form.name : '';
     return (
       <main>
+        <Breadcrumbs paths={[]} current={form}/>
         {this.showForm()}
         {this.showSubmissions()}
       </main>
