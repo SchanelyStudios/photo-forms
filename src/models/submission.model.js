@@ -1,10 +1,14 @@
 import DocModel from './doc.model';
-import moment from 'moment';
+import 'datejs';
+
+import FormModel from './form.model';
 
 export default class SubmissionModel extends DocModel {
 
   constructor() {
     super();
+
+    this.formModel = new FormModel();
 
     this.ref = this.db.collection('Submission');
     this._schema = {
@@ -12,28 +16,57 @@ export default class SubmissionModel extends DocModel {
       email: '',
       dateStarted: '',
       dateUpdated: '',
-      form: '',
+      form: {
+        id: 0,
+        name: ''
+      },
       values: {}
     };
   }
 
+  async get(id) {
+    let sub = await super.get(id);
+    let form = await this.formModel.get(sub.form.id);
+    sub.form = {
+      id: form.id,
+      name: form.name
+    };
+    return sub;
+  }
+
   getForForm(formId) {
-    return this.getList(['form', '==', formId]);
+    return this.getList(['form.id', '==', formId]);
   }
 
   sanitizeIn(data) {
     if (data.dateStarted) {
-      data.dateStarted = moment(data.dateStarted).toDate();
+      data.dateStarted = Date.parse(data.dateStarted).toString();
     }
     if (data.dateUpdated) {
-      data.dateUpdated = moment(data.dateUpdated).toDate();
+      data.dateUpdated = Date.parse(data.dateUpdated).toString();
+    }
+    if (data.form) {
+      if (typeof data.form === String) {
+        data.form = {
+          id: data.form,
+          name: 'Name not saved'
+        }
+      }
     }
     return data;
   }
 
   sanitizeOut(data) {
-    data.dateStarted = moment(data.dateStarted).format('MMM D, Y');
-    data.dateUpdated = moment(data.dateUpdated).format('MMM D, Y');
+    data.dateStarted = Date.parse(data.dateStarted).toString('MMM d, yyyy');
+    data.dateUpdated = Date.parse(data.dateUpdated).toString('MMM d, yyyy');
+    if (data.form) {
+      if (typeof data.form === 'string') {
+        data.form = {
+          id: data.form,
+          name: 'Name not saved'
+        }
+      }
+    }
     return data;
   }
 }
