@@ -35,7 +35,7 @@ export default class SubmissionModel extends DocModel {
   }
 
   getForForm(formId) {
-    return this.getList(['form', '==', formId]);
+    return this.getList(['form.id', '==', formId]);
   }
 
   sanitizeIn(data) {
