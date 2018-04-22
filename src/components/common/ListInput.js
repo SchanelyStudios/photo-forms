@@ -11,7 +11,7 @@ class ListInput extends React.Component {
     super(props, state);
     this.onChange = this.onChange.bind(this);
 
-    this.values = [];
+    // this.values = this.props.value;
 
     this.model = new OptionsModel();
 
@@ -41,20 +41,23 @@ class ListInput extends React.Component {
 
   onChange(e, allowMultiple) {
     let value = e.target.value;
+    let stateValue = this.state.value;
     if (allowMultiple) {
-      // Toggle an existing math off
-      if (this.values.indexOf(value) >= 0) {
-        this.values.splice(this.values.indexOf(value), 1);
+      // Toggle an existing item off
+      if (stateValue.indexOf(value) >= 0) {
+        stateValue.splice(stateValue.indexOf(value), 1);
       // or add this new value
       } else {
-        this.values.push(value);
+        stateValue.push(value);
       }
+    } else {
+      stateValue = value;
     }
     // e.preventDefault();
     this.setState({
-      value: this.values
+      value: stateValue
     });
-    this.props.onChange(this.props.name, this.values);
+    this.props.onChange(this.props.name, stateValue);
   }
 
   render() {
