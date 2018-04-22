@@ -17,14 +17,23 @@ export class UserModel {
   };
 
   static isAuthenticated() {
-    if (window.localStorage.getItem('PF_USER_UID')) {
+    let userId = window.localStorage.getItem('PF_USER_UID');
+    console.log(userId, typeof userId);
+    if (userId !== 'null') {
       return true;
     }
     return false;
   }
 
   static authenticate() {
-    return firebase.auth()
+    return firebase.auth();
+  }
+
+  static unauthenticate() {
+    window.localStorage.setItem('PF_USER_UID', null);
+    window.localStorage.setItem('PF_USER_NAME', null);
+    window.localStorage.setItem('PF_USER_EMAIL', null);
+    return true;
   }
 
   static getAuthenticated() {

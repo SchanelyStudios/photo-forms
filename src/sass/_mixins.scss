@@ -93,8 +93,7 @@
         text-align: left;
         display: block;
         width: auto;
-        padding: 0;
-        padding-left: $pad;
+        padding: 5px 0 0 $pad;
 
         &::before {
             @include input-toggle-pseudo-el;
@@ -117,7 +116,7 @@
     height: 20px;
     transition: 0.1s all linear;
     position: absolute;
-    top: 5px;
+    top: 10px;
     left: 0px;
     text-align: left;
     font-size: $size-icon;

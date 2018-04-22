@@ -8,11 +8,13 @@ class Header extends Component {
 
   render() {
     let url = this.userIsAuthenticated ? '/' : 'http://schanelyphotography.com';
+    let logout = this.userIsAuthenticated ? <Link to={'/logout'}>Log out</Link> : '';
     return (
       <header>
         <h1>
           <Link to={url}>Photo Forms</Link>
         </h1>
+        {logout}
       </header>
     );
   }

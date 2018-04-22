@@ -1,3 +1,137 @@
+@import 'fontawesome/variables';
+
+button,
+input[type="submit"] {
+  @include button;
+}
+
+.control-list {
+  @include list-unstyled;
+  margin-bottom: 0;
+}
+
+.field {
+  margin-bottom: $baseline;
+  border-top: 1px solid $color-border;
+  padding-top: 6px;
+  @include flex;
+}
+
+.field__controls {
+  padding-top: 5px;
+  flex: 1;
+  position: relative;
+}
+
+.field__description {
+  padding-top: 5px;
+}
+
+.field__group-heading {
+  width: 100%;
+}
+
+.field__helpText {
+  font-size: 1.3rem;
+}
+
+.field__label {
+  @include bbox;
+  display: block;
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: $baseline * 2;
+  padding-right: $pad;
+  width: 200px;
+  text-align: right;
+  padding: 11px $pad 4px;
+}
+
+.field__value {
+  flex: 1;
+  font-style: italic;
+  border-left: 1px solid $color-border;
+  padding-left: $pad - 1px;
+}
+
+.field-editor {
+  width: 100%;
+}
+
+.field-item {
+  border-top: 1px solid $color-border;
+  padding-top: $baseline;
+}
+
+.field-list {
+  margin-bottom: 0;
+  @include flex;
+  flex-flow: row wrap;
+  & > li {
+    width: 100%;
+    &.field--half {
+      width: 50%;
+    }
+    &.field--labelField {
+      width: 58%;
+    }
+    &.field--aliasField {
+      width: 42%;
+      .field__label {
+        width: auto;
+        padding-left: $pad * 2;
+      }
+    }
+    &.push--half {
+      margin-left: 50%;
+    }
+  }
+}
+
+.field-list--options-addon {
+  position: relative;
+  top: -4 * $baseline;
+  margin-bottom: -4 * $baseline;
+}
+
+form {
+  margin-bottom: $baseline * 6;
+  & > ul,
+  .field-list {
+    @include list-unstyled;
+    & > li {
+      @include flex;
+      flex-flow: row wrap;
+      justify-content: space-between;
+      align-items: flex-start;
+      max-width: 960px;
+      margin-bottom: $baseline;
+      position: relative;
+      .field-list {
+        width: 100%;
+      }
+    }
+  }
+}
+
+.form__instructions {
+  margin-bottom: $baseline * 3;
+}
+
+.form__actions {
+  margin-left: 200px;
+  & > * {
+    margin-right: $pad;
+  }
+}
+
+.form-list {
+  @include list-unstyled;
+  li {
+    cursor: pointer;
+  }
+}
+
 input,
 textarea {
   font-size: 1.4rem;
@@ -9,112 +143,61 @@ textarea {
   border: 1px solid $color-border;
 }
 
-.nf-before-form-content {
-  margin-left: $g3;
+input[type="text"] {
+  @include field;
 }
 
-.nf-form-content {
-  .nf-field-element {
-    input,
-    select,
-    textarea {}
-  }
+input[type="radio"] {
+    @include input-toggle;
 
-  .label-left {
-    .nf-field-label {
-      width: $g3;
-      @include bbox;
+    & + label::before {
+        @include far;
+        content: fa-content($fa-var-circle);
     }
 
-    .nf-field-element {
-      width: $g1;
+    & + label::after {
+        @include fas;
+        content: fa-content($fa-var-dot-circle);
+        color: $color-accent;
     }
-  }
+}
 
-  .field-wrap {
-    input[type="submit"],
-    input[type="button"],
-    button {
-      @include button();
-      @include button-color($color-accent);
+input[type="checkbox"] {
+    @include input-toggle;
+
+    & + label::before {
+        @include far;
+        content: fa-content($fa-var-square);
     }
-  }
+
+    & + label::after {
+        @include fas;
+        content: fa-content($fa-var-check-square);
+        color: $color-accent;
+    }
 }
 
-.nf-form-title {
-  display: none;
-}
-
-.page-contact {
-  .nf-form-cont {
-    width: $g0;
-    margin: 0 auto;
-  }
-}
-
-.page-newsletter-signup {
-  .nf-before-form-content {
-    display: none;
+.option-item {
+  @include flex;
+  align-items: center;
+  margin-bottom: $baseline;
+  button {
+    margin-left: $pad / 2;
   }
 }
 
-@include media-large {
-  .nf-before-form-content {
-    margin-left: $g3-large;
+.submission__field-list {
+  @include list-unstyled;
+  li {
+    cursor: pointer;
   }
-
-  .nf-form-content {
-    .label-left {
-      .nf-field-label {
-        width: $g3-large;
-      }
-    }
-  }
-
-  .page-contact {
-    .nf-form-cont {
-      width: $g0-large;
-    }
+  .field {
+    border-top: none;
   }
 }
 
-@include media-tab {
-  .nf-before-form-content {
-    margin-left: 0;
-  }
-
-  .nf-form-content {
-    .label-left {
-      .nf-field-label {
-        width: 100%;
-        text-align: left;
-      }
-    }
-  }
-
-  .page-contact {
-    .nf-form-cont {
-      width: 100%;
-    }
-  }
-}
-
-@include media-phone {
-  .nf-before-form-content {
-    margin-left: 0;
-  }
-
-  .nf-form-content {
-    .label-left {
-      .nf-field-label {
-        width: $g3;
-      }
-    }
-  }
-
-  .page-contact {
-    .nf-form-cont {
-      width: $g0-phone;
-    }
-  }
+textarea {
+  @include field;
+  min-height: $baseline * 10;
+  padding-top: 5px;
 }
