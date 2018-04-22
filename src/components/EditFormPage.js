@@ -44,18 +44,20 @@ class EditFormPage extends Component {
   }
 
   async getForm() {
-    let form;
+    let form, breadcrumbs;
     if (this.newForm) {
+      breadcrumbs = [];
       form = this.formModel.getEmpty();
     } else {
       form = await this.formModel.get(this.formId);
+      breadcrumbs = [{
+        label: form.name,
+        path: `/form/${form.id}/submissions`
+      }];
     }
     this.setState({
       form,
-      breadcrumbs: [{
-        label: form.name,
-        path: `/form/${form.id}/submissions`
-      }],
+      breadcrumbs,
       loading: false
     });
   }
@@ -274,9 +276,11 @@ class EditFormPage extends Component {
       output = this.showFormEditor();
     }
 
+    let breadcrumbLabel = this.newForm ? 'Create form' : 'Edit form';
+
     return (
       <main>
-        <Breadcrumbs paths={this.state.breadcrumbs} current={'Edit form'}/>
+        <Breadcrumbs paths={this.state.breadcrumbs} current={breadcrumbLabel} />
         {output}
       </main>
     );
