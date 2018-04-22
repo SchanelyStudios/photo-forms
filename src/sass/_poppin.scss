@@ -1,0 +1,42 @@
+body.poppin-on {
+  margin-top: 40px;
+}
+
+.poppin {
+  @include font-heading;
+  position: fixed;
+  top: -60px;
+  z-index: 2;
+  left: 0;
+  right: 0;
+  display: flex;
+  background-color: $color-accent;
+  transition: 0.2s all linear;
+
+  &.on {
+    top: 0;
+  }
+
+  a {
+    color: white;
+    font-weight: 600;
+    display: block;
+    padding: 8px 10px 5px;
+    color: white;
+    flex: 1;
+    text-decoration: none;
+    text-align: center;
+  }
+
+  .close {
+    outline: none;
+    background: transparent;
+    color: white;
+    font-size: 2.3rem;
+    width: 30px;
+    border: none;
+    box-sizing: border-box;
+    padding: 5px 20px 8px;
+    cursor: pointer;
+  }
+}

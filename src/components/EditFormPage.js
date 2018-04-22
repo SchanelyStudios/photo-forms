@@ -7,6 +7,7 @@ import FieldEditor from './fields/FieldEditor';
 import Spinner from './common/Spinner';
 import Breadcrumbs from './app/Breadcrumbs';
 
+
 class EditFormPage extends Component {
 
   constructor(props, state) {

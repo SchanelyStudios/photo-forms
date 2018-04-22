@@ -67,7 +67,7 @@
 .submission__field-list {
   @include list-unstyled;
   li {
-    @include flex;
+    cursor: pointer;
   }
   .field {
     border-top: none;
