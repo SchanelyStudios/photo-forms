@@ -11,12 +11,17 @@ class Breadcrumbs extends Component {
       return ('');
     }
 
+    let key = Math.round(Math.random() * 1000);
+
     return (
       <ul className="breadcrumbs">
         <li><Link to={'/'}>Dashboard</Link></li>
-        {this.props.paths.map(item => (
-          <li><Link to={item.path}>{item.label}</Link></li>
-        ))}
+        {this.props.paths.map(item => {
+          key++;
+          return (
+            <li key={key}><Link to={item.path}>{item.label}</Link></li>
+          );
+        })}
         <li>{this.props.current}</li>
       </ul>
     );

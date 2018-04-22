@@ -38,14 +38,4 @@ export default class FormModel extends DocModel {
         field.alias = 'email';
     return field;
   }
-  // sanitizeIn(data) {
-  //
-  //   let validFields = [];
-  //   for (let field of data.fields) {
-  //     validFields.push(this.fieldModel.validate(field));
-  //   }
-  //
-  //   data.fields = validFields;
-  //   return data;
-  // }
 }

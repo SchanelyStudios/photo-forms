@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import moment from 'moment';
+import 'datejs';
 import { Redirect } from 'react-router';
 import FormModel from '../../models/form.model';
 import SubmissionModel from '../../models/submission.model';
@@ -64,7 +64,7 @@ class ViewFormPage extends Component {
   async getSubmission() {
     let submission = await this.submissionModel.get(this.props.submissionId);
     this.setState({
-      formId: submission.form,
+      formId: submission.form.id,
       email: submission.email ? submission.email : this.state.email,
       values: submission.values,
       submission
@@ -90,9 +90,12 @@ class ViewFormPage extends Component {
 
     let submission = {
       // Start date is omitted to be added below based on whether save or add
-      dateUpdated: moment().toDate(),
+      dateUpdated: Date.today().toString(),
       email: this.state.email,
-      form: this.state.form.id,
+      form: {
+        id: this.state.form.id,
+        name: this.state.form.name
+      },
       values: this.state.values
     };
     if (this.props.submissionId) {
@@ -104,7 +107,7 @@ class ViewFormPage extends Component {
         });
       }
     } else {
-      submission.dateStarted = moment().toDate();
+      submission.dateStarted = Date.today().toString();
       let submissionId = await this.submissionModel.add(submission);
       this.setState({
         savedFirstTime: true,

@@ -15,12 +15,7 @@ class ViewSubmissionPage extends Component {
       loading: true,
       submission: null,
       form: null,
-      breadcrumbs: [
-        {
-          path: '#',
-          label: 'Form'
-        }
-      ]
+      breadcrumbs: []
     }
 
     this.submissionModel = new SubmissionModel();
@@ -40,10 +35,14 @@ class ViewSubmissionPage extends Component {
 
   async getSubmission(id) {
     let submission = await this.submissionModel.get(id);
-    let form = await this.formModel.getFullForm(submission.form);
+    let form = await this.formModel.getFullForm(submission.form.id);
     this.setState({
       submission,
       form,
+      breadcrumbs: [{
+        label: form.name,
+        path: `/form/${form.id}/submissions`
+      }],
       loading: false
     });
   }
@@ -86,7 +85,7 @@ class ViewSubmissionPage extends Component {
   showField(field) {
     let value = this.getValue(field.alias);
     return (
-      <li className="field" key={field.alias}>
+      <li key={field.id} className="field">
         <b className="field__label">{field.label}</b>
         <div className="field__controls">
           <p className="field__description">{field.description}</p>

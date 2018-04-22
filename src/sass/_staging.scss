@@ -32,11 +32,14 @@
       padding-bottom: 4px;
     }
   }
+  .submission__formName {
+    width: 40%;
+  }
   .submission__email {
-    width: 50%;
+    width: 40%;
   }
   .submission__date {
-    width: 50%;
+    width: 20%;
   }
 }
 

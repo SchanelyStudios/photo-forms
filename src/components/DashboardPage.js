@@ -80,6 +80,7 @@ class DashboardPage extends Component {
             return (
               <li key={sub.id}>
                 <Link to={`/submission/${sub.id}`}>
+                  <span className="submission__formName">{sub.form.name}</span>
                   <span className="submission__email">{sub.email}</span>
                   <span className="submission__date">{sub.dateStarted}</span>
                 </Link>
