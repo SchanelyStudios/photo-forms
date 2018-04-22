@@ -5,6 +5,8 @@ import FieldModel from '../models/field.model';
 
 import FieldEditor from './fields/FieldEditor';
 import Spinner from './common/Spinner';
+import Breadcrumbs from './app/Breadcrumbs';
+
 
 class EditFormPage extends Component {
 
@@ -19,7 +21,8 @@ class EditFormPage extends Component {
 
     this.state = {
       form: null,
-      loading: true
+      loading: true,
+      breadcrumbs: []
     };
 
     this.onChange = this.onChange.bind(this);
@@ -42,14 +45,20 @@ class EditFormPage extends Component {
   }
 
   async getForm() {
-    let form;
+    let form, breadcrumbs;
     if (this.newForm) {
+      breadcrumbs = [];
       form = this.formModel.getEmpty();
     } else {
       form = await this.formModel.get(this.formId);
+      breadcrumbs = [{
+        label: form.name,
+        path: `/form/${form.id}/submissions`
+      }];
     }
     this.setState({
       form,
+      breadcrumbs,
       loading: false
     });
   }
@@ -268,8 +277,11 @@ class EditFormPage extends Component {
       output = this.showFormEditor();
     }
 
+    let breadcrumbLabel = this.newForm ? 'Create form' : 'Edit form';
+
     return (
       <main>
+        <Breadcrumbs paths={this.state.breadcrumbs} current={breadcrumbLabel} />
         {output}
       </main>
     );

@@ -4,6 +4,7 @@ import SubmissionModel from '../models/submission.model';
 import FormModel from '../models/form.model';
 
 import Spinner from './common/Spinner';
+import Breadcrumbs from './app/Breadcrumbs';
 
 class SubmissionListPage extends Component {
 
@@ -30,8 +31,8 @@ class SubmissionListPage extends Component {
     }
   }
 
-  getFormSubmissions() {
-    this.formModel.get(this.formId).then(form => {
+  async getFormSubmissions() {
+    this.formModel.getFullForm(this.formId).then(form => {
       this.setState({
         form,
         loadingForm: false
@@ -39,7 +40,7 @@ class SubmissionListPage extends Component {
     });
 
     this.submissionModel.getForForm(this.formId).then(submissions => {
-      this.setState({
+      return this.setState({
         submissions,
         loadingSubmissions: false
       });
@@ -47,14 +48,16 @@ class SubmissionListPage extends Component {
   }
 
   prepareCells(values) {
+    let key = Math.round(Math.random() * 1000);
     let cells = [];
     for (let label in values) {
+      key++;
       let value = values[label];
       if (value instanceof Array) {
         value = value.join(', ');
       }
       cells.push({
-        key: label,
+        key,
         value
       });
     }
@@ -91,7 +94,7 @@ class SubmissionListPage extends Component {
   }
 
   showSubmissions() {
-    if (this.state.loadingSubmissions) {
+    if (this.state.loadingSubmissions || this.state.loadingForm) {
       return (
         <Spinner>Loading submissions...</Spinner>
       );
@@ -134,8 +137,10 @@ class SubmissionListPage extends Component {
   }
 
   render() {
+    let form = this.state.form ? this.state.form.name : '';
     return (
       <main>
+        <Breadcrumbs paths={[]} current={form}/>
         {this.showForm()}
         {this.showSubmissions()}
       </main>

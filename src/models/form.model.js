@@ -31,14 +31,11 @@ export default class FormModel extends DocModel {
     return form;
   }
 
-  // sanitizeIn(data) {
-  //
-  //   let validFields = [];
-  //   for (let field of data.fields) {
-  //     validFields.push(this.fieldModel.validate(field));
-  //   }
-  //
-  //   data.fields = validFields;
-  //   return data;
-  // }
+  getEmailFieldSettings() {
+    let field = this.fieldModel.getEmpty();
+        field.label = 'Your email';
+        field.description = 'Provide an email address which we can use to follow up with you.';
+        field.alias = 'email';
+    return field;
+  }
 }
