@@ -8,11 +8,12 @@ import EditFormPage from './components/EditFormPage';
 import EditSubmissionPage from './components/EditSubmissionPage';
 import SubmissionListPage from './components/SubmissionListPage';
 import LoginPage from './components/LoginPage';
+import LogoutPage from './components/LogoutPage';
 
-import { UserModel } from './models/user.model';
+import { AuthService } from './services/auth';
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
-  let userIsAuthenticated = UserModel.isAuthenticated();
+  let userIsAuthenticated = AuthService.isAuthenticated();
   return (
     <Route {...rest} render={(props) => (
       userIsAuthenticated === true
@@ -27,6 +28,7 @@ export default (
   <App>
     <PrivateRoute path="/" exact={true} component={DashboardPage} />
     <Route path="/login" exact={true} component={LoginPage} />
+    <Route path="/logout" exact={true} component={LogoutPage} />
     <Route path="/form/:formId" exact={true} component={ViewFormPage} />
     <PrivateRoute path="/form/:formId/edit" exact={true} component={EditFormPage} />
     <PrivateRoute path="/form/:formId/submissions" exact={true} component={SubmissionListPage} />

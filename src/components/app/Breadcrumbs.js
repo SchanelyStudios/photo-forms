@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { UserModel } from '../../models/user.model';
+import { AuthService } from '../../services/auth';
 
 class Breadcrumbs extends Component {
 
-  userIsAuthenticated = UserModel.isAuthenticated();
+  userIsAuthenticated = AuthService.isAuthenticated();
 
   render() {
     if (!this.userIsAuthenticated) {

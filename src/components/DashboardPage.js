@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
+import { Link, Redirect } from 'react-router-dom';
+
+import { AuthService } from '../services/auth';
 import FormModel from '../models/form.model';
 import SubmissionModel from '../models/submission.model';
 import Spinner from './common/Spinner';
 
-import { Link } from 'react-router-dom';
 
 class DashboardPage extends Component {
 
@@ -16,19 +18,30 @@ class DashboardPage extends Component {
       forms: [],
       submissions: [],
       loadingForms: true,
-      loadingSubmissions: true
+      loadingSubmissions: true,
+      authConfirmed: true
     };
   }
 
   componentDidMount() {
-    this.getForms();
-    this.getSubmissions();
+    this.confirmAuth();
   }
 
   componentWillUnmount() {
     this.setState({
       forms: [],
       submissions: []
+    });
+  }
+
+  async confirmAuth() {
+    let authConfirmed = await AuthService.checkAuthedUser();
+    console.log('user confirmed', authConfirmed);
+    this.setState({
+      authConfirmed
+    }, () => {
+      this.getForms();
+      this.getSubmissions();
     });
   }
 
@@ -101,6 +114,13 @@ class DashboardPage extends Component {
   }
 
   render() {
+
+    if (!this.state.authConfirmed) {
+      return (
+        <Redirect to={'/login'} />
+      );
+    }
+
     let forms = this.showForms();
     let submissions = this.showSubmissions();
     return (
