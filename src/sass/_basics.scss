@@ -50,12 +50,31 @@ body {
   }
 }
 
+.firebaseui-card-content {
+  .firebaseui-list-item {
+    margin-left: auto;
+    margin-right: auto;
+    img {
+      border: none;
+    }
+  }
+  .firebaseui-idp-text-short {
+    display: none;
+  }
+}
+
 footer {
   text-align: center;
 }
 
 header {
   padding-top: 24px;
+  position: relative;
+  .link--logout {
+    position: absolute;
+    top: 10px;
+    right: $pad;
+  }
 }
 
 hr {

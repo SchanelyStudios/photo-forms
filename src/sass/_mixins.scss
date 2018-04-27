@@ -21,6 +21,7 @@
     text-decoration: none;
     transition: all 0.3s linear;
     @include button-color;
+    cursor: pointer;
 }
 @mixin button-color($color: $color-primary) {
   color:$color;

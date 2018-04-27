@@ -1,14 +1,23 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { UserModel } from '../../models/user.model';
+import { AuthService } from '../../services/auth';
 
 class Header extends Component {
 
-  userIsAuthenticated = UserModel.isAuthenticated();
+  state = {
+    userIsAuthenticated: false
+  }
+
+  componentDidMount() {
+    let userIsAuthenticated = AuthService.isAuthenticated();
+    this.setState({
+      userIsAuthenticated
+    });
+  }
 
   render() {
-    let url = this.userIsAuthenticated ? '/' : 'http://schanelyphotography.com';
-    let logout = this.userIsAuthenticated ? <Link to={'/logout'}>Log out</Link> : '';
+    let url = this.state.userIsAuthenticated ? '/' : 'http://schanelyphotography.com';
+    let logout = this.state.userIsAuthenticated ? <Link to={'/logout'} className="link--logout">Log out</Link> : '';
     return (
       <header>
         <h1>

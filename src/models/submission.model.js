@@ -1,6 +1,6 @@
-import DocModel from './doc.model';
 import 'datejs';
 
+import DocModel from './doc.model';
 import FormModel from './form.model';
 
 export default class SubmissionModel extends DocModel {

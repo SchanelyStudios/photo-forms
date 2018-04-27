@@ -10,10 +10,10 @@ import SubmissionListPage from './components/SubmissionListPage';
 import LoginPage from './components/LoginPage';
 import LogoutPage from './components/LogoutPage';
 
-import { UserModel } from './models/user.model';
+import { AuthService } from './services/auth';
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
-  let userIsAuthenticated = UserModel.isAuthenticated();
+  let userIsAuthenticated = AuthService.isAuthenticated();
   return (
     <Route {...rest} render={(props) => (
       userIsAuthenticated === true
