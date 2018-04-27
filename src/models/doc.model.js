@@ -1,4 +1,4 @@
-import firebase from './firebase';
+import firebase from '../services/firebase';
 
 export default class DocModel {
 
