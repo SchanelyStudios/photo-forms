@@ -27,6 +27,7 @@ export class AuthService {
     let userId = window.localStorage.getItem('PF_USER_UID');
     let authed = window.localStorage.getItem('PF_USER_AUTH');
     if (userId !== 'null' && authed) {
+
       return true;
     }
     return false;
