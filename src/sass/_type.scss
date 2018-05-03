@@ -202,12 +202,24 @@ p {
   }
 }
 
-th {
-  font-weight: 600;
+td {
+  border-bottom: 1px solid $color-border;
+  padding:5px 10px;
 }
 
 th {
   font-weight: 600;
+  text-align: left;
+  border-bottom: 1px solid $color-body;
+  padding:5px 10px;
+}
+
+tr {
+  &:hover {
+    td {
+      background-color: fade-out($color-border, 0.25);
+    }
+  }
 }
 
 ul {
