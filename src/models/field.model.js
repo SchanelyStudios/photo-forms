@@ -13,7 +13,8 @@ export default class FieldModel extends DocModel {
       type: 'singeline', // singleline, multiline
       description: '',
       helpText: '',
-      optionsId: null 
+      optionsId: null,
+      isFeatured: false
     };
   }
 }

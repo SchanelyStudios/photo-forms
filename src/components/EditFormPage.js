@@ -159,7 +159,8 @@ class EditFormPage extends Component {
       description: field.description,
       helpText: field.helpText,
       optionsId: field.optionsId,
-      type: field.type
+      type: field.type,
+      isFeatured: field.isFeatured
     };
 
     if (fieldId && fieldId !== '0') {
