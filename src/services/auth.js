@@ -26,9 +26,8 @@ export class AuthService {
   static isAuthenticated() {
     let userId = window.localStorage.getItem('PF_USER_UID');
     let authed = window.localStorage.getItem('PF_USER_AUTH');
-    console.log('checking userid for auth', userId, typeof userId, authed);
     if (userId !== 'null' && authed) {
-      console.log('user is logged in and stored locally', userId);
+
       return true;
     }
     return false;

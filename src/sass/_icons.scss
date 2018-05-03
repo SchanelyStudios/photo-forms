@@ -158,7 +158,10 @@
 
     &.icon--file-word { @extend .fa-file-word; }
 
-    &.icon--filter { @extend .fa-filter; }
+    &.icon--filter {
+      @extend .fa-filter;
+      @include far;
+    }
 
     &.icon--filter-solid {
         @extend .fa-filter;
@@ -171,14 +174,20 @@
 
     &.icon--folder-open { @extend .fa-folder-open; }
 
-    &.icon--gear { @extend .fa-cog; }
+    &.icon--gear {
+      @extend .fa-cog;
+      @include far;
+    }
 
     &.icon--gear-solid {
         @extend .fa-cog;
         @include fas;
     }
 
-    &.icon--heart { @extend .fa-heart; }
+    &.icon--heart {
+      @extend .fa-heart;
+      @include far;
+    }
 
     &.icon--heart-solid {
         @extend .fa-heart;
@@ -195,7 +204,10 @@
 
     &.icon--remove { @extend .fa-minus; }
 
-    &.icon--remove-circle { @extend .fa-minus-circle; }
+    &.icon--remove-circle {
+      @extend .fa-minus-circle;
+      @include far;
+    }
 
     &.icon--remove-circle-solid {
         @extend .fa-minus-circle;
@@ -223,16 +235,25 @@
         @extend .fa-spin;
     }
 
-    &.icon--square { @extend .fa-square; }
+    &.icon--square {
+      @extend .fa-square;
+      @include far;
+    }
 
     &.icon--square-solid {
         @extend .fa-square;
         @include fas;
     }
 
-    &.icon--star { @extend .fa-star; }
+    &.icon--star {
+      @extend .fa-star;
+      @include far;
+    }
 
-    &.icon--star-half { @extend .fa-star-half; }
+    &.icon--star-half {
+      @extend .fa-star-half;
+      @include far;
+    }
 
     &.icon--star-half-solid {
         @extend .fa-star-half;

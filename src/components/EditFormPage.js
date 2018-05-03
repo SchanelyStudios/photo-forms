@@ -44,13 +44,21 @@ class EditFormPage extends Component {
     this.getForm();
   }
 
+  featureField(e, position, field) {
+    e.preventDefault();
+    console.log('featuring field', field);
+    field.isFeatured = !field.isFeatured;
+    console.log('toggled featured', field.isFeatured);
+    this.onChangeField(field, position, true);
+  }
+
   async getForm() {
     let form, breadcrumbs;
     if (this.newForm) {
       breadcrumbs = [];
       form = this.formModel.getEmpty();
     } else {
-      form = await this.formModel.get(this.formId);
+      form = await this.formModel.getFullForm(this.formId);
       breadcrumbs = [{
         label: form.name,
         path: `/form/${form.id}/submissions`
@@ -98,11 +106,11 @@ class EditFormPage extends Component {
     });
   }
 
-  onChangeField(field, order) {
+  onChangeField(field, order, updateField) {
     let form = this.state.form;
     let fields = form.fields;
     fields.splice(order, 1, field);
-    this.updatingFieldValues = true;
+    this.updatingFieldValues = updateField ? false : true;
     this.setState({
       form
     });
@@ -159,7 +167,8 @@ class EditFormPage extends Component {
       description: field.description,
       helpText: field.helpText,
       optionsId: field.optionsId,
-      type: field.type
+      type: field.type,
+      isFeatured: field.isFeatured
     };
 
     if (fieldId && fieldId !== '0') {
@@ -205,7 +214,11 @@ class EditFormPage extends Component {
 
     return (
       <form onSubmit={this.saveForm}>
-        <p><strong>Note:</strong> All forms will requst the user's email address and will save the date the submission is first saved along with the last date it was updated.</p>
+        <p>
+          <strong>Note:</strong> All forms will requst the user's email address
+          and will save the date the submission is first saved along with the
+          last date it was updated.
+        </p>
         <ul>
           <li>
             <label className="field__label">Form name</label>
@@ -238,15 +251,26 @@ class EditFormPage extends Component {
             let isLastItem = position === fields.length - 1 ? true : false;
             let isFirstItem = position === 0 ? true : false;
 
+            console.log(field);
+
+            let featuredClass = field.hasOwnProperty('isFeatured') && field.isFeatured
+              ? 'icon icon--star-solid'
+              : 'icon icon--star';
+
             return (
               <li key={key} className="field-item">
                 <div className="field__group-heading control-bar">
                   <div className="btn-bar">
-                    <button className="btn--caution btn--small" disabled={isFirstItem} onClick={(e) => this.moveUp(e, position)}>
+                    <button className="btn--nav btn--small" disabled={isFirstItem} onClick={(e) => this.moveUp(e, position)}>
                       <i className="icon icon--up" title="Move field up" />
                     </button>
-                    <button className="btn--caution btn--small" disabled={isLastItem} onClick={(e) => this.moveDown(e, position)}>
+                    <button className="btn--nav btn--small" disabled={isLastItem} onClick={(e) => this.moveDown(e, position)}>
                       <i className="icon icon--down" title="Move field down" />
+                    </button>
+                  </div>
+                  <div classnam="btn-bar">
+                    <button className="btn--caution btn--small" onClick={(e) => this.featureField(e, position, field)}>
+                      <i className={featuredClass} title="Feature field" />
                     </button>
                   </div>
                   <div classnam="btn-bar">

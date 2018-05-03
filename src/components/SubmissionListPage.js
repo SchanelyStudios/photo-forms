@@ -58,7 +58,8 @@ class SubmissionListPage extends Component {
       }
       cells.push({
         key,
-        value
+        value,
+        alias: label
       });
     }
     return cells;
@@ -104,16 +105,25 @@ class SubmissionListPage extends Component {
       );
     }
 
+    let featuredFields = [];
+
     return (
-      <table>
+      <table className="submission-table">
         <thead>
           <tr>
             <th>Email</th>
             <th>Started</th>
             <th>Updated</th>
-            {this.state.form.fields.map(field => (
-              <th key={field.alias}>{field.label}</th>
-            ))}
+            {this.state.form.fields.map(field => {
+              if (!field.isFeatured) {
+                return null;
+              }
+              featuredFields.push(field.alias);
+              return (
+                <th key={field.alias}>{field.label}</th>
+              );
+            })}
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -124,9 +134,14 @@ class SubmissionListPage extends Component {
                 <td>{sub.email}</td>
                 <td>{sub.dateStarted}</td>
                 <td>{sub.dateUpdated}</td>
-                {cells.map(cell => (
-                  <td key={cell.key}>{cell.value}</td>
-                ))}
+                {cells.map(cell => {
+                  if (featuredFields.indexOf(cell.alias) < 0) {
+                    return null;
+                  }
+                  return (
+                    <td key={cell.key}>{cell.value}</td>
+                  );
+                })}
                 <td><Link to={`/submission/${sub.id}`}>View</Link></td>
               </tr>
             );
