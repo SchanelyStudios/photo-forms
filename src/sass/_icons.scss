@@ -329,29 +329,3 @@
         @extend .fa-paypal;
     }
 }
-
-button,
-.btn,
-input[type="submit"] {
-  &.btn--success,
-  &.btn--accent {
-    color: $color-accent;
-  }
-  &.btn--danger {
-    color: $color-danger;
-  }
-  &.btn--caution {
-    color: $color-caution;
-  }
-  &.btn--neutral {
-    color: $color-body;
-  }
-  &.btn--info {
-    color: $color-info;
-  }
-  &:hover {
-    .icon {
-      color: white;
-    }
-  }
-}

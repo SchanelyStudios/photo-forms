@@ -30,7 +30,7 @@ blockquote {
 
 .btn--primary
 .btn--nav {
-  @include button-color($color-primary);
+  @include button-color($color-primary); 
 }
 
 .btn--accent,
