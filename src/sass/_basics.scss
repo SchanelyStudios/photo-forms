@@ -132,8 +132,6 @@ main {
 @include media-large {
   body {
     width: 1600px;
-    display: flex;
-    flex-flow: row wrap;
   }
 
   header {
