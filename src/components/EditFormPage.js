@@ -46,9 +46,7 @@ class EditFormPage extends Component {
 
   featureField(e, position, field) {
     e.preventDefault();
-    console.log('featuring field', field);
     field.isFeatured = !field.isFeatured;
-    console.log('toggled featured', field.isFeatured);
     this.onChangeField(field, position, true);
   }
 
@@ -250,8 +248,6 @@ class EditFormPage extends Component {
             let position = order;
             let isLastItem = position === fields.length - 1 ? true : false;
             let isFirstItem = position === 0 ? true : false;
-
-            console.log(field);
 
             let featuredClass = field.hasOwnProperty('isFeatured') && field.isFeatured
               ? 'icon icon--star-solid'

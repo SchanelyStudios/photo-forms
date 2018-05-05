@@ -125,6 +125,7 @@ class SubmissionListPage extends Component {
                       <td key={`${sub.id}-${alias}`}>{value}</td>
                     );
                   }
+                  return null;
                 })}
                 <td><Link to={`/submission/${sub.id}`}>View</Link></td>
               </tr>
