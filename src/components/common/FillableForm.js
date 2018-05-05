@@ -259,7 +259,7 @@ class ViewFormPage extends Component {
           <p>{this.state.form.instructions}</p>
         </div>
         {fields}
-        <p className="form__actions">
+        <div className="form__actions form__actions--sticky">
           <button className="btn--success" onClick={(e) => this.saveData(e, true)} type="submit" name="btn-save">
             Save
           </button>
@@ -269,7 +269,7 @@ class ViewFormPage extends Component {
           <button className="btn--neutral" onClick={this.cancelForm} type="button" name="btn-cancel">
             Cancel
           </button>
-        </p>
+        </div>
       </form>
     );
   }
