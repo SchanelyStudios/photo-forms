@@ -134,13 +134,14 @@ class SubmissionListPage extends Component {
                 <td>{sub.email}</td>
                 <td>{sub.dateStarted}</td>
                 <td>{sub.dateUpdated}</td>
-                {cells.map(cell => {
-                  if (featuredFields.indexOf(cell.alias) < 0) {
-                    return null;
+                {featuredFields.map(alias => {
+                  if (sub.values[alias]) {
+                    return (
+                      <td key={`${sub.id}-${alias}`}>
+                        {sub.values[alias]}
+                      </td>
+                    );
                   }
-                  return (
-                    <td key={cell.key}>{cell.value}</td>
-                  );
                 })}
                 <td><Link to={`/submission/${sub.id}`}>View</Link></td>
               </tr>
