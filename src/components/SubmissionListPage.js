@@ -47,24 +47,6 @@ class SubmissionListPage extends Component {
     });
   }
 
-  prepareCells(values) {
-    let key = Math.round(Math.random() * 1000);
-    let cells = [];
-    for (let label in values) {
-      key++;
-      let value = values[label];
-      if (value instanceof Array) {
-        value = value.join(', ');
-      }
-      cells.push({
-        key,
-        value,
-        alias: label
-      });
-    }
-    return cells;
-  }
-
   showForm() {
     if (this.state.loadingForm) {
       return (
@@ -128,7 +110,6 @@ class SubmissionListPage extends Component {
         </thead>
         <tbody>
           {this.state.submissions.map(sub => {
-            let cells = this.prepareCells(sub.values);
             return (
               <tr key={sub.id}>
                 <td>{sub.email}</td>
@@ -136,10 +117,12 @@ class SubmissionListPage extends Component {
                 <td>{sub.dateUpdated}</td>
                 {featuredFields.map(alias => {
                   if (sub.values[alias]) {
+                    let value = sub.values[alias];
+                    if (value instanceof Array) {
+                      value = value.join(', ');
+                    }
                     return (
-                      <td key={`${sub.id}-${alias}`}>
-                        {sub.values[alias]}
-                      </td>
+                      <td key={`${sub.id}-${alias}`}>{value}</td>
                     );
                   }
                 })}
