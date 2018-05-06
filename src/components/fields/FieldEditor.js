@@ -16,21 +16,31 @@ class FieldEditor extends Component {
 
     this.updatingOptions = false;
 
-    this.state = {
-      field: null,
-      optionsId: null,
-      options: null,
-      loadingField: true,
-      loadingOptions: false
-    };
+    let field = null,
+        loadingField = true,
+        loadingOptions = false,
+        options = null,
+        optionsId = null;
 
     if (this.props.field.hasOwnProperty('id')) {
-      this.state.field = this.props.field;
-      this.state.loadingField = false;
+      field = this.props.field;
+      loadingField = false;
       if (this.props.field.options) {
-        this.state.options = this.props.field.options;
+        options = this.props.field.options;
+        optionsId = this.props.field.optionsId;
+      } else if (this.props.field.type === 'list') {
+        loadingOptions = true;
+        optionsId = this.props.field.optionsId;
       }
     }
+
+    this.state = {
+      field,
+      loadingField,
+      loadingOptions,
+      options,
+      optionsId
+    };
 
     this.onChange = this.onChange.bind(this);
     this.onListChange = this.onListChange.bind(this);
@@ -39,6 +49,10 @@ class FieldEditor extends Component {
   componentDidMount() {
     if (this.state.loadingField) {
       this.getField();
+      return;
+    }
+    if (this.state.loadingOptions) {
+      this.getOptions(this.state.optionsId);
       return;
     }
   }

@@ -40,10 +40,10 @@ export default class SubmissionModel extends DocModel {
 
   sanitizeIn(data) {
     if (data.dateStarted) {
-      data.dateStarted = Date.parse(data.dateStarted).toString();
+      data.dateStarted = Date.parse(data.dateStarted).valueOf();
     }
     if (data.dateUpdated) {
-      data.dateUpdated = Date.parse(data.dateUpdated).toString();
+      data.dateUpdated = Date.parse(data.dateUpdated).valueOf();
     }
     if (data.form) {
       if (typeof data.form === String) {
@@ -57,8 +57,10 @@ export default class SubmissionModel extends DocModel {
   }
 
   sanitizeOut(data) {
-    data.dateStarted = Date.parse(data.dateStarted).toString('MMM d, yyyy');
-    data.dateUpdated = Date.parse(data.dateUpdated).toString('MMM d, yyyy');
+    let startDate = new Date(data.dateStarted);
+    let updateDate = new Date(data.dateUpdated);
+    data.dateStarted = startDate.toString('MMM d, yyyy');
+    data.dateUpdated = updateDate.toString('MMM d, yyyy');
     if (data.form) {
       if (typeof data.form === 'string') {
         data.form = {

@@ -20,16 +20,16 @@
     text-align: center;
     text-decoration: none;
     transition: all 0.3s linear;
-    @include button-color;
+    @include button-color; 
     cursor: pointer;
 }
 @mixin button-color($color: $color-primary) {
-  color:$color;
-  border-color: $color;
-  background-color: white;
+  color:white;
+  background-color:$color;
   &:hover {
-    color:white;
-    background-color:$color;
+    color:$color;
+    border-color: $color;
+    background-color: white;
   }
 }
 @mixin center() {

@@ -65,6 +65,7 @@ body {
 
 footer {
   text-align: center;
+  padding: ($baseline) $pad;
 }
 
 header {
@@ -132,12 +133,10 @@ main {
 @include media-large {
   body {
     width: 1600px;
-    display: flex;
-    flex-flow: row wrap;
   }
 
   header {
-    width: $g2-large;
+    width: 100%;
   }
 
   main {

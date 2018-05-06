@@ -125,6 +125,19 @@ form {
   }
 }
 
+.form__actions--sticky {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(255, 255, 255, 0.8);
+  width: 100%;
+  padding: $baseline $pad $baseline * 4;
+  margin: 0;
+  text-align: center;
+  border-top: 1px solid $color-border;
+}
+
 .form-list {
   @include list-unstyled;
   li {

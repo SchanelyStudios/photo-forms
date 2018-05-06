@@ -36,7 +36,6 @@ class DashboardPage extends Component {
 
   async confirmAuth() {
     let authConfirmed = await AuthService.checkAuthedUser();
-    console.log('user confirmed', authConfirmed);
     this.setState({
       authConfirmed
     }, () => {
@@ -54,7 +53,11 @@ class DashboardPage extends Component {
   }
 
   async getSubmissions() {
-    let submissions = await this.submissionModel.getList();
+    let orderBy = {
+      field: 'dateStarted',
+      direction: 'desc'
+    };
+    let submissions = await this.submissionModel.getList(null, [orderBy]);
     this.setState({
       submissions,
       loadingSubmissions: false

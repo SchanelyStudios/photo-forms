@@ -47,24 +47,6 @@ class SubmissionListPage extends Component {
     });
   }
 
-  prepareCells(values) {
-    let key = Math.round(Math.random() * 1000);
-    let cells = [];
-    for (let label in values) {
-      key++;
-      let value = values[label];
-      if (value instanceof Array) {
-        value = value.join(', ');
-      }
-      cells.push({
-        key,
-        value,
-        alias: label
-      });
-    }
-    return cells;
-  }
-
   showForm() {
     if (this.state.loadingForm) {
       return (
@@ -128,19 +110,22 @@ class SubmissionListPage extends Component {
         </thead>
         <tbody>
           {this.state.submissions.map(sub => {
-            let cells = this.prepareCells(sub.values);
             return (
               <tr key={sub.id}>
                 <td>{sub.email}</td>
                 <td>{sub.dateStarted}</td>
                 <td>{sub.dateUpdated}</td>
-                {cells.map(cell => {
-                  if (featuredFields.indexOf(cell.alias) < 0) {
-                    return null;
+                {featuredFields.map(alias => {
+                  if (sub.values[alias]) {
+                    let value = sub.values[alias];
+                    if (value instanceof Array) {
+                      value = value.join(', ');
+                    }
+                    return (
+                      <td key={`${sub.id}-${alias}`}>{value}</td>
+                    );
                   }
-                  return (
-                    <td key={cell.key}>{cell.value}</td>
-                  );
+                  return null;
                 })}
                 <td><Link to={`/submission/${sub.id}`}>View</Link></td>
               </tr>

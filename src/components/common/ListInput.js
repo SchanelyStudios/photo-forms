@@ -33,9 +33,16 @@ class ListInput extends React.Component {
   async getOptions(){
     let optionsConfig = await this.model.get(this.props.optionsId);
 
+    let value = this.state.value;
+
+    if (optionsConfig.listType === 'checkbox' && value === '') {
+      value = [];
+    }
+
     this.setState({
       items: optionsConfig.items,
-      listType: optionsConfig.listType
+      listType: optionsConfig.listType,
+      value
     });
   }
 
