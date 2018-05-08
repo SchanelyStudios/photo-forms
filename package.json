@@ -1,6 +1,6 @@
 {
   "name": "photo-forms",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "private": true,
   "dependencies": {
     "datejs": "^1.0.0-rc3",
