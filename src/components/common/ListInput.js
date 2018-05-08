@@ -11,14 +11,14 @@ class ListInput extends React.Component {
     super(props, state);
     this.onChange = this.onChange.bind(this);
 
-    // this.values = this.props.value;
-
     this.model = new OptionsModel();
+    this.updatingOther = false;
 
     this.state = {
       value: this.props.value,
       items: null,
-      listType: null
+      listType: null,
+      showOther: false
     };
 
     this.onChange = this.onChange.bind(this);
@@ -42,29 +42,47 @@ class ListInput extends React.Component {
     this.setState({
       items: optionsConfig.items,
       listType: optionsConfig.listType,
+      showOther: optionsConfig.showOther,
       value
     });
   }
 
-  onChange(e, allowMultiple) {
-    let value = e.target.value;
+  onChange(value, allowMultiple, priorValue) {
     let stateValue = this.state.value;
     if (allowMultiple) {
       // Toggle an existing item off
       if (stateValue.indexOf(value) >= 0) {
-        stateValue.splice(stateValue.indexOf(value), 1);
-      // or add this new value
-      } else {
+        stateValue.splice(stateValue.indexOf(priorValue), 1);
+      // or add this new value// Deal with an editable value changing...
+      } else if (priorValue && stateValue.indexOf(priorValue) >= 0) {
+        stateValue.splice(stateValue.indexOf(priorValue), 1);
+        if (value.length > 0) {
+          stateValue.push(value);
+        }
+      } else if (value.length > 0) {
         stateValue.push(value);
       }
     } else {
       stateValue = value;
     }
-    // e.preventDefault();
+
+    // Pause child updating if update other (presence of priorValue)
+    if (priorValue !== undefined && priorValue !== null) {
+      this.updatingOther = true;
+    }
+
     this.setState({
       value: stateValue
     });
     this.props.onChange(this.props.name, stateValue);
+  }
+
+  shouldComponentUpdate() {
+    if (this.updatingOther) {
+      this.updatingOther = false;
+      return false;
+    }
+    return true;
   }
 
   render() {
@@ -81,22 +99,24 @@ class ListInput extends React.Component {
       case 'checkbox':
         listComponent = (
           <CheckboxList
-            onChange={(e) => this.onChange(e, true)}
+            onChange={(value, priorValue) => this.onChange(value, true, priorValue)}
             index={index}
             name={this.props.name}
             items={this.state.items}
             checkedItems={this.state.value}
+            showOther={this.state.showOther}
           />
         );
         break;
       case 'radio':
         listComponent = (
           <RadioList
-            onChange={this.onChange}
+            onChange={(value, priorValue) => this.onChange(value, false, priorValue)}
             index={index}
             name={this.props.name}
             items={this.state.items}
             checkedItem={this.state.value}
+            showOther={this.state.showOther}
           />
         );
         break;
@@ -109,6 +129,7 @@ class ListInput extends React.Component {
             name={this.props.name}
             items={this.state.items}
             selectedItem={this.state.value}
+            showOther={this.state.showOther}
           />
         );
         break;
