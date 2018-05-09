@@ -26,7 +26,8 @@ class EditFormPage extends Component {
       breadcrumbs: [],
       exited: false,
       cancellend: false,
-      savedFirstTime: false
+      savedFirstTime: false,
+      loadingMessage: 'Loading form editor...'
     };
 
     this.onChange = this.onChange.bind(this);
@@ -77,7 +78,8 @@ class EditFormPage extends Component {
     this.setState({
       form,
       breadcrumbs,
-      loading: false
+      loading: false,
+      loadingMessage: 'Editor loaded. Displaying now...'
     });
   }
 
@@ -166,6 +168,11 @@ class EditFormPage extends Component {
 
   async saveForm(e, stayOnPage) {
     e.preventDefault();
+    this.setState({
+      loading: true,
+      loadingMessage: 'Saving form...'
+    });
+
     let form = {
       name: this.state.form.name,
       instructions: this.state.form.instructions,
@@ -193,9 +200,12 @@ class EditFormPage extends Component {
 
     this.setState({
       savedFirstTime,
-      exited,
-      loading: true
-    }, this.getForm);
+      exited
+    }, () => {
+      if (!savedFirstTime && !exited) {
+        this.getForm();
+      }
+    });
   }
 
   async saveOptions(field) {
@@ -331,7 +341,7 @@ class EditFormPage extends Component {
     let output;
     if (this.state.loading) {
       output = (
-        <Spinner>Loading form editor...</Spinner>
+        <Spinner>{this.state.loadingMessage}</Spinner>
       );
     } else {
       output = this.showFormEditor();
