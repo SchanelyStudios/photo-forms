@@ -147,8 +147,12 @@ class EditFormPage extends Component {
       this.newForm = false;
       this.formId = formId;
     } else {
-      this.formModel.save(this.formId, form);
+      await this.formModel.save(this.formId, form);
     }
+
+    this.setState({
+      loading: true
+    }, this.getForm);
   }
 
   async saveField(field) {
