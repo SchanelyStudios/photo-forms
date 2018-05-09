@@ -110,10 +110,17 @@ class ViewFormPage extends Component {
       submission.dateStarted = Date.today().toString();
       let submissionId = await this.submissionModel.add(submission);
       this.setState({
+        exited: !stayOnPage,
         savedFirstTime: true,
         submissionId
       });
     }
+  }
+
+  setEmailValue(field, value) {
+    this.setState({
+      email: value
+    });
   }
 
   setFieldValue(field, value) {
@@ -121,12 +128,6 @@ class ViewFormPage extends Component {
     values[field] = value;
     this.setState({
       values
-    });
-  }
-
-  setEmailValue(field, value) {
-    this.setState({
-      email: value
     });
   }
 
