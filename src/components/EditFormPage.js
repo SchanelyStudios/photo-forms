@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import FormModel from '../models/form.model';
 import OptionsModel from '../models/options.model';
 import FieldModel from '../models/field.model';
@@ -22,12 +23,16 @@ class EditFormPage extends Component {
     this.state = {
       form: null,
       loading: true,
-      breadcrumbs: []
+      breadcrumbs: [],
+      exited: false,
+      cancellend: false,
+      savedFirstTime: false
     };
 
     this.onChange = this.onChange.bind(this);
     this.onChangeField = this.onChangeField.bind(this);
     this.saveForm = this.saveForm.bind(this);
+    this.cancelForm = this.cancelForm.bind(this);
     this.addField = this.addField.bind(this);
   }
 
@@ -38,6 +43,13 @@ class EditFormPage extends Component {
     fields.push('0');
     form.fields = fields;
     this.setState({ form });
+  }
+
+  cancelForm(e) {
+    e.preventDefault();
+    this.setState({
+      cancelled: true
+    });
   }
 
   componentDidMount() {
@@ -69,11 +81,11 @@ class EditFormPage extends Component {
     });
   }
 
-  moveUp(e, currentPosition) {
+  moveDown(e, currentPosition) {
     e.preventDefault();
     let form = this.state.form,
       fields = form.fields,
-      targetPosition = currentPosition === 0 ? currentPosition : currentPosition - 1,
+      targetPosition = currentPosition === fields.length - 1 ? currentPosition : currentPosition + 1,
       item = fields.splice(currentPosition, 1)[0];
     fields.splice(targetPosition, 0, item);
     form.fields = fields;
@@ -82,11 +94,11 @@ class EditFormPage extends Component {
     });
   }
 
-  moveDown(e, currentPosition) {
+  moveUp(e, currentPosition) {
     e.preventDefault();
     let form = this.state.form,
       fields = form.fields,
-      targetPosition = currentPosition === fields.length - 1 ? currentPosition : currentPosition + 1,
+      targetPosition = currentPosition === 0 ? currentPosition : currentPosition - 1,
       item = fields.splice(currentPosition, 1)[0];
     fields.splice(targetPosition, 0, item);
     form.fields = fields;
@@ -125,36 +137,6 @@ class EditFormPage extends Component {
     });
   }
 
-  async saveForm(e) {
-    e.preventDefault();
-    let form = {
-      name: this.state.form.name,
-      instructions: this.state.form.instructions,
-      fields: this.state.form.fields
-    };
-
-    // Save fields first and convert list of field data to list of field Ids
-    let fieldIds = [];
-    for (let field of form.fields) {
-      let fieldId = await this.saveField(field);
-      fieldIds.push(fieldId);
-    }
-    form.fields = fieldIds;
-
-    // Send appropriate query to save form itself
-    if (this.newForm) {
-      let formId = await this.formModel.add(form);
-      this.newForm = false;
-      this.formId = formId;
-    } else {
-      await this.formModel.save(this.formId, form);
-    }
-
-    this.setState({
-      loading: true
-    }, this.getForm);
-  }
-
   async saveField(field) {
     let fieldId = field.id;
 
@@ -180,6 +162,40 @@ class EditFormPage extends Component {
     }
 
     return fieldId;
+  }
+
+  async saveForm(e, stayOnPage) {
+    e.preventDefault();
+    let form = {
+      name: this.state.form.name,
+      instructions: this.state.form.instructions,
+      fields: this.state.form.fields
+    };
+    let savedFirstTime = this.newForm;
+    let exited = !stayOnPage;
+
+    // Save fields first and convert list of field data to list of field Ids
+    let fieldIds = [];
+    for (let field of form.fields) {
+      let fieldId = await this.saveField(field);
+      fieldIds.push(fieldId);
+    }
+    form.fields = fieldIds;
+
+    // Send appropriate query to save form itself
+    if (this.newForm) {
+      let formId = await this.formModel.add(form);
+      this.newForm = false;
+      this.formId = formId;
+    } else {
+      await this.formModel.save(this.formId, form);
+    }
+
+    this.setState({
+      savedFirstTime,
+      exited,
+      loading: true
+    }, this.getForm);
   }
 
   async saveOptions(field) {
@@ -215,7 +231,7 @@ class EditFormPage extends Component {
     let order = -1;
 
     return (
-      <form onSubmit={this.saveForm}>
+      <form>
         <p>
           <strong>Note:</strong> All forms will requst the user's email address
           and will save the date the submission is first saved along with the
@@ -280,9 +296,16 @@ class EditFormPage extends Component {
           })}
         </ul>
         <div className="form__actions form__actions--sticky">
-          <button className="btn--success" type="submit">Save</button>
+          <button className="btn--success" type="submit" onClick={(e) => this.saveForm(e, true)}>Save</button>
+          <button className="btn--caution" type="submit" onClick={(e) => this.saveForm(e, false)}>Save and close</button>
+          <button className="btn--danger" type="submit" onClick={this.cancelForm}>Close</button>
+          <button className="btn--nav">
+            <i className="icon icon--eye" />&nbsp;
+            Preview
+          </button>
           <button className="btn--success" onClick={this.addField}>
-            <i className="icon icon--add" title="Add Field" /> Field
+            <i className="icon icon--add" />&nbsp;
+            Field
           </button>
         </div>
       </form>
@@ -290,6 +313,21 @@ class EditFormPage extends Component {
   }
 
   render() {
+
+    if (this.state.exited || (this.state.cancelled && !this.newForm)) {
+      return (
+        <Redirect to={`/form/${this.formId}/submissions`} />
+      );
+    } else if (this.state.cancelled) {
+      return (
+        <Redirect to={'/'} />
+      );
+    } else if (this.state.savedFirstTime) {
+      return (
+        <Redirect to={`/form/${this.formId}/edit`} />
+      );
+    }
+
     let output;
     if (this.state.loading) {
       output = (
