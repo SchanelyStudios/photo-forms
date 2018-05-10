@@ -1,6 +1,6 @@
 import DocModel from './doc.model';
 
-import dashify from 'dashify';
+import dashify from '../vendor/dashify';
 
 export default class FieldModel extends DocModel {
 
