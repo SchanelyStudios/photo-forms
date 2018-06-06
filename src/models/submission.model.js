@@ -20,8 +20,17 @@ export default class SubmissionModel extends DocModel {
         id: 0,
         name: ''
       },
-      values: {}
+      values: {},
+      archived: false
     };
+  }
+
+  async archive(id) {
+    let archived = this.ref.doc(id).update({
+      archived: true
+    });
+    console.log('Archived', archived);
+    return archived;
   }
 
   async get(id) {

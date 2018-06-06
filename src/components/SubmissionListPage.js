@@ -31,6 +31,29 @@ class SubmissionListPage extends Component {
     }
   }
 
+  confirmDelete(submissionId) {
+    let confirmed = window.confirm('Are you sure? It will take your developer some extra work if you decide you want to recover this...');
+    if (confirmed) {
+      this.deleteSubmission(submissionId);
+    }
+  }
+
+  async deleteSubmission(submissionId) {
+    console.log('clicked to delete submission', submissionId);
+    await this.submissionModel.archive(submissionId);
+    let submissions = this.state.submissions;
+    let position = 0;
+    for (let sub of submissions) {
+      if (sub.id === submissionId) {
+        break;
+      }
+      position++;
+    }
+    console.log('removed submission in position', position);
+    submissions.splice(position, 1);
+    this.setState({ submissions });
+  }
+
   async getFormSubmissions() {
     this.formModel.getFullForm(this.formId).then(form => {
       this.setState({
@@ -127,7 +150,10 @@ class SubmissionListPage extends Component {
                   }
                   return null;
                 })}
-                <td><Link to={`/submission/${sub.id}`}>View</Link></td>
+                <td>
+                  <Link to={`/submission/${sub.id}`}>View</Link>
+                  <span onClick={(e) => this.confirmDelete(sub.id)}>Delete</span>
+                </td>
               </tr>
             );
           })}
