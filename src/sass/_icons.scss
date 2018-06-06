@@ -269,6 +269,12 @@
 
     &.icon--trash { @extend .fa-trash; }
 
+    &.icon--toggle-off { @extend .fa-toggle-off; }
+
+    &.icon--toggle-on { @extend .fa-toggle-on; }
+
+    &.icon--undo { @extend .fa-undo; }
+
     &.icon--unlink { @extend .fa-unlink; }
 
     &.icon--user { @extend .fa-user; }

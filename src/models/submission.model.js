@@ -20,8 +20,32 @@ export default class SubmissionModel extends DocModel {
         id: 0,
         name: ''
       },
-      values: {}
+      values: {},
+      archived: false
     };
+  }
+
+  archive(id) {
+    return this.ref.doc(id).update({
+      archived: true
+    }).then(function() {
+        return true;
+    }).catch(function(error) {
+        console.error("Error updating document: ", error);
+        return false;
+    });
+  }
+
+  // TODO: Add ability to recover to UI
+  recover(id) {
+    return this.ref.doc(id).update({
+      archived: false
+    }).then(function() {
+        return true;
+    }).catch(function(error) {
+        console.error("Error updating document: ", error);
+        return false;
+    });
   }
 
   async get(id) {
@@ -34,8 +58,11 @@ export default class SubmissionModel extends DocModel {
     return sub;
   }
 
-  getForForm(formId) {
-    return this.getList(['form.id', '==', formId]);
+  getForForm(formId, showArchived) {
+    // Ensure showArchived is a boolean
+    showArchived = !!showArchived;
+    let filters = this.ref.where('form.id', '==', formId).where('archived', '==', showArchived);
+    return this.getList(filters);
   }
 
   sanitizeIn(data) {

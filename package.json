@@ -1,9 +1,8 @@
 {
   "name": "photo-forms",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "private": true,
   "dependencies": {
-    "dashify": "^1.0.0",
     "datejs": "^1.0.0-rc3",
     "firebase": "^4.12.1",
     "firebaseui": "^2.7.0",

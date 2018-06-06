@@ -1,5 +1,12 @@
-a {
+a,
+.link {
   color: $color-accent;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.link--ghost {
+  text-decoration: none;
+  color: inherit;
 }
 
 b,
@@ -30,7 +37,7 @@ blockquote {
 
 .btn--primary
 .btn--nav {
-  @include button-color($color-primary); 
+  @include button-color($color-primary);
 }
 
 .btn--accent,

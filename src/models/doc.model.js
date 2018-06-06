@@ -43,7 +43,9 @@ export default class DocModel {
       return null;
     }
     let query;
-    if (filters) {
+    if (filters && ('_query' in filters)) {
+      query = filters;
+    } else if (filters && (filters instanceof Array)) {
       query = this.ref.where(filters[0], filters[1], filters[2]);
     } else {
       query = this.ref;

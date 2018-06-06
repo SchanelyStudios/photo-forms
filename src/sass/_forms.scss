@@ -199,6 +199,13 @@ input[type="checkbox"] {
     }
 }
 
+.item__options {
+  & > * {
+    display: inline-block;
+    margin-right: $pad;
+  }
+}
+
 .option-item {
   @include flex;
   align-items: center;
