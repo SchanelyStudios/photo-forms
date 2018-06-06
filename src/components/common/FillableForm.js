@@ -96,7 +96,8 @@ class ViewFormPage extends Component {
         id: this.state.form.id,
         name: this.state.form.name
       },
-      values: this.state.values
+      values: this.state.values,
+      archived: false
     };
     if (this.props.submissionId) {
       submission.dateStarted = this.state.submission.dateStarted;
