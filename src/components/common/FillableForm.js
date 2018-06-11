@@ -262,11 +262,12 @@ class ViewFormPage extends Component {
         </div>
         {fields}
         <div className="form__actions form__actions--sticky">
-          <button className="btn--success" onClick={(e) => this.saveData(e, true)} type="submit" name="btn-save">
+          {/*<button className="btn--success" onClick={(e) => this.saveData(e, true)} type="submit" name="btn-save">
             Save
-          </button>
+          </button>*/}
           <button onClick={(e) => this.saveData(e, false)} type="submit" name="btn-exit">
-            Save and close
+            {/*Save and close*/}
+            Submit
           </button>
           <button className="btn--neutral" onClick={this.cancelForm} type="button" name="btn-cancel">
             Cancel

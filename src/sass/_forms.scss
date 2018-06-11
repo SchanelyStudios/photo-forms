@@ -15,6 +15,10 @@ input[type="submit"] {
   border-top: 1px solid $color-border;
   padding-top: 6px;
   @include flex;
+  @include media-phone {
+    padding-left: $pad;
+    padding-right: $pad;
+  }
 }
 
 .field__controls {
@@ -45,6 +49,12 @@ input[type="submit"] {
   width: 200px;
   text-align: right;
   padding: 11px $pad 4px;
+  @include media-phone {
+    width: 100%;
+    text-align: left;
+    padding-left: 0;
+    padding-right: 0;
+  }
 }
 
 .field__value {
@@ -105,6 +115,9 @@ input[type="submit"] {
 
 form {
   margin-bottom: $baseline * 6;
+  max-width: 960px;
+  margin-right: auto;
+  margin-left: auto;
   & > ul,
   .field-list {
     @include list-unstyled;
@@ -136,6 +149,7 @@ form {
 
 .form__actions--sticky {
   position: fixed;
+  z-index: 10;
   bottom: 0;
   left: 0;
   right: 0;
@@ -222,6 +236,9 @@ input[type="checkbox"] {
   }
   .field {
     border-top: none;
+    @include media-phone {
+      flex-flow: row wrap; 
+    }
   }
 }
 
