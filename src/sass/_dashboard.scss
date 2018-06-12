@@ -16,6 +16,21 @@
   padding: 0 $pad;
 }
 
+.form-list {
+  @include list-unstyled;
+  a {
+    list-style: none;
+    text-decoration: none;
+  }
+  li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid $color-border;
+    padding: 3px 10px;
+  }
+}
+
 .table-list {
   margin-left: 0;
   a {
