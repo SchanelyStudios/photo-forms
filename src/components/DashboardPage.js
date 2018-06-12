@@ -19,7 +19,8 @@ class DashboardPage extends Component {
       submissions: [],
       loadingForms: true,
       loadingSubmissions: true,
-      authConfirmed: true
+      authConfirmed: true,
+      showArchived: false
     };
   }
 
@@ -44,8 +45,23 @@ class DashboardPage extends Component {
     });
   }
 
+  confirmToggleArchive(e, formId) {
+    e.preventDefault();
+
+    let confirmed = false;
+    if (this.state.showArchived) {
+      confirmed = true;
+    } else {
+      confirmed = window.confirm('Are you sure you want to archive this form and all its submissions? You can always recover them by switching Archives on.');
+    }
+
+    if (confirmed) {
+      this.toggleForm(formId);
+    }
+  }
+
   async getForms() {
-    let forms = await this.formModel.getList();
+    let forms = await this.formModel.getList(['archived', '==', this.state.showArchived]);
     this.setState({
       forms,
       loadingForms: false
@@ -57,21 +73,55 @@ class DashboardPage extends Component {
       field: 'dateStarted',
       direction: 'desc'
     };
-    let submissions = await this.submissionModel.getList(null, [orderBy]);
+    let submissions = await this.submissionModel.getList(['archived', '==', false], [orderBy]);
     this.setState({
       submissions,
       loadingSubmissions: false
     });
   }
 
+  showActive() {
+    this.setState({
+      loadingForms: true,
+      showArchived: false
+    }, () => {
+      this.getForms();
+    });
+  }
+
+  showArchived() {
+    this.setState({
+      loadingForms: true,
+      showArchived: true
+    }, () => {
+      this.getForms();
+    });
+  }
+
   showForms() {
     if (this.state.forms.length > 0) {
       return (
-        <ul className="form-list table-list plain">
+        <ul className="form-list plain">
           {this.state.forms.map(form => {
+            let archiveOrNot = this.state.showArchived ? (
+              <button
+                className="btn btn--small btn--accent"
+                onClick={(e) => this.confirmToggleArchive(e, form.id)}
+              >
+                <i className="icon icon--undo" title="Recover form" />
+              </button>
+            ) : (
+              <button
+                className="btn btn--small btn--danger"
+                onClick={(e) => this.confirmToggleArchive(e, form.id)}
+              >
+                <i className="icon icon--trash" title="Archive form" />
+              </button>
+            );
             return (
               <li key={form.id}>
                 <Link to={`/form/${form.id}/submissions`}>{form.name}</Link>
+                {archiveOrNot}
               </li>
             );
           })}
@@ -116,6 +166,42 @@ class DashboardPage extends Component {
     );
   }
 
+  async toggleForm(formId) {
+
+    let toggled;
+
+    console.log('toggling form', formId);
+
+    // If showing archived we should recover the selected submission
+    if (this.state.showArchived) {
+      toggled = await this.formModel.recover(formId);
+    // Otherwise we archive it
+    } else {
+      toggled = await this.formModel.archive(formId);
+    }
+
+    // Make sure it indeed toggled before proceeding...
+    if (!toggled) {
+      console.log('not toggled');
+      return false;
+    }
+
+    // Search for matching item
+    let forms = this.state.forms;
+    let position = 0;
+    for (let form of forms) {
+      if (form.id === formId) {
+        console.log('matching form found', position);
+        break;
+      }
+      position++;
+    }
+
+    // Now we remove it from the current list and update state
+    forms.splice(position, 1);
+    this.setState({ forms });
+  }
+
   render() {
 
     if (!this.state.authConfirmed) {
@@ -126,6 +212,21 @@ class DashboardPage extends Component {
 
     let forms = this.showForms();
     let submissions = this.showSubmissions();
+
+    let archivesOrNot = this.state.showArchived ? (
+      <div className="btn-bar">
+        <span className="link--ghost" onClick={(e) => this.showActive()}>
+          <i className="icon icon--toggle-on"/> Archives on
+        </span>
+      </div>
+    ) : (
+      <div className="btn-bar">
+        <span className="link--ghost" onClick={(e) => this.showArchived()}>
+          <i className="icon icon--toggle-off" /> Archives off
+        </span>
+      </div>
+    );
+
     return (
       <main className="dashboard flex-tile">
         <div className="dashboard__recent-submissions box-g0">
@@ -139,6 +240,7 @@ class DashboardPage extends Component {
             <h2>
               Forms
             </h2>
+            {archivesOrNot}
             <div className="btn-bar">
               <Link className="btn btn--success btn--small" to={'/form/0/edit'}>
                 <i className="icon icon--add" />

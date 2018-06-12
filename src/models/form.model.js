@@ -1,5 +1,6 @@
 import DocModel from './doc.model';
 import FieldModel from './field.model';
+import SubmissionModel from './submission.model';
 
 export default class FormModel extends DocModel {
 
@@ -11,10 +12,38 @@ export default class FormModel extends DocModel {
       id: '',
       name: '',
       instructions: '',
-      fields: []
+      fields: [],
+      archived: false
     };
 
     this.fieldModel = new FieldModel();
+  }
+
+  archive(id) {
+    let submissionModel = new SubmissionModel();
+    return this.ref.doc(id).update({
+      archived: true
+    }).then(function() {
+      submissionModel.archiveForForm(id);
+      return true;
+    }).catch(function(error) {
+      console.error("Error updating document: ", error);
+      return false;
+    });
+  }
+
+  // TODO: Add ability to recover to UI
+  recover(id) {
+    let submissionModel = new SubmissionModel();
+    return this.ref.doc(id).update({
+      archived: false
+    }).then(function() {
+      submissionModel.recoverForForm(id);
+      return true;
+    }).catch(function(error) {
+      console.error("Error updating document: ", error);
+      return false;
+    });
   }
 
   async getFullForm(id) {

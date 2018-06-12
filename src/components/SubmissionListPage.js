@@ -171,7 +171,7 @@ class SubmissionListPage extends Component {
               >
                 <i className="icon icon--trash" title="Archive submission" />
               </button>
-            )
+            );
             return (
               <tr className="item" key={sub.id}>
                 <td>{sub.email}</td>
