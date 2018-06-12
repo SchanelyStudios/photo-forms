@@ -29,23 +29,38 @@ export default class SubmissionModel extends DocModel {
     return this.ref.doc(id).update({
       archived: true
     }).then(function() {
-        return true;
+      return true;
     }).catch(function(error) {
-        console.error("Error updating document: ", error);
-        return false;
+      console.error("Error updating document: ", error);
+      return false;
     });
   }
 
-  // TODO: Add ability to recover to UI
+  async archiveForForm(formId) {
+    let subs = await this.getForForm(formId, false);
+    for (let sub of subs) {
+      this.archive(sub.id);
+    }
+    return true;
+  }
+
   recover(id) {
     return this.ref.doc(id).update({
       archived: false
     }).then(function() {
-        return true;
+      return true;
     }).catch(function(error) {
-        console.error("Error updating document: ", error);
-        return false;
+      console.error("Error updating document: ", error);
+      return false;
     });
+  }
+
+  async recoverForForm(formId) {
+    let subs = await this.getForForm(formId, true);
+    for (let sub of subs) {
+      this.recover(sub.id);
+    }
+    return true;
   }
 
   async get(id) {
