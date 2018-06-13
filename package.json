@@ -3,6 +3,7 @@
   "version": "1.0.10",
   "private": true,
   "dependencies": {
+    "@sendgrid/mail": "^6.2.1",
     "datejs": "^1.0.0-rc3",
     "firebase": "^4.12.1",
     "firebaseui": "^2.7.0",

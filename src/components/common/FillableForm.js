@@ -11,6 +11,8 @@ import Spinner from './Spinner';
 
 import { Link } from 'react-router-dom';
 
+import MailService from '../../services/email';
+
 class ViewFormPage extends Component {
 
   constructor(props, state) {
@@ -87,6 +89,8 @@ class ViewFormPage extends Component {
 
   async saveData(e, stayOnPage) {
     e.preventDefault();
+
+    MailService.send();
 
     let submission = {
       // Start date is omitted to be added below based on whether save or add
