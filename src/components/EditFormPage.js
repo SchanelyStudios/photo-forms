@@ -154,7 +154,7 @@ class EditFormPage extends Component {
       helpText: field.helpText,
       optionsId: field.optionsId,
       type: field.type,
-      isFeatured: field.hasOwnProperty('isFeatured') ? field.isFeatured : false
+      isFeatured: field.hasOwnProperty('isFeatured') ? field.isFeatured : false,
     };
 
     if (fieldId && fieldId !== '0') {
@@ -176,6 +176,7 @@ class EditFormPage extends Component {
     let form = {
       name: this.state.form.name,
       instructions: this.state.form.instructions,
+      archived: false,
       fields: this.state.form.fields
     };
     let savedFirstTime = this.newForm;
