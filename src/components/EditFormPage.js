@@ -281,7 +281,7 @@ class EditFormPage extends Component {
         <div className="control-bar">
           <h3>Fields</h3>
         </div>
-        <ul>
+        <ul className="form__fields">
           {fields.map(field => {
 
             console.log(field);
