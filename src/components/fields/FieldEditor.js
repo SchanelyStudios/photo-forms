@@ -63,7 +63,7 @@ class FieldEditor extends Component {
     let loadingOptions = false;
 
     // Check for a field provided
-    if (this.props.field && this.props.field !== '0') {
+    if (this.props.field && this.props.field.hasOwnProperty('id') && this.props.field.id !== '0') {
       field = await this.fieldModel.get(this.props.field);
 
       // Load related options (defer state update to that method...)
@@ -112,6 +112,8 @@ class FieldEditor extends Component {
       options = this.optionsModel.getEmpty();
     }
 
+    console.log('changed field on editor component', field, options);
+
     this.setState({
       field,
       options
@@ -125,15 +127,16 @@ class FieldEditor extends Component {
 
   sendChange() {
     let fieldData = {
-      alias: this.state.field.alias,
-      label: this.state.field.label,
-      description: this.state.field.description,
-      helpText: this.state.field.helpText,
+      alias: this.state.field.alias || '',
+      label: this.state.field.label || '',
+      description: this.state.field.description || '',
+      helpText: this.state.field.helpText || '',
       type: this.state.field.type,
       options: this.state.options,
-      optionsId: this.state.optionsId,
+      optionsId: this.state.optionsId || null,
       id: this.state.field.id
     };
+    console.log('sending change up the chain', fieldData, this.props.order);
     this.props.changeHandler(fieldData, this.props.order);
   }
 

@@ -41,7 +41,22 @@ class EditFormPage extends Component {
     e.preventDefault();
     let form = this.state.form;
     let fields = form.fields;
-    fields.push('0');
+    fields.push({
+      id: '0',
+      type: 'singeline'
+    });
+    form.fields = fields;
+    this.setState({ form });
+  }
+
+  addTextBlock(e) {
+    e.preventDefault();
+    let form = this.state.form;
+    let fields = form.fields;
+    fields.push({
+      id: '0',
+      type: 'textblock'
+    });
     form.fields = fields;
     this.setState({ form });
   }
@@ -119,6 +134,7 @@ class EditFormPage extends Component {
   }
 
   onChangeField(field, order, updateField) {
+    console.log('received data on page', field, order, updateField);
     let form = this.state.form;
     let fields = form.fields;
     fields.splice(order, 1, field);
@@ -148,11 +164,11 @@ class EditFormPage extends Component {
     }
 
     let fieldData = {
-      alias: field.alias,
-      label: field.label,
-      description: field.description,
-      helpText: field.helpText,
-      optionsId: field.optionsId,
+      alias: field.alias || '',
+      label: field.label || '',
+      description: field.description || '',
+      helpText: field.helpText || '',
+      optionsId: field.optionsId || null,
       type: field.type,
       isFeatured: field.hasOwnProperty('isFeatured') ? field.isFeatured : false
     };
@@ -266,6 +282,8 @@ class EditFormPage extends Component {
         </div>
         <ul>
           {fields.map(field => {
+
+            console.log(field);
 
             order++;
             key++;
