@@ -63,7 +63,7 @@ class FieldEditor extends Component {
     let loadingOptions = false;
 
     // Check for a field provided
-    if (this.props.field && this.props.field !== '0') {
+    if (this.props.field && this.props.field.hasOwnProperty('id') && this.props.field.id !== '0') {
       field = await this.fieldModel.get(this.props.field);
 
       // Load related options (defer state update to that method...)
@@ -125,13 +125,13 @@ class FieldEditor extends Component {
 
   sendChange() {
     let fieldData = {
-      alias: this.state.field.alias,
-      label: this.state.field.label,
-      description: this.state.field.description,
-      helpText: this.state.field.helpText,
+      alias: this.state.field.alias || '',
+      label: this.state.field.label || '',
+      description: this.state.field.description || '',
+      helpText: this.state.field.helpText || '',
       type: this.state.field.type,
       options: this.state.options,
-      optionsId: this.state.optionsId,
+      optionsId: this.state.optionsId || null,
       id: this.state.field.id
     };
     this.props.changeHandler(fieldData, this.props.order);
@@ -165,14 +165,7 @@ class FieldEditor extends Component {
     );
   }
 
-  render() {
-
-    if (this.state.loadingField) {
-      return (
-        <Spinner>Loading field...</Spinner>
-      )
-    }
-
+  showFieldEditor() {
     let field = this.state.field;
 
     return (
@@ -216,6 +209,50 @@ class FieldEditor extends Component {
         {this.showListEditor()}
       </div>
     );
+  }
+
+  showTextblockEditor() {
+    let field = this.state.field;
+
+    return (
+      <div className="field-editor">
+        <ul className="field-list">
+          <li className="field--labelField">
+            <label className="field__label">Heading</label>
+            <div className="field__controls">
+              <input type="text" name="label" onChange={this.onChange} value={field.label} />
+            </div>
+          </li>
+          <li className="field--aliasField">
+            <label className="field__label">Alias</label>
+            <div className="field__controls">
+              <input type="text" name="alias" onChange={this.onChange} value={field.alias} />
+            </div>
+          </li>
+          <li>
+            <label className="field__label">Content</label>
+            <div className="field__controls">
+              <textarea name="description" onChange={this.onChange} value={field.description} />
+            </div>
+          </li>
+        </ul>
+      </div>
+    );
+  }
+
+  render() {
+
+    if (this.state.loadingField) {
+      return (
+        <Spinner>Loading field...</Spinner>
+      )
+    }
+
+    let field = this.state.field;
+
+    return field.type === 'textblock'
+      ? this.showTextblockEditor()
+      : this.showFieldEditor();
   }
 }
 

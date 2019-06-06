@@ -170,8 +170,6 @@ class DashboardPage extends Component {
 
     let toggled;
 
-    console.log('toggling form', formId);
-
     // If showing archived we should recover the selected submission
     if (this.state.showArchived) {
       toggled = await this.formModel.recover(formId);
@@ -182,7 +180,6 @@ class DashboardPage extends Component {
 
     // Make sure it indeed toggled before proceeding...
     if (!toggled) {
-      console.log('not toggled');
       return false;
     }
 
@@ -191,7 +188,6 @@ class DashboardPage extends Component {
     let position = 0;
     for (let form of forms) {
       if (form.id === formId) {
-        console.log('matching form found', position);
         break;
       }
       position++;

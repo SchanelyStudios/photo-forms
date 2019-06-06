@@ -8,6 +8,7 @@ import SinglelineInput from './SinglelineInput';
 import MultilineInput from './MultilineInput';
 import ListInput from './ListInput';
 import Spinner from './Spinner';
+import Textblock from './Textblock';
 
 import { Link } from 'react-router-dom';
 
@@ -133,6 +134,17 @@ class ViewFormPage extends Component {
   }
 
   showField(field) {
+
+    if (field.type === 'textblock') {
+      return (
+        <li key={field.alias} className="field--textblock">
+          <Textblock alias={field.alias} heading={field.label}>
+            {field.description}
+          </Textblock>
+        </li>
+      );
+    }
+
     let description = field.description ? (
       <p className="field__description">{field.description}</p>
     ) : '';

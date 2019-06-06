@@ -35,13 +35,29 @@ class EditFormPage extends Component {
     this.saveForm = this.saveForm.bind(this);
     this.cancelForm = this.cancelForm.bind(this);
     this.addField = this.addField.bind(this);
+    this.addTextBlock = this.addTextBlock.bind(this);
   }
 
   addField(e) {
     e.preventDefault();
     let form = this.state.form;
     let fields = form.fields;
-    fields.push('0');
+    fields.push({
+      id: '0',
+      type: 'singeline'
+    });
+    form.fields = fields;
+    this.setState({ form });
+  }
+
+  addTextBlock(e) {
+    e.preventDefault();
+    let form = this.state.form;
+    let fields = form.fields;
+    fields.push({
+      id: '0',
+      type: 'textblock'
+    });
     form.fields = fields;
     this.setState({ form });
   }
@@ -148,11 +164,11 @@ class EditFormPage extends Component {
     }
 
     let fieldData = {
-      alias: field.alias,
-      label: field.label,
-      description: field.description,
-      helpText: field.helpText,
-      optionsId: field.optionsId,
+      alias: field.alias || '',
+      label: field.label || '',
+      description: field.description || '',
+      helpText: field.helpText || '',
+      optionsId: field.optionsId || null,
       type: field.type,
       isFeatured: field.hasOwnProperty('isFeatured') ? field.isFeatured : false
     };
@@ -264,7 +280,7 @@ class EditFormPage extends Component {
         <div className="control-bar">
           <h3>Fields</h3>
         </div>
-        <ul>
+        <ul className="form__fields">
           {fields.map(field => {
 
             order++;
@@ -316,6 +332,10 @@ class EditFormPage extends Component {
           <button className="btn--success" onClick={this.addField}>
             <i className="icon icon--add" />&nbsp;
             Field
+          </button>
+          <button className="btn--success" onClick={this.addTextBlock}>
+            <i className="icon icon--add" />&nbsp;
+            Text Block
           </button>
         </div>
       </form>
