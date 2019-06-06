@@ -135,7 +135,6 @@ class EditFormPage extends Component {
   }
 
   onChangeField(field, order, updateField) {
-    console.log('received data on page', field, order, updateField);
     let form = this.state.form;
     let fields = form.fields;
     fields.splice(order, 1, field);
@@ -283,8 +282,6 @@ class EditFormPage extends Component {
         </div>
         <ul className="form__fields">
           {fields.map(field => {
-
-            console.log(field);
 
             order++;
             key++;

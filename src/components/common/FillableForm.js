@@ -186,7 +186,6 @@ class ViewFormPage extends Component {
       : '';
 
     let fieldComponent = '';
-    console.log(field.type, field);
     switch(field.type) {
       case 'list':
         fieldComponent = (

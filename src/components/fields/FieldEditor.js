@@ -112,8 +112,6 @@ class FieldEditor extends Component {
       options = this.optionsModel.getEmpty();
     }
 
-    console.log('changed field on editor component', field, options);
-
     this.setState({
       field,
       options
@@ -136,7 +134,6 @@ class FieldEditor extends Component {
       optionsId: this.state.optionsId || null,
       id: this.state.field.id
     };
-    console.log('sending change up the chain', fieldData, this.props.order);
     this.props.changeHandler(fieldData, this.props.order);
   }
 
