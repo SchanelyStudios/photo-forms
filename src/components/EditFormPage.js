@@ -35,6 +35,7 @@ class EditFormPage extends Component {
     this.saveForm = this.saveForm.bind(this);
     this.cancelForm = this.cancelForm.bind(this);
     this.addField = this.addField.bind(this);
+    this.addTextBlock = this.addTextBlock.bind(this);
   }
 
   addField(e) {
@@ -334,6 +335,10 @@ class EditFormPage extends Component {
           <button className="btn--success" onClick={this.addField}>
             <i className="icon icon--add" />&nbsp;
             Field
+          </button>
+          <button className="btn--success" onClick={this.addTextBlock}>
+            <i className="icon icon--add" />&nbsp;
+            Text Block
           </button>
         </div>
       </form>

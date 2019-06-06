@@ -168,14 +168,7 @@ class FieldEditor extends Component {
     );
   }
 
-  render() {
-
-    if (this.state.loadingField) {
-      return (
-        <Spinner>Loading field...</Spinner>
-      )
-    }
-
+  showFieldEditor() {
     let field = this.state.field;
 
     return (
@@ -219,6 +212,50 @@ class FieldEditor extends Component {
         {this.showListEditor()}
       </div>
     );
+  }
+
+  showTextblockEditor() {
+    let field = this.state.field;
+
+    return (
+      <div className="field-editor">
+        <ul className="field-list">
+          <li className="field--labelField">
+            <label className="field__label">Heading</label>
+            <div className="field__controls">
+              <input type="text" name="label" onChange={this.onChange} value={field.label} />
+            </div>
+          </li>
+          <li className="field--aliasField">
+            <label className="field__label">Alias</label>
+            <div className="field__controls">
+              <input type="text" name="alias" onChange={this.onChange} value={field.alias} />
+            </div>
+          </li>
+          <li>
+            <label className="field__label">Content</label>
+            <div className="field__controls">
+              <textarea name="description" onChange={this.onChange} value={field.description} />
+            </div>
+          </li>
+        </ul>
+      </div>
+    );
+  }
+
+  render() {
+
+    if (this.state.loadingField) {
+      return (
+        <Spinner>Loading field...</Spinner>
+      )
+    }
+
+    let field = this.state.field;
+
+    return field.type === 'textblock'
+      ? this.showTextblockEditor()
+      : this.showFieldEditor();
   }
 }
 
